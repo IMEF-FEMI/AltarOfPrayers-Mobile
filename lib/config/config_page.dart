@@ -61,7 +61,7 @@ class _ConfigPageState extends State<ConfigPage> {
     return ThemeData(
       //* Custom Google Font
       fontFamily: AltarOfPrayers.google_sans_family,
-      primarySwatch: Colors.red,
+      // primarySwatch: Colors.red,
 //               const Color lightThemeAccentColor = Color(0xff002244);
 // const Color darkThemeAccentColor = Color(0xff054280);
       primaryColor: Colors.white,
