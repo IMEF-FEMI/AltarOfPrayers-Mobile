@@ -1,16 +1,44 @@
-import 'package:altar_of_prayers/authentication_bloc/bloc.dart';
 import 'package:altar_of_prayers/models/user.dart';
-import 'package:altar_of_prayers/universal/category_card.dart';
-import 'package:altar_of_prayers/universal/dev_scaffold.dart';
+import 'package:altar_of_prayers/widgets/icon_badge.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class MainScreen extends StatelessWidget {
+import 'home.dart';
+
+class MainScreen extends StatefulWidget {
   final User user;
 
   const MainScreen({Key key, @required this.user}) : super(key: key);
+
+  @override
+  _MainScreenState createState() => _MainScreenState();
+}
+
+class _MainScreenState extends State<MainScreen> {
+  PageController _pageController;
+  int _page = 1;
+
+  @override
+  void initState() {
+    super.initState();
+    _pageController = PageController(initialPage: 2);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _pageController.dispose();
+  }
+
+  void navigationTapped(int page) {
+    _pageController.jumpToPage(page);
+  }
+
+  void onPageChanged(int page) {
+    setState(() {
+      this._page = page;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,114 +58,65 @@ class MainScreen extends StatelessWidget {
     //   )),
     // );
 
-    var size = MediaQuery.of(context).size;
     return Scaffold(
-      body: Stack(
-        children: <Widget>[
-          Container(
-            height: size.height * .3,
-            decoration: BoxDecoration(
-                color: Color(0xFF000000),
-                gradient: LinearGradient(colors: [
-                  Color(0xFF000000),
-                  Color(0xFFFFFFFF)
-                  
-                ], stops: [
-                  0.0,
-                  0.7,
-                ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
-          ),
-          AppBar(
-            centerTitle: true,
-            backgroundColor: Colors.transparent,
-            elevation: 0.0,
-            title: Text(
-              "Altar Of Prayers",
-              style: Theme.of(context)
-                  .textTheme
-                  .title
-                  .copyWith(color: Colors.white),
-            ),
-          ),
-          // Positioned(
-          //   top: MediaQuery.of(context).size.height * 0.15,
-          //   left: 20,
-            
-          //   right: MediaQuery.of(context).size.width * 0.3,
-          //   child: Text(
-          //     "Hi, Welcome to Stack Overflow Questions App",
-          //     style: TextStyle(
-          //       color: Colors.white70,
-          //       fontSize: 22,
-          //     ),
-          //   ),
-          // )
-          SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  SizedBox(height: 40.0),
-                  Text(
-                    "Welcome Back \n${user.fullName.split(' ')[0]}",
-                    style: Theme.of(context).textTheme.display1.copyWith(
-                        fontWeight: FontWeight.w900, color: Colors.black),
-                  ),
-
-                ],
+        body: PageView(
+          physics: NeverScrollableScrollPhysics(),
+          controller: _pageController,
+          onPageChanged: onPageChanged,
+          children: <Widget>[
+            Container(
+              child: Center(
+                child: Text('Today'),
               ),
             ),
-          )
-
-          // Expanded(
-          //         child: GridView.count(
-          //       childAspectRatio: .85,
-          //       crossAxisSpacing: 20,
-          //       mainAxisSpacing: 20,
-          //       crossAxisCount: 2,
-          //       padding: EdgeInsets.symmetric(vertical: 20),
-          //       children: <Widget>[
-          //         CategoryCard(
-          //           title: "Saved",
-          //           img: Image(
-          //               height: 100,
-          //               image: new AssetImage("assets/gifs/bookmark.gif")),
-          //           onPressed: () {},
-          //         ),
-          //         CategoryCard(
-          //           title: "Prophetic Prayers",
-          //           img: Image(
-          //               height: 80,
-          //               image: new AssetImage(
-          //                   "assets/gifs/swordandshield.gif")),
-          //           onPressed: () {},
-          //         ),
-          //         CategoryCard(
-          //           title: "New Editions",
-          //           img: Image(
-          //               height: 100,
-          //               image: new AssetImage("assets/gifs/editions.gif")),
-          //           onPressed: () {},
-          //         ),
-          //         CategoryCard(
-          //           title: "My Editions",
-          //           img: Image(
-          //               height: 100,
-          //               image: new AssetImage("assets/gifs/books.gif")),
-          //           onPressed: () {},
-          //         ),
-          //         CategoryCard(
-          //           title: "Profile",
-          //           img: Image(
-          //               height: 100,
-          //               image: new AssetImage("assets/gifs/profile.gif")),
-          //           onPressed: () {},
-          //         ),
-          //       ],
-          //     ))
-        ],
-      ),
-    );
+            Home(user: widget.user),
+            Container(
+              child: Center(
+                child: Text('About'),
+              ),
+            ),
+          ],
+        ),
+        bottomNavigationBar: Theme(
+            data: Theme.of(context).copyWith(
+              canvasColor: Theme.of(context).primaryColor,
+              // active color
+              primaryColor: Color(0xFF28a745),
+              textTheme: Theme.of(context).textTheme.copyWith(
+                    caption: TextStyle(color: Colors.grey[500]),
+                  ),
+            ),
+            child: BottomNavigationBar(
+              type: BottomNavigationBarType.fixed,
+              items: <BottomNavigationBarItem>[
+                BottomNavigationBarItem(
+                  icon: Icon(
+                    FontAwesomeIcons.bookMedical,
+                  ),
+                  title: Container(),
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(
+                    FontAwesomeIcons.home,
+                  ),
+                  title: Container(),
+                ),
+                BottomNavigationBarItem(
+                  icon: IconBadge(
+                    icon: FontAwesomeIcons.solidBell,
+                  ),
+                  title: Container(),
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(
+                    FontAwesomeIcons.infoCircle,
+                    // size: 25,
+                  ),
+                  title: Container(),
+                ),
+              ],
+              onTap: navigationTapped,
+              currentIndex: _page,
+            )));
   }
 }
