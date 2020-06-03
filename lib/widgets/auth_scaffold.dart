@@ -2,12 +2,12 @@ import 'package:altar_of_prayers/config/index.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class DevScaffold extends StatelessWidget {
+class AuthScaffold extends StatelessWidget {
   final String title;
   final Widget body;
   final VoidCallback logout;
 
-  const DevScaffold(
+  const AuthScaffold(
       {Key key, @required this.body, @required this.title, this.logout})
       : super(key: key);
   @override

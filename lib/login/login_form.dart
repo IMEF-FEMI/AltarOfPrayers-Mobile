@@ -2,8 +2,8 @@ import 'package:altar_of_prayers/authentication_bloc/bloc.dart';
 import 'package:altar_of_prayers/config/config_bloc.dart';
 import 'package:altar_of_prayers/login/google_login_button.dart';
 import 'package:altar_of_prayers/repositories/user_repository.dart';
-import 'package:altar_of_prayers/universal/dev_scaffold.dart';
-import 'package:altar_of_prayers/universal/image_card.dart';
+import 'package:altar_of_prayers/widgets/auth_scaffold.dart';
+import 'package:altar_of_prayers/widgets/image_card.dart';
 import 'package:altar_of_prayers/utils/altarofprayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -92,7 +92,7 @@ class _LoginFormState extends State<LoginForm> {
 
   @override
   Widget build(BuildContext context) {
-    return DevScaffold(
+    return AuthScaffold(
         body: BlocListener<LoginBloc, LoginState>(listener: (context, state) {
           if (state.isSubmitting && !state.isGoogleAccount) {
             showDialog(

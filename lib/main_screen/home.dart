@@ -1,5 +1,5 @@
 import 'package:altar_of_prayers/models/user.dart';
-import 'package:altar_of_prayers/universal/category_card.dart';
+import 'package:altar_of_prayers/widgets/category_card.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatelessWidget {
