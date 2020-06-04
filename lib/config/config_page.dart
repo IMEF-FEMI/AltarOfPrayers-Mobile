@@ -20,7 +20,7 @@ class ConfigPage extends StatefulWidget {
 
 class _ConfigPageState extends State<ConfigPage> {
   ConfigBloc configBloc;
-  
+
   @override
   void dispose() {
     configBloc.dispose();
@@ -44,6 +44,7 @@ class _ConfigPageState extends State<ConfigPage> {
       //* Custom Google Font
       fontFamily: AltarOfPrayers.google_sans_family,
       primaryColor: Colors.black,
+      accentColor: Colors.lightBlue,
       disabledColor: Colors.grey,
       cardColor: Colors.black,
       canvasColor: Colors.black,

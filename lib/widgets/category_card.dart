@@ -1,49 +1,58 @@
 import 'package:flutter/material.dart';
 
 class CategoryCard extends StatelessWidget {
-  final Widget img;
   final String title;
-  final Function onPressed;
+  final String desctiption;
+  final IconData icon;
+  final Color  color;
 
-  const CategoryCard({Key key, this.img, this.title, this.onPressed})
-      : super(key: key);
+  const CategoryCard({Key key, this.title, this.desctiption, this.icon, this.color}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-        // color: Colors.white,
-        borderRadius: BorderRadius.circular(13),
-        boxShadow: [
-          BoxShadow(
-            color: Color(0xFFE6E6E6),
-            blurRadius: 20,
-            offset: Offset(0, 17),
-            spreadRadius: -17,
-          )
-        ],
-      ),
       child: Material(
-        borderRadius: BorderRadius.circular(13),
+        color: color.withOpacity(.1),
+        borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(8),
+            topRight: Radius.circular(8),
+            bottomRight: Radius.circular(8)),
         child: InkWell(
-          borderRadius: BorderRadius.circular(8),
-          onTap: onPressed,
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(4),
+              topRight: Radius.circular(4),
+              bottomRight: Radius.circular(4)),
+          onTap: () {},
           child: Padding(
             padding: EdgeInsets.all(10),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Spacer(),
-                img,
-                Spacer(),
-                Text(
-                  title,
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context)
-                      .textTheme
-                      .title
-                      .copyWith(fontSize: 15, fontWeight: FontWeight.w700),
+                Icon(
+                  icon,
+                  size: 20,
+                  color: color.withOpacity(.7),
                 ),
-                Spacer()
+                SizedBox(
+                  height: 10,
+                ),
+                Text(title,
+                    style: Theme.of(context).textTheme.title.copyWith(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w800,
+                          color: color.withOpacity(.7),
+                        )),
+                SizedBox(
+                  height: 15,
+                ),
+                Text(
+                  desctiption,
+                  style: TextStyle(fontSize: 10),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
               ],
             ),
           ),

@@ -21,7 +21,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   void initState() {
     super.initState();
-    _pageController = PageController(initialPage: 2);
+    _pageController = PageController(initialPage: 1);
   }
 
   @override
@@ -42,21 +42,7 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // return DevScaffold(
-    //   title: 'Altar Of Prayers',
-    //   logout: () {
-    //     BlocProvider.of<AuthenticationBloc>(context).add(LoggedOut());
-    //   },
-    //   body: Center(
-    //       child: ListView(
-    //     children: <Widget>[
-    //       Text(user.fullName),
-    //       Text(user.email),
-    //       Text(user.accountType),
-    //       Text(user.admin.toString()),
-    //     ],
-    //   )),
-    // );
+   
 
     return Scaffold(
         body: PageView(
@@ -81,7 +67,8 @@ class _MainScreenState extends State<MainScreen> {
             data: Theme.of(context).copyWith(
               canvasColor: Theme.of(context).primaryColor,
               // active color
-              primaryColor: Color(0xFF28a745),
+              // primaryColor: Color(0xFF28a745),
+              primaryColor: Theme.of(context).accentColor,
               textTheme: Theme.of(context).textTheme.copyWith(
                     caption: TextStyle(color: Colors.grey[500]),
                   ),
@@ -91,7 +78,7 @@ class _MainScreenState extends State<MainScreen> {
               items: <BottomNavigationBarItem>[
                 BottomNavigationBarItem(
                   icon: Icon(
-                    FontAwesomeIcons.bookMedical,
+                    FontAwesomeIcons.book
                   ),
                   title: Container(),
                 ),
@@ -118,5 +105,6 @@ class _MainScreenState extends State<MainScreen> {
               onTap: navigationTapped,
               currentIndex: _page,
             )));
+  
   }
 }
