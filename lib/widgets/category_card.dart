@@ -5,8 +5,9 @@ class CategoryCard extends StatelessWidget {
   final String desctiption;
   final IconData icon;
   final Color  color;
+  final Function onTap;
 
-  const CategoryCard({Key key, this.title, this.desctiption, this.icon, this.color}) : super(key: key);
+  const CategoryCard({Key key, this.title, this.desctiption, this.icon, this.color, this.onTap}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,11 +19,12 @@ class CategoryCard extends StatelessWidget {
             topRight: Radius.circular(8),
             bottomRight: Radius.circular(8)),
         child: InkWell(
+          
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(4),
               topRight: Radius.circular(4),
               bottomRight: Radius.circular(4)),
-          onTap: () {},
+          onTap: onTap,
           child: Padding(
             padding: EdgeInsets.all(10),
             child: Column(

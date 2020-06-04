@@ -1,6 +1,5 @@
 import 'package:altar_of_prayers/authentication_bloc/bloc.dart';
-import 'package:altar_of_prayers/config/config_bloc.dart';
-import 'package:altar_of_prayers/login/google_login_button.dart';
+import 'package:altar_of_prayers/pages/config/index.dart';
 import 'package:altar_of_prayers/repositories/user_repository.dart';
 import 'package:altar_of_prayers/widgets/custom_scaffold.dart';
 import 'package:altar_of_prayers/widgets/image_card.dart';
@@ -11,6 +10,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'bloc/bloc.dart';
 import 'create_account_button.dart';
+import 'google_login_button.dart';
 import 'login_button.dart';
 
 class LoginForm extends StatefulWidget {

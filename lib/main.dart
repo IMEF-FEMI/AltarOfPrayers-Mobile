@@ -1,5 +1,5 @@
-import 'package:altar_of_prayers/config/index.dart';
 import 'package:altar_of_prayers/graphql/graphql.dart';
+import 'package:altar_of_prayers/pages/config/index.dart';
 import 'package:altar_of_prayers/utils/altarofprayers.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';

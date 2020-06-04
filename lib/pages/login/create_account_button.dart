@@ -1,4 +1,4 @@
-import 'package:altar_of_prayers/register/register.dart';
+import 'package:altar_of_prayers/pages/register/register.dart';
 import 'package:altar_of_prayers/repositories/user_repository.dart';
 import 'package:flutter/material.dart';
 

@@ -1,4 +1,4 @@
-import 'package:altar_of_prayers/config/index.dart';
+import 'package:altar_of_prayers/pages/config/index.dart';
 import 'package:altar_of_prayers/utils/tools.dart';
 import 'package:flutter/material.dart';
 

@@ -1,5 +1,5 @@
 import 'package:altar_of_prayers/authentication_bloc/bloc.dart';
-import 'package:altar_of_prayers/register/bloc/bloc.dart';
+import 'package:altar_of_prayers/pages/register/bloc/bloc.dart';
 import 'package:altar_of_prayers/widgets/image_card.dart';
 import 'package:altar_of_prayers/utils/altarofprayers.dart';
 import 'package:altar_of_prayers/widgets/custom_scaffold.dart';
@@ -85,15 +85,7 @@ class _RegisterFormState extends State<RegisterForm> {
     );
   }
 
-  // @override
-  // void didUpdateWidget(Widget oldWidget) {
-  //   super.didUpdateWidget(oldWidget);
-  //   if (BlocProvider.of<AuthenticationBloc>(context).state is Authenticated) {
-  //     Navigator.of(context).pop();
-  //     BlocProvider.of<AuthenticationBloc>(context).add(LoggedIn());
-  //   }
-  // }
-
+ 
   @override
   void dispose() {
     _nameController.dispose();

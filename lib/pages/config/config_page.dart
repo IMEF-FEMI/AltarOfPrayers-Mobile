@@ -1,9 +1,10 @@
-import 'package:altar_of_prayers/home/decision_page.dart';
+import 'package:altar_of_prayers/pages/New%20Editions/new_editions.dart';
 import 'package:altar_of_prayers/repositories/user_repository.dart';
 import 'package:altar_of_prayers/utils/altarofprayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'decision_page.dart';
 import 'index.dart';
 
 class ConfigPage extends StatefulWidget {
@@ -93,6 +94,9 @@ class _ConfigPageState extends State<ConfigPage> {
             home: DecisionPage(
               userRepository: widget._userRepository,
             ),
+            routes: {
+              NewEditions.routeName : (context)=> NewEditions()
+            },
           );
         },
       ),

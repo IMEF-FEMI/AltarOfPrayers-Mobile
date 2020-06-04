@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:altar_of_prayers/login/bloc/bloc.dart';
 import 'package:altar_of_prayers/repositories/user_repository.dart';
 import 'package:altar_of_prayers/utils/validators.dart';
 import 'package:bloc/bloc.dart';

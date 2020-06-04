@@ -1,10 +1,11 @@
 
-import 'package:altar_of_prayers/register/bloc/bloc.dart';
 import 'package:altar_of_prayers/repositories/user_repository.dart';
 import 'package:altar_of_prayers/utils/validators.dart';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
+
+import 'bloc.dart';
 
 class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   final UserRepository _userRepository;

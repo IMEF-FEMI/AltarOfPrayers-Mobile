@@ -1,18 +1,20 @@
-import 'package:altar_of_prayers/config/index.dart';
-import 'package:altar_of_prayers/login/bloc/bloc.dart';
+import 'package:altar_of_prayers/pages/config/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import 'bloc/login_bloc.dart';
+import 'bloc/bloc.dart';
 
-class GoogleLoginButton extends StatelessWidget {
+class GoogleRegisterButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+
     return OutlineButton(
       splashColor: Colors.grey,
-      onPressed: () {
-        BlocProvider.of<LoginBloc>(context).add(LoginWithGooglePressed(),);
+       onPressed: () {
+        BlocProvider.of<RegisterBloc>(context).add(
+          RegisterWithGooglePressed(),
+        );
       },
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
       highlightElevation: 0,
@@ -23,14 +25,11 @@ class GoogleLoginButton extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Icon(
-              FontAwesomeIcons.google,
-              color: Colors.red,
-            ),
+            Icon(FontAwesomeIcons.google, color: Colors.red,),
             Padding(
               padding: const EdgeInsets.only(left: 10),
               child: Text(
-                'Sign in with Google',
+                'Sign up with Google',
                 style: TextStyle(
                   fontSize: 16,
                   color: ConfigBloc().darkModeOn ? Colors.white : Colors.black,
@@ -43,3 +42,5 @@ class GoogleLoginButton extends StatelessWidget {
     );
   }
 }
+
+

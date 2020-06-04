@@ -1,6 +1,4 @@
-import 'package:altar_of_prayers/config/index.dart';
-import 'package:altar_of_prayers/login/forgot_password/bloc.dart';
-import 'package:altar_of_prayers/login/forgot_password/forgot_password_state.dart';
+import 'package:altar_of_prayers/pages/config/index.dart';
 import 'package:altar_of_prayers/widgets/custom_scaffold.dart';
 import 'package:altar_of_prayers/widgets/image_card.dart';
 import 'package:altar_of_prayers/utils/altarofprayers.dart';
@@ -8,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:giffy_dialog/giffy_dialog.dart';
+
+import 'bloc.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
   final VoidCallback onCancel;

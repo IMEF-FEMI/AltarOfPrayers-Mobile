@@ -1,7 +1,7 @@
 
 import 'package:altar_of_prayers/authentication_bloc/bloc.dart';
-import 'package:altar_of_prayers/login/login.dart';
-import 'package:altar_of_prayers/main_screen/main_screen.dart';
+import 'package:altar_of_prayers/pages/login/login.dart';
+import 'package:altar_of_prayers/pages/main_screen/main_screen.dart';
 import 'package:altar_of_prayers/repositories/user_repository.dart';
 import 'package:altar_of_prayers/utils/tools.dart';
 import 'package:flutter/material.dart';

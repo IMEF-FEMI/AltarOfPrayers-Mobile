@@ -1,4 +1,5 @@
 import 'package:altar_of_prayers/models/user.dart';
+import 'package:altar_of_prayers/pages/New%20Editions/new_editions.dart';
 import 'package:altar_of_prayers/widgets/category_card.dart';
 import 'package:altar_of_prayers/widgets/custom_scaffold.dart';
 import 'package:flutter/material.dart';
@@ -41,6 +42,13 @@ class Home extends StatelessWidget {
                     'Check to see if new a new Edition has been published',
                 color: Colors.teal,
                 icon: FontAwesomeIcons.book,
+                onTap: ()=> Navigator.pushNamed(context, NewEditions.routeName), 
+                //  Navigator.push(
+                //               context,
+                //               MaterialPageRoute(builder: (context) {
+                //                 return DetailsScreen();
+                //               }),
+                //             );
               ),
               CategoryCard(
                 title: 'My Editions',
