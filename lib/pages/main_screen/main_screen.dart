@@ -1,9 +1,13 @@
 import 'package:altar_of_prayers/models/user.dart';
+import 'package:altar_of_prayers/pages/main_screen/about.dart';
+import 'package:altar_of_prayers/pages/main_screen/today.dart';
 import 'package:altar_of_prayers/widgets/icon_badge.dart';
+import 'package:custom_navigator/custom_navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'home.dart';
+import 'notifications.dart';
 
 class MainScreen extends StatefulWidget {
   final User user;
@@ -16,7 +20,6 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   PageController _pageController;
-  int _page = 1;
 
   @override
   void initState() {
@@ -34,77 +37,111 @@ class _MainScreenState extends State<MainScreen> {
     _pageController.jumpToPage(page);
   }
 
-  void onPageChanged(int page) {
-    setState(() {
-      this._page = page;
-    });
+  int _currentIndex = 1;
+
+  final _navigatorKeys = [
+    GlobalKey<NavigatorState>(),
+    GlobalKey<NavigatorState>(),
+    GlobalKey<NavigatorState>(),
+    GlobalKey<NavigatorState>(),
+  ];
+  Widget _buildPageOffstage(
+    int index,
+    Widget child,
+    GlobalKey<NavigatorState> key,
+  ) {
+    return Offstage(
+        offstage: _currentIndex != index,
+        child: CustomNavigator(
+          navigatorKey: key,
+          home: child,
+          pageRoute: PageRoutes.materialPageRoute,
+        ));
   }
 
   @override
   Widget build(BuildContext context) {
-   
-
-    return Scaffold(
-        body: PageView(
-          physics: NeverScrollableScrollPhysics(),
-          controller: _pageController,
-          onPageChanged: onPageChanged,
-          children: <Widget>[
-            Container(
-              child: Center(
-                child: Text('Today'),
+    return WillPopScope(
+      onWillPop: () async {
+        final isFirstRouteInCurrentTab =
+            !await _navigatorKeys[_currentIndex].currentState.maybePop();
+        if (isFirstRouteInCurrentTab) {
+          // if not on the 'main' tab
+          if (_currentIndex != 1) {
+            // select 'main' tab
+            setState(() {
+              _currentIndex = 1;
+            });
+            print(_currentIndex);
+            // back button handled by app
+            return false;
+          }
+            return true;
+        }
+        // let system handle back button if we're on the first route
+        return isFirstRouteInCurrentTab;
+      },
+      child: Scaffold(
+          body: Stack(
+            children: <Widget>[
+              _buildPageOffstage(
+                0,
+                Today(),
+                _navigatorKeys[0],
               ),
-            ),
-            Home(user: widget.user),
-            Container(
-              child: Center(
-                child: Text('About'),
+              _buildPageOffstage(
+                  1,
+                  Home(
+                    user: widget.user,
+                  ),
+                  _navigatorKeys[1]),
+              _buildPageOffstage(2, Notifications(), _navigatorKeys[2]),
+              _buildPageOffstage(3, About(), _navigatorKeys[3]),
+            ],
+          ),
+          bottomNavigationBar: Theme(
+              data: Theme.of(context).copyWith(
+                canvasColor: Theme.of(context).primaryColor,
+                // active color
+                // primaryColor: Color(0xFF28a745),
+                primaryColor: Theme.of(context).accentColor,
+                textTheme: Theme.of(context).textTheme.copyWith(
+                      caption: TextStyle(color: Colors.grey[500]),
+                    ),
               ),
-            ),
-          ],
-        ),
-        bottomNavigationBar: Theme(
-            data: Theme.of(context).copyWith(
-              canvasColor: Theme.of(context).primaryColor,
-              // active color
-              // primaryColor: Color(0xFF28a745),
-              primaryColor: Theme.of(context).accentColor,
-              textTheme: Theme.of(context).textTheme.copyWith(
-                    caption: TextStyle(color: Colors.grey[500]),
+              child: BottomNavigationBar(
+                type: BottomNavigationBarType.fixed,
+                items: <BottomNavigationBarItem>[
+                  BottomNavigationBarItem(
+                    icon: Icon(FontAwesomeIcons.calendarAlt),
+                    title: Container(),
                   ),
-            ),
-            child: BottomNavigationBar(
-              type: BottomNavigationBarType.fixed,
-              items: <BottomNavigationBarItem>[
-                BottomNavigationBarItem(
-                  icon: Icon(
-                    FontAwesomeIcons.book
+                  BottomNavigationBarItem(
+                    icon: Icon(
+                      FontAwesomeIcons.home,
+                    ),
+                    title: Container(),
                   ),
-                  title: Container(),
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(
-                    FontAwesomeIcons.home,
+                  BottomNavigationBarItem(
+                    icon: IconBadge(
+                      icon: FontAwesomeIcons.solidBell,
+                    ),
+                    title: Container(),
                   ),
-                  title: Container(),
-                ),
-                BottomNavigationBarItem(
-                  icon: IconBadge(
-                    icon: FontAwesomeIcons.solidBell,
+                  BottomNavigationBarItem(
+                    icon: Icon(
+                      FontAwesomeIcons.infoCircle,
+                    ),
+                    title: Container(),
                   ),
-                  title: Container(),
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(
-                    FontAwesomeIcons.infoCircle,
-                    // size: 25,
-                  ),
-                  title: Container(),
-                ),
-              ],
-              onTap: navigationTapped,
-              currentIndex: _page,
-            )));
-  
+                ],
+                onTap: (index) {
+                  setState(() {
+                    _currentIndex = index;
+                  });
+                },
+                currentIndex: _currentIndex,
+              ))),
+    );
   }
 }

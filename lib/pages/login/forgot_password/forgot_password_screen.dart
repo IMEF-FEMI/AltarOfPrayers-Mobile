@@ -1,5 +1,5 @@
 import 'package:altar_of_prayers/pages/config/index.dart';
-import 'package:altar_of_prayers/widgets/custom_scaffold.dart';
+import 'package:altar_of_prayers/widgets/app_scaffold.dart';
 import 'package:altar_of_prayers/widgets/image_card.dart';
 import 'package:altar_of_prayers/utils/altarofprayers.dart';
 import 'package:flutter/material.dart';
@@ -147,7 +147,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   @override
   Widget build(BuildContext context) {
     screenContext = context;
-    return CustomScaffold(
+    return AppScaffold(
       title: 'Forgot Password',
       body: BlocListener<ForgotPasswordBloc, ForgotPasswordState>(
         listener: (context, state) {

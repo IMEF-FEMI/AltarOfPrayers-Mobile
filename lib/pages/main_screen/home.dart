@@ -1,18 +1,25 @@
 import 'package:altar_of_prayers/models/user.dart';
 import 'package:altar_of_prayers/pages/New%20Editions/new_editions.dart';
+import 'package:altar_of_prayers/widgets/app_scaffold.dart';
 import 'package:altar_of_prayers/widgets/category_card.dart';
-import 'package:altar_of_prayers/widgets/custom_scaffold.dart';
+import 'package:custom_navigator/custom_navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class Home extends StatelessWidget {
   final User user;
 
-  const Home({Key key, this.user}) : super(key: key);
+  const Home({
+    Key key,
+    this.user,
+  }) : super(key: key);
+
+  _push(BuildContext context, Widget page) =>
+      Navigator.of(context).push(MaterialPageRoute(builder: (context) => page));
+
   @override
   Widget build(BuildContext context) {
-  
-    return CustomScaffold(
+    return AppScaffold(
       title: 'Altar Of Prayers',
       body: Column(
         children: <Widget>[
@@ -37,24 +44,19 @@ class Home extends StatelessWidget {
                 icon: FontAwesomeIcons.shieldAlt,
               ),
               CategoryCard(
-                title: 'New Editions',
-                desctiption:
-                    'Check to see if new a new Edition has been published',
-                color: Colors.teal,
-                icon: FontAwesomeIcons.book,
-                onTap: ()=> Navigator.pushNamed(context, NewEditions.routeName), 
-                //  Navigator.push(
-                //               context,
-                //               MaterialPageRoute(builder: (context) {
-                //                 return DetailsScreen();
-                //               }),
-                //             );
-              ),
+                  title: 'New Editions',
+                  desctiption:
+                      'Check to see if new a new Edition has been published',
+                  color: Colors.teal,
+                  icon: FontAwesomeIcons.cartArrowDown,
+                  onTap: () =>
+                      // Navigator.pushNamed(context, NewEditions.routeName),
+                      _push(context, NewEditions())),
               CategoryCard(
                 title: 'My Editions',
                 desctiption: 'All Editions you have Subscribed for',
                 color: Colors.cyan,
-                icon: FontAwesomeIcons.cartArrowDown,
+                icon: FontAwesomeIcons.bookOpen,
               ),
               CategoryCard(
                 title: 'My Profile',

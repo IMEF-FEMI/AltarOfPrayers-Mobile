@@ -2,7 +2,7 @@ import 'package:altar_of_prayers/authentication_bloc/bloc.dart';
 import 'package:altar_of_prayers/pages/register/bloc/bloc.dart';
 import 'package:altar_of_prayers/widgets/image_card.dart';
 import 'package:altar_of_prayers/utils/altarofprayers.dart';
-import 'package:altar_of_prayers/widgets/custom_scaffold.dart';
+import 'package:altar_of_prayers/widgets/app_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -107,7 +107,7 @@ class _RegisterFormState extends State<RegisterForm> {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScaffold(
+    return AppScaffold(
       body: BlocListener<RegisterBloc, RegisterState>(
         listener: (context, state) {
           if (state.isSubmitting && !state.isGoogleAccount) {
