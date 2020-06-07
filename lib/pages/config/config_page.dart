@@ -1,4 +1,3 @@
-import 'package:altar_of_prayers/pages/New%20Editions/new_editions.dart';
 import 'package:altar_of_prayers/repositories/user_repository.dart';
 import 'package:altar_of_prayers/utils/altarofprayers.dart';
 import 'package:flutter/material.dart';
@@ -45,7 +44,7 @@ class _ConfigPageState extends State<ConfigPage> {
       //* Custom Google Font
       fontFamily: AltarOfPrayers.google_sans_family,
       primaryColor: Colors.black,
-      accentColor: Colors.lightBlue,
+      accentColor: Colors.blue,
       disabledColor: Colors.grey,
       cardColor: Colors.black,
       canvasColor: Colors.black,
@@ -94,9 +93,6 @@ class _ConfigPageState extends State<ConfigPage> {
             home: DecisionPage(
               userRepository: widget._userRepository,
             ),
-            routes: {
-              NewEditions.routeName : (context)=> NewEditions()
-            },
           );
         },
       ),

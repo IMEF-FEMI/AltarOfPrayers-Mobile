@@ -1,8 +1,7 @@
 import 'package:altar_of_prayers/models/user.dart';
-import 'package:altar_of_prayers/pages/New%20Editions/new_editions.dart';
+import 'package:altar_of_prayers/pages/NewEditions/new_editions.dart';
 import 'package:altar_of_prayers/widgets/app_scaffold.dart';
 import 'package:altar_of_prayers/widgets/category_card.dart';
-import 'package:custom_navigator/custom_navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
