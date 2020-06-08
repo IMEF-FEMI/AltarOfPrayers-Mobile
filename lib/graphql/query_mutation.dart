@@ -45,7 +45,7 @@ class QueryMutation {
   """;
   }
 
-String loginUser({String email, String password, String loginMethod}) {
+  String loginUser({String email, String password, String loginMethod}) {
     return """
       mutation loginUser {
           loginUser(email: "$email", password: "$password", loginMethod: "$loginMethod") {
@@ -90,32 +90,13 @@ String loginUser({String email, String password, String loginMethod}) {
             }
     """;
   }
+  String publishedEditions() {
+  return """
+    query{
+      publishedEditionss
+    }
+  """;
 }
 
-// mutation {
-//               createUser(
-//                 input: {
-//                   fullname: "femi bolaji", email: "swagskidd@gmail.com", password: "123456", admin: true, staff: true, accountType: "clasic"}) {
-//                     user {
-//                       id
-//                       email
-//                       admin
-//                       staff
-//                       email
-//                       fullname
-//                       accountType
-//                       isVerified
-//                     }
-//                 }
-//               }
-// mutation{
-//   loginUser( email: "swagskidd@gmail.com", password: "123456"){
-//     token
-//     success
-//     errors
-//     user{
-//       email
-//       isVerified
-//     }
-//   }
-// }
+}
+
