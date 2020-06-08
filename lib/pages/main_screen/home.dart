@@ -13,9 +13,6 @@ class Home extends StatelessWidget {
     this.user,
   }) : super(key: key);
 
-  _push(BuildContext context, Widget page) =>
-      Navigator.of(context).push(MaterialPageRoute(builder: (context) => page));
-
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
@@ -49,8 +46,7 @@ class Home extends StatelessWidget {
                   color: Colors.teal,
                   icon: FontAwesomeIcons.cartArrowDown,
                   onTap: () =>
-                      // Navigator.pushNamed(context, NewEditions.routeName),
-                      _push(context, NewEditions())),
+                     Navigator.of(context).push(MaterialPageRoute(builder: (context) => NewEditions()))),
               CategoryCard(
                 title: 'My Editions',
                 desctiption: 'All Editions you have Subscribed for',

@@ -1,8 +1,8 @@
 import 'package:altar_of_prayers/models/user.dart';
 import 'package:altar_of_prayers/pages/main_screen/about.dart';
 import 'package:altar_of_prayers/pages/main_screen/today.dart';
+import 'package:altar_of_prayers/widgets/custom_nav.dart';
 import 'package:altar_of_prayers/widgets/icon_badge.dart';
-import 'package:custom_navigator/custom_navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -19,24 +19,6 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  PageController _pageController;
-
-  @override
-  void initState() {
-    super.initState();
-    _pageController = PageController(initialPage: 1);
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _pageController.dispose();
-  }
-
-  void navigationTapped(int page) {
-    _pageController.jumpToPage(page);
-  }
-
   int _currentIndex = 1;
 
   final _navigatorKeys = [
@@ -45,26 +27,15 @@ class _MainScreenState extends State<MainScreen> {
     GlobalKey<NavigatorState>(),
     GlobalKey<NavigatorState>(),
   ];
-  Widget _buildPageOffstage(
-    int index,
-    Widget child,
-    GlobalKey<NavigatorState> key,
-  ) {
-    return Offstage(
-        offstage: _currentIndex != index,
-        child: CustomNavigator(
-          navigatorKey: key,
-          home: child,
-          pageRoute: PageRoutes.materialPageRoute,
-        ));
-  }
 
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
+
         final isFirstRouteInCurrentTab =
             !await _navigatorKeys[_currentIndex].currentState.maybePop();
+
         if (isFirstRouteInCurrentTab) {
           // if not on the 'main' tab
           if (_currentIndex != 1) {
@@ -72,31 +43,34 @@ class _MainScreenState extends State<MainScreen> {
             setState(() {
               _currentIndex = 1;
             });
-            print(_currentIndex);
             // back button handled by app
             return false;
           }
-            return true;
+          return true;
         }
         // let system handle back button if we're on the first route
         return isFirstRouteInCurrentTab;
       },
       child: Scaffold(
-          body: Stack(
+          body: IndexedStack(
+            index: _currentIndex,
             children: <Widget>[
-              _buildPageOffstage(
-                0,
-                Today(),
-                _navigatorKeys[0],
+              CustomNav(
+                child: Today(),
+                navigatorkey: _navigatorKeys[0],
               ),
-              _buildPageOffstage(
-                  1,
-                  Home(
-                    user: widget.user,
-                  ),
-                  _navigatorKeys[1]),
-              _buildPageOffstage(2, Notifications(), _navigatorKeys[2]),
-              _buildPageOffstage(3, About(), _navigatorKeys[3]),
+              CustomNav(
+                child: Home(),
+                navigatorkey: _navigatorKeys[1],
+              ),
+              CustomNav(
+                child: Notifications(),
+                navigatorkey: _navigatorKeys[2],
+              ),
+              CustomNav(
+                child: About(),
+                navigatorkey: _navigatorKeys[3],
+              ),
             ],
           ),
           bottomNavigationBar: Theme(

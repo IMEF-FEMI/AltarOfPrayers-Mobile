@@ -3,18 +3,18 @@ import 'package:altar_of_prayers/widgets/app_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
-import 'new_page.dart';
+class NewPage extends StatefulWidget {
 
-class NewEditions extends StatefulWidget {
   @override
-  _NewEditionsState createState() => _NewEditionsState();
+  _NewPageState createState() => _NewPageState();
 }
 
-class _NewEditionsState extends State<NewEditions> {
+class _NewPageState extends State<NewPage> {
+ 
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-      title: 'Editions',
+      title: 'More Detailed Page',
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -24,19 +24,10 @@ class _NewEditionsState extends State<NewEditions> {
               lineWidth: 3,
             ),
             SizedBox(height: 30),
-            Text('Just a Moment...'),
-            FlatButton(
-                onPressed: () {
-                  Navigator.of(context, rootNavigator: true)
-                      .push(MaterialPageRoute(builder: (context) => NewPage()));
-                },
-                child: Text('Full Page'))
+            Text('Just a Moment...')
           ],
         ),
       ),
     );
   }
 }
-
-//  Navigator.of(context, rootNavigator: true)
-//                       .push(MaterialPageRoute(builder: (context) => NewPage()));

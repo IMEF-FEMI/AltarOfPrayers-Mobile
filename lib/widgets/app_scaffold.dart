@@ -2,7 +2,7 @@ import 'package:altar_of_prayers/pages/config/index.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class AppScaffold extends StatelessWidget {
+class AppScaffold extends StatefulWidget {
   final String title;
   final Widget body;
 
@@ -12,10 +12,15 @@ class AppScaffold extends StatelessWidget {
       : super(key: key);
 
   @override
+  _AppScaffoldState createState() => _AppScaffoldState();
+}
+
+class _AppScaffoldState extends State<AppScaffold> {
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(title),
+        title: Text(widget.title),
         centerTitle: true,
         actions: <Widget>[
           IconButton(
@@ -26,12 +31,15 @@ class AppScaffold extends StatelessWidget {
               size: 18,
             ),
             onPressed: () {
+              // setState(() {
+                
+              // });
               ConfigBloc().add(DarkModeEvent(!ConfigBloc().darkModeOn));
             },
           ),
         ],
       ),
-      body: body,
+      body: widget.body,
     );
   }
 }
