@@ -93,7 +93,7 @@ class QueryMutation {
   String publishedEditions() {
   return """
     query{
-      publishedEditionss
+      publishedEditions
     }
   """;
 }

@@ -39,8 +39,6 @@ class _RegisterFormState extends State<RegisterForm> {
       _passwordTwoController.text.isNotEmpty;
 
   bool isRegisterButtonEnabled(RegisterState state) {
-    print(
-        "state.isFormValid: ${state.isFormValid}, isPopulated: $isPopulated, !state.isSubmitting: ${!state.isSubmitting}");
     return state.isFormValid && isPopulated && !state.isSubmitting;
   }
 

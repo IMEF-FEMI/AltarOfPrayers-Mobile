@@ -47,13 +47,13 @@ class UserDao {
 
     // deleteDatabase(path);
 
-    print(result.first);
+    // print(result.first);
 
     List<User> user = result.isNotEmpty
         ? result.map((item) => User.fromDatabaseJson(item)).toList()
         : [];
 
-    print("user returned ${user.length}");
+    // print("user returned ${user.length}");
 
     if (user.length > 0) {
       return new User.fromDatabaseJson(result.first);

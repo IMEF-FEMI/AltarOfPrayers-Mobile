@@ -312,7 +312,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                               enabled:
                                   currentScreen != PasswordScreen.ENTER_TOKEN,
                               validator: (value) {
-                                print(value.toString());
 
                                 return !isEmailValid(state)
                                     ? 'Invalid Email'

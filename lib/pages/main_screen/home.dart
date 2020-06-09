@@ -42,7 +42,7 @@ class Home extends StatelessWidget {
               CategoryCard(
                   title: 'New Editions',
                   desctiption:
-                      'Check to see if new a new Edition has been published',
+                      'Check for new Editions',
                   color: Colors.teal,
                   icon: FontAwesomeIcons.cartArrowDown,
                   onTap: () =>

@@ -18,7 +18,6 @@ class NewEditionsBloc extends Bloc<NewEditionsEvent, NewEditionsState> {
         yield NewEditionsState(
             editions: editions, isLoading: false, isFailure: false);
       } catch (e) {
-        print(e);
         yield NewEditionsState(
             editions: List(), isLoading: false, isFailure: true);
       }

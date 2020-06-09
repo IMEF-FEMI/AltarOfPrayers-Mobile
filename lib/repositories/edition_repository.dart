@@ -1,6 +1,5 @@
 import 'package:altar_of_prayers/graphql/graphql.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'dart:convert';
 
 class EditionsRepository {
   GraphQLConfiguration _graphQLConfiguration = GraphQLConfiguration();

@@ -138,7 +138,6 @@ class UserRepository {
         );
 
         await userDao.saveUser(user);
-        print("user saved");
         return true;
       }
       throw result.data['createUser']['error'];
