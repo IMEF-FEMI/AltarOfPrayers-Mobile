@@ -1,9 +1,12 @@
+import 'dart:io';
+
 import 'package:altar_of_prayers/authentication_bloc/bloc.dart';
 import 'package:altar_of_prayers/pages/config/index.dart';
 import 'package:altar_of_prayers/repositories/user_repository.dart';
 import 'package:altar_of_prayers/widgets/app_scaffold.dart';
 import 'package:altar_of_prayers/widgets/image_card.dart';
 import 'package:altar_of_prayers/utils/altarofprayers.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -104,15 +107,10 @@ class _LoginFormState extends State<LoginForm> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Center(
-                        child: CircularProgressIndicator(),
+                        child: Platform.isIOS
+                                  ? new CupertinoActivityIndicator()
+                                  : new CircularProgressIndicator(),
                       ),
-                      Text(
-                        'Loggin In...',
-                        style: TextStyle(
-                            decoration: TextDecoration.none,
-                            fontSize: 16,
-                            color: Colors.white),
-                      )
                     ],
                   );
                 });
@@ -123,7 +121,9 @@ class _LoginFormState extends State<LoginForm> {
                 context: context,
                 builder: (context) {
                   return Center(
-                    child: CircularProgressIndicator(),
+                    child: Platform.isIOS
+                                  ? new CupertinoActivityIndicator()
+                                  : new CircularProgressIndicator(),
                   );
                 });
           }
