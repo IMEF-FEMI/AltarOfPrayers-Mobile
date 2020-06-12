@@ -127,5 +127,3 @@ class _NewEditionsState extends State<NewEditions> {
   }
 }
 
-//  Navigator.of(context, rootNavigator: true)
-//                       .push(MaterialPageRoute(builder: (context) => NewPage()));

@@ -1,4 +1,3 @@
-import 'package:altar_of_prayers/pages/NewEditions/new_page.dart';
 import 'package:altar_of_prayers/repositories/user_repository.dart';
 import 'package:altar_of_prayers/utils/altarofprayers.dart';
 import 'package:flutter/material.dart';

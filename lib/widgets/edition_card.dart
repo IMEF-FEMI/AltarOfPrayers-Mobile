@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:altar_of_prayers/pages/NewEditions/new_edition_page.dart';
 import 'package:altar_of_prayers/utils/tools.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -21,7 +22,11 @@ class EditionCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+         Navigator.of(context, rootNavigator: true)
+                      .push(MaterialPageRoute(builder: (context) => NewEditionPage(edition: edition)));
+
+      },
       child: Card(
         clipBehavior: Clip.antiAlias,
         shape: RoundedRectangleBorder(
@@ -39,9 +44,12 @@ class EditionCard extends StatelessWidget {
                   height: MediaQuery.of(context).size.height * 0.2,
                   width: MediaQuery.of(context).size.width * 0.3,
                 ),
-                child: SvgPicture.asset(
-                  'assets/icons/shopping-cart.svg',
-                  fit: BoxFit.contain,
+                child: Hero(
+                  tag: edition['name'],
+                  child: SvgPicture.asset(
+                    'assets/icons/shopping-cart.svg',
+                    fit: BoxFit.contain,
+                  ),
                 ),
               ),
               SizedBox(
