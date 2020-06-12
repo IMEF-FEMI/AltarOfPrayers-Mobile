@@ -19,6 +19,7 @@ class EditionCard extends StatelessWidget {
     7: 'July - Sept',
     10: 'Oct - Dec',
   };
+  
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -47,7 +48,7 @@ class EditionCard extends StatelessWidget {
                 child: Hero(
                   tag: edition['name'],
                   child: SvgPicture.asset(
-                    'assets/icons/shopping-cart.svg',
+                    'assets/icons/bible.svg',
                     fit: BoxFit.contain,
                   ),
                 ),
@@ -67,7 +68,9 @@ class EditionCard extends StatelessWidget {
                     children: <Widget>[
                       Text(
                         edition['name'],
-                        style: Theme.of(context).textTheme.title,
+                        style: Theme.of(context).textTheme.title.copyWith(
+                          fontSize: 14
+                        ),
                       ),
                       SizedBox(
                         height: 5,

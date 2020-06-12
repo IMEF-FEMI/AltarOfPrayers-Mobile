@@ -45,7 +45,9 @@ class CategoryCard extends StatelessWidget {
                 SizedBox(
                   height: 10,
                 ),
-                Text(title, style: Theme.of(context).textTheme.title),
+                Text(title, style: Theme.of(context).textTheme.title.copyWith(
+                          fontSize: 14
+                        )),
                 SizedBox(
                   height: 15,
                 ),

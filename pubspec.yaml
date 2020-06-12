@@ -53,3 +53,5 @@ flutter:
     - family: GoogleSans
       fonts:
         - asset: assets/fonts/GoogleSansRegular.ttf
+module:
+  androidX: true
