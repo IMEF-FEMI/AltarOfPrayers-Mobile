@@ -65,6 +65,7 @@ class _ConfigPageState extends State<ConfigPage> {
       // primarySwatch: Colors.red,
 //               const Color lightThemeAccentColor = Color(0xff002244);
 // const Color darkThemeAccentColor = Color(0xff054280);
+accentColor: Colors.blue,
       primaryColor: Colors.white,
       disabledColor: Colors.grey,
       cardColor: Colors.white,

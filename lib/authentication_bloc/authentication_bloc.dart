@@ -7,6 +7,7 @@ import 'bloc.dart';
 class AuthenticationBloc
     extends Bloc<AuthenticationEvent, AuthenticationState> {
   final UserRepository _userRepository;
+  
 
   AuthenticationBloc({@required UserRepository userRepository})
       : assert(userRepository != null),

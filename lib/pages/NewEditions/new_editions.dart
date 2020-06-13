@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:altar_of_prayers/pages/NewEditions/bloc/bloc.dart';
 import 'package:altar_of_prayers/pages/config/config_bloc.dart';
+import 'package:altar_of_prayers/utils/tools.dart';
 import 'package:altar_of_prayers/widgets/app_scaffold.dart';
 import 'package:altar_of_prayers/widgets/edition_card.dart';
 import 'package:flutter/material.dart';
@@ -40,8 +41,8 @@ class _NewEditionsState extends State<NewEditions> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           SvgPicture.asset(
-            'assets/icons/settings.svg',
-            height: 80,
+            'assets/icons/alert.svg',
+            height: 100,
           ),
           SizedBox(height: 10),
           Padding(
@@ -49,22 +50,23 @@ class _NewEditionsState extends State<NewEditions> {
             child: Text(
               'Oops! an Error Occured',
               style: Theme.of(context).textTheme.title.copyWith(
-                    fontSize: 25,
+                    fontSize: 20,
                   ),
             ),
           ),
           SizedBox(
             height: 30,
           ),
-          FlatButton.icon(
-            color: Colors.grey[500],
+          FlatButton(
+            color: Tools.multiColors[0],
             onPressed: () =>
                 BlocProvider.of<NewEditionsBloc>(context).add(ReFreshEvent()),
-            label: Text(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            child: Text(
               'Try Again',
               style: TextStyle(fontSize: 18),
             ),
-            icon: Icon(FontAwesomeIcons.redo, size: 19),
           )
         ],
       ),
@@ -76,7 +78,9 @@ class _NewEditionsState extends State<NewEditions> {
       shrinkWrap: true,
       itemCount: editions.length,
       itemBuilder: (context, index) {
-        return EditionCard(edition: JsonDecoder().convert(editions[index]),);
+        return EditionCard(
+          edition: JsonDecoder().convert(editions[index]),
+        );
       },
     );
   }
@@ -120,10 +124,9 @@ class _NewEditionsState extends State<NewEditions> {
             return AppScaffold(
                 title: 'Editions', body: _editionsPage(state.editions));
           } else
-          return AppScaffold(title: 'Editions', body: _noEditionsPage());
+            return AppScaffold(title: 'Editions', body: _noEditionsPage());
         },
       ),
     );
   }
 }
-
