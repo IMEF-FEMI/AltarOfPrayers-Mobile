@@ -6,6 +6,7 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
 final userTABLE = 'user';
+final referenceTABLE = 'reference';
 
 class DatabaseProvider {
   static final DatabaseProvider dbProvider = DatabaseProvider();
@@ -43,5 +44,8 @@ class DatabaseProvider {
         "staff INTEGER, "
         "is_verified INTEGER, "
         "admin INTEGER) ");
+
+    await database.execute("CREATE TABLE $referenceTABLE ("
+        "reference TEXT) ");
   }
 }

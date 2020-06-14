@@ -49,13 +49,13 @@ class UserDao {
 
     // print(result.first);
 
-    List<User> user = result.isNotEmpty
-        ? result.map((item) => User.fromDatabaseJson(item)).toList()
-        : [];
+    // List<User> user = result.isNotEmpty
+    //     ? result.map((item) => User.fromDatabaseJson(item)).toList()
+    //     : [];
 
     // print("user returned ${user.length}");
 
-    if (user.length > 0) {
+    if (result.length > 0) {
       return new User.fromDatabaseJson(result.first);
     }
     return null;

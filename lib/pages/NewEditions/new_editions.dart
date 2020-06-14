@@ -5,6 +5,7 @@ import 'package:altar_of_prayers/blocs/new_editions/bloc.dart';
 import 'package:altar_of_prayers/utils/tools.dart';
 import 'package:altar_of_prayers/widgets/app_scaffold.dart';
 import 'package:altar_of_prayers/widgets/edition_card.dart';
+import 'package:altar_of_prayers/widgets/loading_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -17,21 +18,8 @@ class NewEditions extends StatefulWidget {
 }
 
 class _NewEditionsState extends State<NewEditions> {
-  Widget _loadingPage() {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          SpinKitRing(
-            color: ConfigBloc().darkModeOn ? Colors.white : Colors.black,
-            lineWidth: 3,
-          ),
-          SizedBox(height: 30),
-          Text('Just a Moment...'),
-        ],
-      ),
-    );
-  }
+  
+  
 
   Widget _errorPage(context) {
     return Center(
@@ -115,7 +103,7 @@ class _NewEditionsState extends State<NewEditions> {
       child: BlocBuilder<NewEditionsBloc, NewEditionsState>(
         builder: (context, state) {
           if (state.isLoading) {
-            return AppScaffold(title: 'Editions', body: _loadingPage());
+            return AppScaffold(title: 'Editions', body: LoadingWidget());
           } else if (state.isFailure) {
             return AppScaffold(title: 'Editions', body: _errorPage(context));
           } else if (state.editions.length != 0) {
