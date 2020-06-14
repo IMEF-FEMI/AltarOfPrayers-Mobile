@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:altar_of_prayers/pages/NewEditions/bloc/bloc.dart';
-import 'package:altar_of_prayers/pages/config/config_bloc.dart';
+import 'package:altar_of_prayers/blocs/app_config/index.dart';
+import 'package:altar_of_prayers/blocs/new_editions/bloc.dart';
 import 'package:altar_of_prayers/utils/tools.dart';
 import 'package:altar_of_prayers/widgets/app_scaffold.dart';
 import 'package:altar_of_prayers/widgets/edition_card.dart';
@@ -9,9 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import 'bloc/new_editions_bloc.dart';
 
 class NewEditions extends StatefulWidget {
   @override

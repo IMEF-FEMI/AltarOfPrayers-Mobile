@@ -1,9 +1,9 @@
+import 'package:altar_of_prayers/blocs/forgot_password/bloc.dart';
+import 'package:altar_of_prayers/blocs/login/bloc.dart';
 import 'package:altar_of_prayers/repositories/user_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'bloc/bloc.dart';
-import 'forgot_password/bloc.dart';
 import 'forgot_password/forgot_password_screen.dart';
 import 'login_form.dart';
 

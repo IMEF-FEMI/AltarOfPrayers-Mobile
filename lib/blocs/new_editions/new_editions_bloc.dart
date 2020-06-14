@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:altar_of_prayers/pages/NewEditions/bloc/bloc.dart';
+import 'package:altar_of_prayers/blocs/new_editions/bloc.dart';
 import 'package:altar_of_prayers/repositories/edition_repository.dart';
 import 'package:bloc/bloc.dart';
 

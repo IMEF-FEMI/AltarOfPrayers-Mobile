@@ -1,5 +1,5 @@
 
-import 'package:altar_of_prayers/authentication_bloc/bloc.dart';
+import 'package:altar_of_prayers/blocs/authentication/bloc.dart';
 import 'package:altar_of_prayers/pages/login/login.dart';
 import 'package:altar_of_prayers/pages/main_screen/main_screen.dart';
 import 'package:altar_of_prayers/repositories/user_repository.dart';

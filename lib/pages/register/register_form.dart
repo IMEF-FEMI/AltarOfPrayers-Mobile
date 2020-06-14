@@ -1,10 +1,12 @@
 import 'dart:io';
 
-import 'package:altar_of_prayers/authentication_bloc/bloc.dart';
-import 'package:altar_of_prayers/pages/register/bloc/bloc.dart';
+import 'package:altar_of_prayers/blocs/authentication/bloc.dart';
+import 'package:altar_of_prayers/blocs/register/bloc.dart';
+import 'package:altar_of_prayers/widgets/google_register_button.dart';
 import 'package:altar_of_prayers/widgets/image_card.dart';
 import 'package:altar_of_prayers/utils/altarofprayers.dart';
 import 'package:altar_of_prayers/widgets/app_scaffold.dart';
+import 'package:altar_of_prayers/widgets/register_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

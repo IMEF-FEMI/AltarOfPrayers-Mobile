@@ -1,10 +1,10 @@
+import 'package:altar_of_prayers/blocs/app_config/index.dart';
 import 'package:altar_of_prayers/repositories/user_repository.dart';
 import 'package:altar_of_prayers/utils/altarofprayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'decision_page.dart';
-import 'index.dart';
 
 class ConfigPage extends StatefulWidget {
   final UserRepository _userRepository;
@@ -65,7 +65,7 @@ class _ConfigPageState extends State<ConfigPage> {
       // primarySwatch: Colors.red,
 //               const Color lightThemeAccentColor = Color(0xff002244);
 // const Color darkThemeAccentColor = Color(0xff054280);
-accentColor: Colors.blue,
+      accentColor: Colors.blue,
       primaryColor: Colors.white,
       disabledColor: Colors.grey,
       cardColor: Colors.white,

@@ -1,5 +1,5 @@
+import 'package:altar_of_prayers/blocs/authentication/bloc.dart';
 import 'package:altar_of_prayers/graphql/graphql.dart';
-import 'package:altar_of_prayers/pages/config/index.dart';
 import 'package:altar_of_prayers/utils/altarofprayers.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'authentication_bloc/bloc.dart';
+import 'pages/config/config_page.dart';
 import 'repositories/user_repository.dart';
 import 'utils/simple_bloc_delegate.dart';
 
@@ -18,7 +18,8 @@ Future<void> main() async {
 
   SystemChrome.setSystemUIOverlayStyle(
     SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent,
+      // statusBarColor: Colors.transparent,
+       statusBarColor: Colors.white10,
     ),
   );
 

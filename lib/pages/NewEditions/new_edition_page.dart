@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import 'package:altar_of_prayers/authentication_bloc/bloc.dart';
-import 'package:altar_of_prayers/pages/config/config_bloc.dart';
+import 'package:altar_of_prayers/blocs/app_config/index.dart';
+import 'package:altar_of_prayers/blocs/authentication/bloc.dart';
 import 'package:altar_of_prayers/utils/config.dart';
 import 'package:altar_of_prayers/widgets/app_scaffold.dart';
 import 'package:flutter/material.dart';
@@ -88,31 +88,18 @@ class NewEditionPageState extends State<NewEditionPage> {
       );
       print('Response = $response');
       setState(() => _inProgress = false);
+      print(response);
       // _updateStatus(response.reference, '$response', context);
     } catch (e) {
       setState(() => _inProgress = false);
       // _showMessage("Check console for error", context);
+      print(e);
+
       rethrow;
     }
   }
 
-  _updateStatus(String reference, String message, BuildContext context) {
-    _showMessage('Reference: $reference \n\ Response: $message', context,
-        const Duration(seconds: 7));
-  }
-
-  _showMessage(String message, BuildContext context,
-      [Duration duration = const Duration(seconds: 4)]) {
-    Scaffold.of(context)
-      ..hideCurrentSnackBar()
-      ..showSnackBar( SnackBar(
-        content: new Text(message),
-        duration: duration,
-        action: new SnackBarAction(
-            label: 'CLOSE',
-            onPressed: () => Scaffold.of(context)..hideCurrentSnackBar()),
-      ));
-  }
+  
 
   @override
   Widget build(BuildContext context) {

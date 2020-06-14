@@ -1,9 +1,9 @@
-import 'package:altar_of_prayers/pages/config/index.dart';
+import 'package:altar_of_prayers/blocs/app_config/index.dart';
+import 'package:altar_of_prayers/blocs/register/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import 'bloc/bloc.dart';
 
 class GoogleRegisterButton extends StatelessWidget {
   @override

@@ -1,10 +1,9 @@
-import 'package:altar_of_prayers/pages/config/index.dart';
+import 'package:altar_of_prayers/blocs/app_config/index.dart';
+import 'package:altar_of_prayers/blocs/login/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import 'bloc/bloc.dart';
-import 'bloc/login_bloc.dart';
 
 class GoogleLoginButton extends StatelessWidget {
   @override
