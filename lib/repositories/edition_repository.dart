@@ -19,8 +19,16 @@ class EditionsRepository {
     throw result.exception;
   }
 
-  Future<String> getReference()async{
-    print('we here');
-    return await _editionsDao.getReference();
+  Future<Map<dynamic, dynamic>> getReference({int editionId}) async {
+    return await _editionsDao.getReference(editionId: editionId);
+  }
+
+  Future<bool> saveReference({int editionId, String reference}) async {
+    // await _editionsDao.deleteReference();
+    return await _editionsDao.saveReference(
+          editionId: editionId,
+          reference: reference,
+        ) ==
+        1;
   }
 }

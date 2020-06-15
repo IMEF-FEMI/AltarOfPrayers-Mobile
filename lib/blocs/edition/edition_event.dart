@@ -13,10 +13,11 @@ class LoadEdition extends EditionEvent {
   const LoadEdition(this.edition);
 }
 
-class TransactionComplete extends EditionEvent{
+class TransactionComplete extends EditionEvent {
+  final int editionId;
   final String reference;
 
-  const TransactionComplete(this.reference);
+  const TransactionComplete({this.editionId, this.reference});
 }
 
 class UpdateEdition extends EditionEvent {

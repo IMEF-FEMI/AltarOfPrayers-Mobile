@@ -26,7 +26,7 @@ class DatabaseProvider {
 
   createDatabase() async {
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
-    //"ReactiveTodo.db is our database instance name
+    //"AltarOfPrayers.db" is our database instance name
     String path = join(documentsDirectory.path, "AltarOfPrayers.db");
 
     var database = await openDatabase(path,
@@ -46,6 +46,7 @@ class DatabaseProvider {
         "admin INTEGER) ");
 
     await database.execute("CREATE TABLE $referenceTABLE ("
+        "editionId INTEGER PRIMARY KEY, "
         "reference TEXT) ");
   }
 }

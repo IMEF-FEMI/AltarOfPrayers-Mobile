@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:altar_of_prayers/blocs/app_config/index.dart';
 import 'package:altar_of_prayers/blocs/authentication/bloc.dart';
 import 'package:altar_of_prayers/blocs/edition/bloc.dart';
+import 'package:altar_of_prayers/repositories/edition_repository.dart';
 import 'package:altar_of_prayers/utils/config.dart';
 import 'package:altar_of_prayers/widgets/app_scaffold.dart';
 import 'package:altar_of_prayers/widgets/loading_widget.dart';
@@ -28,6 +29,9 @@ class NewEditionPageState extends State<NewEditionPage> {
   int _expiryMonth = 0;
   int _expiryYear = 0;
 
+  EditionBloc _editionBloc;
+  EditionsRepository _editionsRepository = EditionsRepository();
+
   final months = {
     1: 'January - March',
     4: 'April - June',
@@ -43,8 +47,9 @@ class NewEditionPageState extends State<NewEditionPage> {
 
   @override
   void initState() {
-    PaystackPlugin.initialize(publicKey: Config.paystackPublicKey);
     super.initState();
+    _editionBloc = EditionBloc(editionsRepository: _editionsRepository);
+    PaystackPlugin.initialize(publicKey: Config.paystackPublicKey);
   }
 
   String _getReference({String email}) {
@@ -90,11 +95,13 @@ class NewEditionPageState extends State<NewEditionPage> {
       );
       print('Response = $response');
       setState(() => _inProgress = false);
-      print(response);
-      // _updateStatus(response.reference, '$response', context);
+      // print(response.reference);
+      _editionBloc.add(TransactionComplete(
+        reference: response.reference,
+        editionId: widget.edition['id'],
+      ));
     } catch (e) {
       setState(() => _inProgress = false);
-      // _showMessage("Check console for error", context);
       print(e);
 
       rethrow;
@@ -104,7 +111,7 @@ class NewEditionPageState extends State<NewEditionPage> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<EditionBloc>(
-      create: (context) => EditionBloc()..add(LoadEdition(widget.edition)),
+      create: (context) => _editionBloc..add(LoadEdition(widget.edition)),
       child: AppScaffold(
         title: '',
         leading: IconButton(
