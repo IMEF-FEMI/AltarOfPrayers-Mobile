@@ -28,7 +28,7 @@ class Home extends StatelessWidget {
             padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
             children: <Widget>[
               CategoryCard(
-                title: 'Saved Prayers',
+                title: 'Saved Prayers Points',
                 desctiption: 'All the Prayer points you have saved recently ',
                 color: Colors.blue,
                 icon: FontAwesomeIcons.bookmark,

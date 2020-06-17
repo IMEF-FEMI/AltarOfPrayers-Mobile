@@ -1,4 +1,3 @@
-
 import 'package:altar_of_prayers/blocs/edition/bloc.dart';
 import 'package:altar_of_prayers/models/edition.dart';
 import 'package:altar_of_prayers/repositories/edition_repository.dart';
@@ -36,7 +35,20 @@ class EditionBloc extends Bloc<EditionEvent, EditionState> {
       this.add(CompleteTransaction(
           editionId: event.edition['id'], reference: ref['reference']));
     } else {
-      // EditionPurchase edition = _editionsRepository.getEdition
+      try {
+        Edition edition = await _editionsRepository.getEdition(
+            editionId: event.edition['id']);
+        if (edition != null) {
+          yield EditionLoaded(editionPurchase: edition, isLoading: false);
+        } else {
+          yield EditionNotLoaded(
+            isLoading: false,
+          );
+        }
+      } catch (e) {
+        yield EditionError(
+            editionId: event.edition['id'], error: 'sorry! an error occured');
+      }
     }
   }
 
@@ -66,7 +78,7 @@ class EditionBloc extends Bloc<EditionEvent, EditionState> {
         // delete reference from db
         await _editionsRepository.deleteReference(editionId: event.editionId);
         yield EditionError(
-          error: 'transaction error',
+          error: 'Transaction Failed',
           editionId: event.editionId,
           reference: event.reference,
         );
@@ -75,7 +87,7 @@ class EditionBloc extends Bloc<EditionEvent, EditionState> {
       yield EditionLoaded(editionPurchase: edition, isLoading: false);
     } catch (e) {
       yield EditionError(
-        error: 'network error',
+        error: 'network error Hit the Button below to complete your payment',
         editionId: event.editionId,
         reference: event.reference,
       );

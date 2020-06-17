@@ -1,3 +1,4 @@
+import 'package:altar_of_prayers/blocs/app_config/index.dart';
 import 'package:flutter/material.dart';
 
 class CategoryCard extends StatelessWidget {
@@ -20,11 +21,11 @@ class CategoryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: Material(
-        // color: color.withOpacity(.1),
-        color: Colors.grey.withOpacity(.15),
-        // color: ConfigBloc().darkModeOn
-        //     ? Colors.grey.withOpacity(.15)
-        //     : color.withOpacity(.1),
+        // color: color.withOpacity(.15),
+        // color: Colors.grey.withOpacity(.15),
+        color: ConfigBloc().darkModeOn
+            ? Colors.blueGrey.withOpacity(.15)
+            : color.withOpacity(.15),
         borderRadius: BorderRadius.only(
             topLeft: Radius.circular(8),
             topRight: Radius.circular(8),

@@ -28,7 +28,7 @@ Future<void> main() async {
 
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
-  // * get last saved darkmode value
+  // * get last darkmode value from db
   bool darkModeOn = await DarkModeDao().darkModeOn();
   final UserRepository userRepository = UserRepository();
 

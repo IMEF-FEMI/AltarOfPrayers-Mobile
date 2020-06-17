@@ -1,4 +1,3 @@
-
 import 'package:altar_of_prayers/database/editions_dao.dart';
 import 'package:altar_of_prayers/graphql/graphql.dart';
 import 'package:altar_of_prayers/models/edition.dart';
@@ -94,5 +93,35 @@ class EditionsRepository {
     } else {
       throw result.exception;
     }
+  }
+
+  Future<Edition> getEdition({int editionId}) async {
+    var editionObj = await _editionsDao.getEdition(editionId: editionId);
+    if (editionObj == null) {
+      GraphQLClient _client = await _graphQLConfiguration.clientToQuery();
+      QueryResult result = await _client.query(QueryOptions(
+          documentNode: gql(_queryMutation.myEditions(editionId: editionId))));
+      if (!result.hasException) {
+        Map<String, dynamic> userEdition;
+        List<Map<String, dynamic>> giftedEditions = [];
+        User _user = await _userRepository.getUser();
+        // get the edition the current user should use (one paid on his behalf) regardless of who
+        (result.data['myEditions'] as List).forEach((edition) {
+          if (edition['paidFor']['email'] == _user.email) {
+            userEdition = edition;
+          } else {
+            giftedEditions.add(edition);
+          }
+        });
+        Edition edition =
+            Edition.fromServerDatabaseJson(userEdition, giftedEditions);
+        var dbEdition = await _editionsDao.getEdition(editionId: edition.id);
+        if (dbEdition == null) await _editionsDao.saveEdition(edition);
+        return edition;
+      }
+      return null;
+    }
+    Edition edition = Edition.fromDatabaseJson(editionObj);
+    return edition;
   }
 }

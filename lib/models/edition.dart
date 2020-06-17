@@ -72,7 +72,7 @@ class Edition {
     paidFor = JsonDecoder().convert(json['paid_for']);
     paidBy = JsonDecoder().convert(json['paid_by']);
     name = json['name'];
-    startingMonth = json['starting_month'];
+    startingMonth = int.parse(json['starting_month']);
     year = json['year'];
     monthOne = JsonDecoder().convert(json['month_one']);
     monthTwo = JsonDecoder().convert(json['month_two']);

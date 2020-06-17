@@ -131,4 +131,33 @@ class QueryMutation {
     }
   """;
   }
+
+  String myEditions({int editionId}){
+    return """
+      query{
+        myEditions(editionId: $editionId){
+          id
+          reference
+          paidBy{
+            fullname
+            email
+          }
+          paidFor{
+            fullname
+            email
+          }
+          edition{
+            id
+            name
+            startingMonth
+            year
+            published
+            monthOne
+            monthTwo
+            monthThree
+          }
+        }
+      }
+    """;
+  }
 }

@@ -57,7 +57,7 @@ class DatabaseProvider {
         "paid_for TEXT, "
         "paid_by TEXT, "
         "name TEXT, "
-        "starting_month TEXT, "
+        "starting_month INTEGER, "
         "year INTEGER, "
         "month_one TEXT, "
         "month_two TEXT, "
