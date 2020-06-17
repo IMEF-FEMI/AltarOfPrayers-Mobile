@@ -6,7 +6,6 @@ import 'package:altar_of_prayers/blocs/edition/bloc.dart';
 import 'package:altar_of_prayers/repositories/edition_repository.dart';
 import 'package:altar_of_prayers/utils/config.dart';
 import 'package:altar_of_prayers/widgets/app_scaffold.dart';
-import 'package:altar_of_prayers/widgets/loading_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_paystack/flutter_paystack.dart';
@@ -23,7 +22,6 @@ class NewEditionPage extends StatefulWidget {
 }
 
 class NewEditionPageState extends State<NewEditionPage> {
-  bool _inProgress = false;
   String _cardNumber;
   String _cvv;
   int _expiryMonth = 0;
@@ -76,7 +74,6 @@ class NewEditionPageState extends State<NewEditionPage> {
   _handleCheckout(BuildContext context) async {
     var authState = BlocProvider.of<AuthenticationBloc>(context).state;
 
-    setState(() => _inProgress = true);
     Charge charge = Charge()
       ..amount = 30000 // In base currency
       ..email = (authState as Authenticated).user.email
@@ -94,14 +91,12 @@ class NewEditionPageState extends State<NewEditionPage> {
         // logo: MyLogo(),
       );
       print('Response = $response');
-      setState(() => _inProgress = false);
       // print(response.reference);
       _editionBloc.add(CompleteTransaction(
         reference: response.reference,
         editionId: widget.edition['id'],
       ));
     } catch (e) {
-      setState(() => _inProgress = false);
       print(e);
 
       rethrow;

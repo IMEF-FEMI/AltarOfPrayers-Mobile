@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:altar_of_prayers/blocs/edition/bloc.dart';
 import 'package:altar_of_prayers/models/edition.dart';
@@ -72,8 +71,7 @@ class EditionBloc extends Bloc<EditionEvent, EditionState> {
           reference: event.reference,
         );
       }
-      // await _editionsRepository.deleteReference(editionId: event.editionId);
-
+      await _editionsRepository.deleteReference(editionId: event.editionId);
       yield EditionLoaded(editionPurchase: edition, isLoading: false);
     } catch (e) {
       yield EditionError(

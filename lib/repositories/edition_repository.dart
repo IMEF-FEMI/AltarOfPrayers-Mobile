@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:altar_of_prayers/database/editions_dao.dart';
 import 'package:altar_of_prayers/graphql/graphql.dart';
@@ -89,8 +88,8 @@ class EditionsRepository {
 
       Edition edition =
           Edition.fromServerDatabaseJson(userEdition, giftedEditions);
-      print(edition);
-      _editionsDao.saveEdition(edition);
+      var dbEdition = await _editionsDao.getEdition(editionId: edition.id);
+      if (dbEdition == null) await _editionsDao.saveEdition(edition);
       return edition;
     } else {
       throw result.exception;

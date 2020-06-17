@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 
 class AltarOfPrayers{
@@ -18,8 +17,6 @@ class AltarOfPrayers{
   //* Texts
   static const String welcomeText = "A Dynamic Daily prayer Guide";
   
-  //* Preferences
-  static SharedPreferences prefs;
-  static const String darkModePref = "darkModePref";
+  
 
 }

@@ -9,7 +9,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  shared_preferences: ^0.5.6+1
   bloc: ^3.0.0
   flutter_bloc: ^3.2.0
   rxdart: ^0.23.1

@@ -1,12 +1,11 @@
 import 'package:altar_of_prayers/blocs/authentication/bloc.dart';
+import 'package:altar_of_prayers/database/dark_mode_dao.dart';
 import 'package:altar_of_prayers/graphql/graphql.dart';
-import 'package:altar_of_prayers/utils/altarofprayers.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'pages/config/config_page.dart';
 import 'repositories/user_repository.dart';
@@ -29,10 +28,8 @@ Future<void> main() async {
 
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
-  // * Get Shared Preference Instance for whole app
-  AltarOfPrayers.prefs = await SharedPreferences.getInstance();
-
-  // runApp(ConfigPage());
+  // * get last saved darkmode value
+  bool darkModeOn = await DarkModeDao().darkModeOn();
   final UserRepository userRepository = UserRepository();
 
   GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
@@ -45,7 +42,7 @@ Future<void> main() async {
           create: (context) => AuthenticationBloc(
             userRepository: userRepository,
           )..add(AppStarted()),
-          child: ConfigPage(userRepository: userRepository),
+          child: ConfigPage(userRepository: userRepository, darkModeOn: darkModeOn,),
         ),
       ),
     ),

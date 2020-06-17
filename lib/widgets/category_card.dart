@@ -1,4 +1,3 @@
-import 'package:altar_of_prayers/blocs/app_config/config_bloc.dart';
 import 'package:flutter/material.dart';
 
 class CategoryCard extends StatelessWidget {

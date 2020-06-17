@@ -28,6 +28,7 @@ class DecisionPage extends StatelessWidget {
         return Center(
           child: SpinKitRing(
             color: Tools.multiColors[2],
+            lineWidth: 3,
           ),
         );
       }),

@@ -8,8 +8,9 @@ import 'decision_page.dart';
 
 class ConfigPage extends StatefulWidget {
   final UserRepository _userRepository;
+  final bool darkModeOn;
 
-  ConfigPage({Key key, @required UserRepository userRepository})
+  ConfigPage({Key key, @required UserRepository userRepository, this.darkModeOn})
       : assert(userRepository != null),
         _userRepository = userRepository,
         super(key: key);
@@ -35,8 +36,7 @@ class _ConfigPageState extends State<ConfigPage> {
 
   setupApp() {
     configBloc = ConfigBloc();
-    configBloc.darkModeOn =
-        AltarOfPrayers.prefs.getBool(AltarOfPrayers.darkModePref) ?? false;
+    configBloc.darkModeOn = widget.darkModeOn;
   }
 
   ThemeData darkTheme() {

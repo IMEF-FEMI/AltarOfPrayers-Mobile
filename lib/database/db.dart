@@ -8,6 +8,7 @@ import 'package:path/path.dart';
 final userTABLE = 'user';
 final referenceTABLE = 'reference';
 final editionsTable = 'editions';
+final darkModeTable = 'dark_mode';
 
 class DatabaseProvider {
   static final DatabaseProvider dbProvider = DatabaseProvider();
@@ -52,15 +53,23 @@ class DatabaseProvider {
 
     await database.execute("CREATE TABLE $editionsTable ("
         "id INTEGER PRIMARY KEY, "
-        "reference TEXT"
-        "paid_for TEXT"
-        "paid_by TEXT"
-        "name TEXT"
-        "starting_month TEXT"
-        "year INTEGER"
-        "month_one TEXT"
-        "month_two TEXT"
-        "month_three TEXT"
+        "reference TEXT, "
+        "paid_for TEXT, "
+        "paid_by TEXT, "
+        "name TEXT, "
+        "starting_month TEXT, "
+        "year INTEGER, "
+        "month_one TEXT, "
+        "month_two TEXT, "
+        "month_three TEXT, "
         "copies_gifted TEXT) ");
+    await database.execute("CREATE TABLE $darkModeTable ("
+        "id INTEGER PRIMARY KEY, "
+        "dark_mode_on INTEGER DEFAULT 0) ");
+    await database.transaction((action) async {
+      int darkMode = await action.rawInsert(
+          'INSERT INTO $darkModeTable (dark_mode_on) VALUES(0)');
+      print('inserted1: $darkMode');
+    });
   }
 }
