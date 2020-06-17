@@ -48,31 +48,39 @@ class EditionBloc extends Bloc<EditionEvent, EditionState> {
       yield EditionLoaded(
           editionPurchase: (state as EditionLoaded).editionPurchase,
           isLoading: true);
+      yield* confirmPayment(event);
     } else if (state is EditionNotLoaded) {
       yield EditionNotLoaded(isLoading: true);
+      yield* confirmPayment(event);
     } else {
-      try {
-        Edition edition = await _editionsRepository.confirmPayment(
-            editionId: event.editionId,
-            reference: event.reference,
-            paidFor: 'self');
-        if (edition == null) {
-          // delete reference from db
-          await _editionsRepository.deleteReference(editionId: event.editionId);
-          yield EditionError(
-            error: 'transaction error',
-            editionId: event.editionId,
-            reference: event.reference,
-          );
-        }
-        yield EditionLoaded(editionPurchase: edition, isLoading: false);
-      } catch (e) {
+      yield* confirmPayment(event);
+    }
+  }
+
+  Stream<EditionState> confirmPayment(CompleteTransaction event) async* {
+    try {
+      Edition edition = await _editionsRepository.confirmPayment(
+          editionId: event.editionId,
+          reference: event.reference,
+          paidFor: 'self');
+      if (edition == null) {
+        // delete reference from db
+        await _editionsRepository.deleteReference(editionId: event.editionId);
         yield EditionError(
-          error: 'network error',
+          error: 'transaction error',
           editionId: event.editionId,
           reference: event.reference,
         );
       }
+      // await _editionsRepository.deleteReference(editionId: event.editionId);
+
+      yield EditionLoaded(editionPurchase: edition, isLoading: false);
+    } catch (e) {
+      yield EditionError(
+        error: 'network error',
+        editionId: event.editionId,
+        reference: event.reference,
+      );
     }
   }
 }

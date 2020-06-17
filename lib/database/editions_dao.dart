@@ -1,4 +1,5 @@
 import 'package:altar_of_prayers/database/database.dart';
+import 'package:altar_of_prayers/models/edition.dart';
 
 class EditionsDao {
   final dbProvider = DatabaseProvider.dbProvider;
@@ -8,6 +9,12 @@ class EditionsDao {
     var result = db.insert(
         referenceTABLE, {'editionId': editionId, 'reference': reference});
     print('save reference result $result');
+    return result;
+  }
+
+  Future<int> saveEdition(Edition edition) async{
+    final db = await dbProvider.database;
+    Future<int> result = db.insert(editionsTable, edition.toDatabaseJson());
     return result;
   }
 

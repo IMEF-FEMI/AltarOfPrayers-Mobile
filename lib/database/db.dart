@@ -7,6 +7,7 @@ import 'package:path/path.dart';
 
 final userTABLE = 'user';
 final referenceTABLE = 'reference';
+final editionsTable = 'editions';
 
 class DatabaseProvider {
   static final DatabaseProvider dbProvider = DatabaseProvider();
@@ -48,5 +49,18 @@ class DatabaseProvider {
     await database.execute("CREATE TABLE $referenceTABLE ("
         "editionId INTEGER PRIMARY KEY, "
         "reference TEXT) ");
+
+    await database.execute("CREATE TABLE $editionsTable ("
+        "id INTEGER PRIMARY KEY, "
+        "reference TEXT"
+        "paid_for TEXT"
+        "paid_by TEXT"
+        "name TEXT"
+        "starting_month TEXT"
+        "year INTEGER"
+        "month_one TEXT"
+        "month_two TEXT"
+        "month_three TEXT"
+        "copies_gifted TEXT) ");
   }
 }

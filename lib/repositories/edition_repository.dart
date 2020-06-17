@@ -89,7 +89,8 @@ class EditionsRepository {
 
       Edition edition =
           Edition.fromServerDatabaseJson(userEdition, giftedEditions);
-     
+      print(edition);
+      _editionsDao.saveEdition(edition);
       return edition;
     } else {
       throw result.exception;
