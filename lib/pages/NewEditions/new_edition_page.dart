@@ -96,7 +96,7 @@ class NewEditionPageState extends State<NewEditionPage> {
       print('Response = $response');
       setState(() => _inProgress = false);
       // print(response.reference);
-      _editionBloc.add(TransactionComplete(
+      _editionBloc.add(CompleteTransaction(
         reference: response.reference,
         editionId: widget.edition['id'],
       ));

@@ -11,7 +11,7 @@ abstract class EditionState extends Equatable {
 class EditionLoading extends EditionState {}
 
 class EditionLoaded extends EditionState {
-  final EditionPurchase editionPurchase;
+  final Edition editionPurchase;
   final bool isLoading;
 
   const EditionLoaded({this.editionPurchase, this.isLoading});
@@ -26,4 +26,12 @@ class EditionNotLoaded extends EditionState {
   final bool isLoading;
 
   const EditionNotLoaded({this.isLoading});
+}
+
+class EditionError extends EditionState {
+  final String error;
+  final String reference;
+  final int editionId;
+
+  const EditionError({this.error, this.reference, this.editionId});
 }

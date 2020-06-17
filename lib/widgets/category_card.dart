@@ -1,3 +1,4 @@
+import 'package:altar_of_prayers/blocs/app_config/config_bloc.dart';
 import 'package:flutter/material.dart';
 
 class CategoryCard extends StatelessWidget {
@@ -20,7 +21,11 @@ class CategoryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: Material(
-        color: color.withOpacity(.1),
+        // color: color.withOpacity(.1),
+        color: Colors.grey.withOpacity(.15),
+        // color: ConfigBloc().darkModeOn
+        //     ? Colors.grey.withOpacity(.15)
+        //     : color.withOpacity(.1),
         borderRadius: BorderRadius.only(
             topLeft: Radius.circular(8),
             topRight: Radius.circular(8),
@@ -45,8 +50,10 @@ class CategoryCard extends StatelessWidget {
                 SizedBox(
                   height: 10,
                 ),
-                Text(title, style: Theme.of(context).textTheme.title.copyWith(
-                          fontSize: 14
+                Text(title,
+                    style: Theme.of(context).textTheme.title.copyWith(
+                          fontSize: 14,
+                          color: color.withOpacity(.7),
                         )),
                 SizedBox(
                   height: 15,

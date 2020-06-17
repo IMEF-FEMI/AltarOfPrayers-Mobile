@@ -19,8 +19,8 @@ class EditionBloc extends Bloc<EditionEvent, EditionState> {
   Stream<EditionState> mapEventToState(EditionEvent event) async* {
     if (event is LoadEdition) {
       yield* _mapLoadEditionToState(event);
-    } else if (event is TransactionComplete) {
-      yield* _mapTransactionCompleteToState(event);
+    } else if (event is CompleteTransaction) {
+      yield* _mapCompleteTransactionToState(event);
     }
   }
 
@@ -34,15 +34,15 @@ class EditionBloc extends Bloc<EditionEvent, EditionState> {
         await _editionsRepository.getReference(editionId: event.edition['id']);
     print('Returned ref from sqflite $ref');
     if (ref != null) {
-      this.add(TransactionComplete(
+      this.add(CompleteTransaction(
           editionId: event.edition['id'], reference: ref['reference']));
     } else {
       // EditionPurchase edition = _editionsRepository.getEdition
     }
   }
 
-  Stream<EditionState> _mapTransactionCompleteToState(
-      TransactionComplete event) async* {
+  Stream<EditionState> _mapCompleteTransactionToState(
+      CompleteTransaction event) async* {
     yield EditionLoading();
     if (state is EditionLoaded) {
       yield EditionLoaded(
@@ -51,13 +51,28 @@ class EditionBloc extends Bloc<EditionEvent, EditionState> {
     } else if (state is EditionNotLoaded) {
       yield EditionNotLoaded(isLoading: true);
     } else {
-      await _editionsRepository.saveReference(
-        reference: event.reference,
-        editionId: event.editionId,
-      );
-      var ref =
-          await _editionsRepository.getReference(editionId: event.editionId);
-      print('ref returned after saving: $ref');
+      try {
+        Edition edition = await _editionsRepository.confirmPayment(
+            editionId: event.editionId,
+            reference: event.reference,
+            paidFor: 'self');
+        if (edition == null) {
+          // delete reference from db
+          await _editionsRepository.deleteReference(editionId: event.editionId);
+          yield EditionError(
+            error: 'transaction error',
+            editionId: event.editionId,
+            reference: event.reference,
+          );
+        }
+        yield EditionLoaded(editionPurchase: edition, isLoading: false);
+      } catch (e) {
+        yield EditionError(
+          error: 'network error',
+          editionId: event.editionId,
+          reference: event.reference,
+        );
+      }
     }
   }
 }

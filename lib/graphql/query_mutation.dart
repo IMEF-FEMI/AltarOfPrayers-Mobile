@@ -90,13 +90,45 @@ class QueryMutation {
             }
     """;
   }
+
+  String confirmPayment({int editionId, String reference, String paidFor}) {
+    return """
+      mutation{
+        confirmPayment(editionId: $editionId, reference: "$reference", paidFor: "$paidFor"){
+          success
+          error
+          editionPurchase{
+          id
+          reference
+          paidBy{
+            fullname
+            email
+          }
+          paidFor{
+            fullname
+            email
+          }
+          edition{
+            id
+            name
+            startingMonth
+            year
+            published
+            monthOne
+            monthTwo
+            monthThree
+          }
+      }
+    }
+  }    
+    """;
+  }
+
   String publishedEditions() {
-  return """
+    return """
     query{
       publishedEditions
     }
   """;
+  }
 }
-
-}
-

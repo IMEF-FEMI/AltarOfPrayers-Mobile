@@ -13,7 +13,6 @@ class EditionsDao {
 
   Future<Map<dynamic, dynamic>> getReference({int editionId}) async {
     final db = await dbProvider.database;
-    print('we here');
     var result = await db.query(
       referenceTABLE,
       where: 'editionId = ? ',

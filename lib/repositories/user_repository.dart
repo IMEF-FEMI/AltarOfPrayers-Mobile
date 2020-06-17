@@ -28,16 +28,14 @@ class UserRepository {
       String email = firebaseUser.email;
       String password = "123456";
 
-      GraphQLClient _client = graphQLConfiguration.clientToQuery();
+      GraphQLClient _client = await graphQLConfiguration.clientToQuery();
 
       QueryResult result = await _client.mutate(
         MutationOptions(
             documentNode: gql(queryMutation.loginUser(
-                email: email, password: password, loginMethod: "google"))),
+                email: email.toLowerCase(), password: password, loginMethod: "google"))),
       );
       if (!result.hasException) {
-        
-
         // print("result.data: ${jsonEncode(result.data)}");
         if (result.data['loginUser']['success']) {
           print('''
@@ -96,7 +94,7 @@ class UserRepository {
       {String name, String email, String password, String accountType}) async {
     await signOut();
 
-    GraphQLClient _client = graphQLConfiguration.clientToQuery();
+    GraphQLClient _client = await graphQLConfiguration.clientToQuery();
     // print("name: $name, email: $email, password: $password, accountType: $accountType,");
     // register user
     QueryResult result = await _client.mutate(
@@ -153,7 +151,7 @@ class UserRepository {
   Future<bool> login({String email, String password}) async {
     await signOut();
 
-    GraphQLClient _client = graphQLConfiguration.clientToQuery();
+    GraphQLClient _client = await graphQLConfiguration.clientToQuery();
 
     // add user to db
     // get token and add to db
@@ -216,7 +214,7 @@ class UserRepository {
       String password = "123456";
       String accountType = "google";
 
-      GraphQLClient _client = graphQLConfiguration.clientToQuery();
+      GraphQLClient _client = await graphQLConfiguration.clientToQuery();
 
       QueryResult result = await _client.mutate(
         MutationOptions(
@@ -291,7 +289,7 @@ class UserRepository {
   }
 
   Future<bool> resetPassword(String email) async {
-    GraphQLClient _client = graphQLConfiguration.clientToQuery();
+    GraphQLClient _client = await graphQLConfiguration.clientToQuery();
 
     QueryResult result = await _client.mutate(
       MutationOptions(
@@ -315,7 +313,7 @@ class UserRepository {
 
   Future<bool> confirmReset(
       String email, String token, String newPassword) async {
-    GraphQLClient _client = graphQLConfiguration.clientToQuery();
+    GraphQLClient _client = await graphQLConfiguration.clientToQuery();
 
     QueryResult result = await _client.mutate(MutationOptions(
         documentNode: gql(queryMutation.confirmReset(

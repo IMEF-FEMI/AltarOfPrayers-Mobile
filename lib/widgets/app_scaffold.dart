@@ -26,29 +26,38 @@ class AppScaffold extends StatelessWidget {
     return;
   }
 
+  _toggleDarkMode() =>
+      ConfigBloc().add(DarkModeEvent(!ConfigBloc().darkModeOn));
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      bottomNavigationBar: _bottomNav(),
-      appBar: AppBar(
-        leading: _leadingWidget(),
-        title: Text(title),
-        centerTitle: true,
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(
-              ConfigBloc().darkModeOn
-                  ? FontAwesomeIcons.toggleOn
-                  : FontAwesomeIcons.toggleOff,
-              size: 18,
+    return SafeArea(
+      top: false,
+      bottom: false,
+      child: Scaffold(
+        bottomNavigationBar: _bottomNav(),
+        appBar: AppBar(
+          leading: _leadingWidget(),
+          title: GestureDetector(
+            onTap: _toggleDarkMode,
+            child: Text(
+              title,
             ),
-            onPressed: () {
-              ConfigBloc().add(DarkModeEvent(!ConfigBloc().darkModeOn));
-            },
           ),
-        ],
+          centerTitle: true,
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(
+                ConfigBloc().darkModeOn
+                    ? FontAwesomeIcons.toggleOn
+                    : FontAwesomeIcons.toggleOff,
+                size: 18,
+              ),
+              onPressed: _toggleDarkMode,
+            ),
+          ],
+        ),
+        body: body,
       ),
-      body: body,
     );
   }
 }
