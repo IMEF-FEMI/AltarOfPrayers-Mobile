@@ -3,9 +3,12 @@ import 'dart:io';
 import 'package:altar_of_prayers/blocs/app_config/index.dart';
 import 'package:altar_of_prayers/blocs/authentication/bloc.dart';
 import 'package:altar_of_prayers/blocs/edition/bloc.dart';
+import 'package:altar_of_prayers/pages/NewEditions/make_payment_screen.dart';
 import 'package:altar_of_prayers/repositories/edition_repository.dart';
 import 'package:altar_of_prayers/utils/config.dart';
 import 'package:altar_of_prayers/widgets/app_scaffold.dart';
+import 'package:altar_of_prayers/widgets/error_screen.dart';
+import 'package:altar_of_prayers/widgets/loading_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_paystack/flutter_paystack.dart';
@@ -22,20 +25,9 @@ class NewEditionPage extends StatefulWidget {
 }
 
 class NewEditionPageState extends State<NewEditionPage> {
-  String _cardNumber;
-  String _cvv;
-  int _expiryMonth = 0;
-  int _expiryYear = 0;
-
   EditionBloc _editionBloc;
   EditionsRepository _editionsRepository = EditionsRepository();
 
-  final months = {
-    1: 'January - March',
-    4: 'April - June',
-    7: 'July - September',
-    10: 'October - December',
-  };
   threeSidedBorderRadius({double radius = 8}) {
     return BorderRadius.only(
         topLeft: Radius.circular(radius),
@@ -48,59 +40,6 @@ class NewEditionPageState extends State<NewEditionPage> {
     super.initState();
     _editionBloc = EditionBloc(editionsRepository: _editionsRepository);
     PaystackPlugin.initialize(publicKey: Config.paystackPublicKey);
-  }
-
-  String _getReference({String email}) {
-    String platform;
-    if (Platform.isIOS) {
-      platform = 'iOS';
-    } else {
-      platform = 'Android';
-    }
-
-    return 'ChargedFrom_${email}_${platform}_${DateTime.now().millisecondsSinceEpoch}';
-  }
-
-  PaymentCard _getCardFromUI() {
-    // Using just the must-required parameters.
-    return PaymentCard(
-      number: _cardNumber,
-      cvc: _cvv,
-      expiryMonth: _expiryMonth,
-      expiryYear: _expiryYear,
-    );
-  }
-
-  _handleCheckout(BuildContext context) async {
-    var authState = BlocProvider.of<AuthenticationBloc>(context).state;
-
-    Charge charge = Charge()
-      ..amount = 30000 // In base currency
-      ..email = (authState as Authenticated).user.email
-      ..card = _getCardFromUI();
-
-    charge.reference =
-        _getReference(email: (authState as Authenticated).user.email);
-
-    try {
-      CheckoutResponse response = await PaystackPlugin.checkout(
-        context,
-        method: CheckoutMethod.card,
-        charge: charge,
-        fullscreen: false,
-        // logo: MyLogo(),
-      );
-      print('Response = $response');
-      // print(response.reference);
-      _editionBloc.add(CompleteTransaction(
-        reference: response.reference,
-        editionId: widget.edition['id'],
-      ));
-    } catch (e) {
-      print(e);
-
-      rethrow;
-    }
   }
 
   @override
@@ -155,100 +94,40 @@ class NewEditionPageState extends State<NewEditionPage> {
           },
           child: BlocBuilder<EditionBloc, EditionState>(
             builder: (context, state) {
-              // if (state is EditionLoading) return LoadingWidget();
-              // return Container();
-              return SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 30),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Center(
-                        child: Hero(
-                          tag: widget.edition['name'],
-                          child: SvgPicture.asset(
-                            'assets/icons/bible.svg',
-                            fit: BoxFit.contain,
-                            height: MediaQuery.of(context).size.height * .3,
+              if (state is EditionNotLoaded && !state.isLoading)
+                return MakePaymentScreen(
+                  edition: widget.edition,
+                  editionBloc: _editionBloc,
+                );
+              if (state is EditionLoaded && !state.isLoading)
+                return Center(
+                  child: Text('Editions Loaded'),
+                );
+              if (state is EditionError) {
+                if (state.error == 'Transaction Failed')
+                  return ErrorScreen(
+                    errorMessage: '${state.error}',
+                    btnText: 'Close',
+                    btnOnPressed: () => Navigator.of(context).pop(),
+                  );
+                if (state.error == 'Opps! an error occured')
+                  return ErrorScreen(
+                    errorMessage: '${state.error}',
+                    btnText: 'Try Again',
+                    btnOnPressed: () =>
+                        _editionBloc.add(LoadEdition(widget.edition)),
+                  );
+                return ErrorScreen(
+                    errorMessage: '${state.error}',
+                    btnText: 'Confirm Payment',
+                    btnOnPressed: () => _editionBloc.add(
+                          CompleteTransaction(
+                            reference: state.reference,
+                            editionId: state.editionId,
                           ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 28.0,
-                        ),
-                        child: InkWell(
-                          borderRadius: threeSidedBorderRadius(radius: 15),
-                          onTap: () => {_handleCheckout(context)},
-                          child: Container(
-                            decoration: BoxDecoration(
-                                borderRadius:
-                                    threeSidedBorderRadius(radius: 15),
-                                border: Border.all(color: Colors.grey)),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 8.0),
-                                  child: ConstrainedBox(
-                                    constraints: BoxConstraints.expand(
-                                      height:
-                                          MediaQuery.of(context).size.height *
-                                              0.2,
-                                      width: MediaQuery.of(context).size.width *
-                                          0.3,
-                                    ),
-                                    child: Icon(
-                                      FontAwesomeIcons.solidCreditCard,
-                                      size: 80,
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 15,
-                                ),
-                                Expanded(
-                                    child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Text(widget.edition['name'],
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .title
-                                            .copyWith(fontSize: 15)),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    Text(
-                                        months[int.parse(
-                                            '${widget.edition['startingMonth']}')],
-                                        textAlign: TextAlign.center,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .subtitle),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    Text('${widget.edition['year']}',
-                                        textAlign: TextAlign.center,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .subtitle),
-                                  ],
-                                ))
-                              ],
-                            ),
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              );
+                        ));
+              }
+              return LoadingWidget();
             },
           ),
         ),

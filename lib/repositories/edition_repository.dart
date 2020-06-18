@@ -102,9 +102,10 @@ class EditionsRepository {
       QueryResult result = await _client.query(QueryOptions(
           documentNode: gql(_queryMutation.myEditions(editionId: editionId))));
       if (!result.hasException) {
-        Map<String, dynamic> userEdition;
+        Map<String, dynamic> userEdition = {};
         List<Map<String, dynamic>> giftedEditions = [];
         User _user = await _userRepository.getUser();
+        if ((result.data['myEditions'] as List).length == 0) return null;
         // get the edition the current user should use (one paid on his behalf) regardless of who
         (result.data['myEditions'] as List).forEach((edition) {
           if (edition['paidFor']['email'] == _user.email) {
@@ -113,13 +114,17 @@ class EditionsRepository {
             giftedEditions.add(edition);
           }
         });
+
+        // if returned editions map is not empty
+
         Edition edition =
             Edition.fromServerDatabaseJson(userEdition, giftedEditions);
         var dbEdition = await _editionsDao.getEdition(editionId: edition.id);
         if (dbEdition == null) await _editionsDao.saveEdition(edition);
         return edition;
+      }else{
+        throw result.exception;
       }
-      return null;
     }
     Edition edition = Edition.fromDatabaseJson(editionObj);
     return edition;

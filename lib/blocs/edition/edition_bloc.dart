@@ -46,26 +46,28 @@ class EditionBloc extends Bloc<EditionEvent, EditionState> {
           );
         }
       } catch (e) {
+        print(e);
         yield EditionError(
-            editionId: event.edition['id'], error: 'sorry! an error occured');
+            editionId: event.edition['id'],  error: 'Opps! an error occured');
       }
     }
   }
 
   Stream<EditionState> _mapCompleteTransactionToState(
       CompleteTransaction event) async* {
+    // yield EditionLoading();
+    // if (state is EditionLoaded) {
+    //   yield EditionLoaded(
+    //       editionPurchase: (state as EditionLoaded).editionPurchase,
+    //       isLoading: true);
+    //   yield* confirmPayment(event);
+    // } else if (state is EditionNotLoaded) {
+    //   yield EditionNotLoaded(isLoading: true);
+    //   yield* confirmPayment(event);
+    // } else {
     yield EditionLoading();
-    if (state is EditionLoaded) {
-      yield EditionLoaded(
-          editionPurchase: (state as EditionLoaded).editionPurchase,
-          isLoading: true);
-      yield* confirmPayment(event);
-    } else if (state is EditionNotLoaded) {
-      yield EditionNotLoaded(isLoading: true);
-      yield* confirmPayment(event);
-    } else {
-      yield* confirmPayment(event);
-    }
+    yield* confirmPayment(event);
+    // }
   }
 
   Stream<EditionState> confirmPayment(CompleteTransaction event) async* {
@@ -86,8 +88,9 @@ class EditionBloc extends Bloc<EditionEvent, EditionState> {
       await _editionsRepository.deleteReference(editionId: event.editionId);
       yield EditionLoaded(editionPurchase: edition, isLoading: false);
     } catch (e) {
+      await _editionsRepository.deleteReference(editionId: event.editionId);
       yield EditionError(
-        error: 'network error Hit the Button below to complete your payment',
+        error: 'Server error! Hit the Button below to complete your payment',
         editionId: event.editionId,
         reference: event.reference,
       );
