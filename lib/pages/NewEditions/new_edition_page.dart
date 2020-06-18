@@ -1,7 +1,4 @@
-import 'dart:io';
-
 import 'package:altar_of_prayers/blocs/app_config/index.dart';
-import 'package:altar_of_prayers/blocs/authentication/bloc.dart';
 import 'package:altar_of_prayers/blocs/edition/bloc.dart';
 import 'package:altar_of_prayers/pages/NewEditions/make_payment_screen.dart';
 import 'package:altar_of_prayers/repositories/edition_repository.dart';
@@ -12,8 +9,7 @@ import 'package:altar_of_prayers/widgets/loading_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_paystack/flutter_paystack.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:giffy_dialog/giffy_dialog.dart';
 
 class NewEditionPage extends StatefulWidget {
   final edition;
@@ -72,7 +68,7 @@ class NewEditionPageState extends State<NewEditionPage> {
                     padding: const EdgeInsets.symmetric(
                         vertical: 10, horizontal: 100),
                     child: Text(
-                      "Cancel",
+                      "Close",
                       style: TextStyle(
                         color: Theme.of(context).accentColor,
                       ),
@@ -90,7 +86,28 @@ class NewEditionPageState extends State<NewEditionPage> {
         ),
         body: BlocListener<EditionBloc, EditionState>(
           listener: (context, state) {
-            // add snackbar actions here
+            if (state is EditionLoaded && state.showDialog)
+              showDialog(
+                  context: context,
+                  barrierDismissible: false,
+                  builder: (context) => AssetGiffyDialog(
+                        image: Image.asset(
+                          'assets/images/success.gif',
+                          fit: BoxFit.fitWidth,
+                        ),
+                        title: Text(
+                          'Payment Successful',
+                          style: TextStyle(
+                              fontSize: 22.0, fontWeight: FontWeight.w500),
+                        ),
+                        onOkButtonPressed: () {
+                          Navigator.of(
+                            context,
+                            rootNavigator: true,
+                          ).pop();
+                        },
+                        onlyOkButton: true,
+                      ));
           },
           child: BlocBuilder<EditionBloc, EditionState>(
             builder: (context, state) {

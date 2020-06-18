@@ -11,15 +11,16 @@ abstract class EditionState extends Equatable {
 class EditionLoading extends EditionState {}
 
 class EditionLoaded extends EditionState {
-  final Edition editionPurchase;
+  final Edition edition;
   final bool isLoading;
+  final bool showDialog;
 
-  const EditionLoaded({this.editionPurchase, this.isLoading});
+  const EditionLoaded({this.showDialog, this.edition, this.isLoading});
 
   @override
-  List<Object> get props => [editionPurchase, isLoading];
+  List<Object> get props => [edition, isLoading];
 
-  String toString() => 'EditionLoaded { edition: $editionPurchase}';
+  String toString() => 'EditionLoaded { edition: $edition}';
 }
 
 class EditionNotLoaded extends EditionState {
@@ -35,3 +36,4 @@ class EditionError extends EditionState {
 
   const EditionError({this.error, this.reference, this.editionId});
 }
+

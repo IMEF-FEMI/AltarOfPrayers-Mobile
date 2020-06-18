@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:altar_of_prayers/blocs/authentication/bloc.dart';
 import 'package:altar_of_prayers/blocs/edition/bloc.dart';
+import 'package:altar_of_prayers/widgets/edition_detail_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_paystack/flutter_paystack.dart';
@@ -32,12 +33,6 @@ class _MakePaymentScreenState extends State<MakePaymentScreen> {
     10: 'October - December',
   };
 
-  threeSidedBorderRadius({double radius = 8}) {
-    return BorderRadius.only(
-        topLeft: Radius.circular(radius),
-        topRight: Radius.circular(radius),
-        bottomRight: Radius.circular(radius));
-  }
 
   String _getReference({String email}) {
     String platform;
@@ -79,19 +74,19 @@ class _MakePaymentScreenState extends State<MakePaymentScreen> {
         fullscreen: false,
         // logo: MyLogo(),
       );
-      print('Response = $response');
+      print('Response = ${response.status}');
       // print(response.reference);
-      widget.editionBloc.add(CompleteTransaction(
-        reference: response.reference,
-        editionId: widget.edition['id'],
-      ));
+      if (response.status == true)
+        widget.editionBloc.add(CompleteTransaction(
+          reference: response.reference,
+          editionId: widget.edition['id'],
+        ));
     } catch (e) {
       print(e);
 
       rethrow;
     }
   }
-
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -113,66 +108,17 @@ class _MakePaymentScreenState extends State<MakePaymentScreen> {
             SizedBox(
               height: 20,
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 28.0,
+            EditionDetailCard(
+              title: widget.edition['name'],
+              subtitle: months[int.parse('${widget.edition['startingMonth']}')],
+              caption: '${widget.edition['year']}',
+              leadingIcon: Icon(
+                FontAwesomeIcons.solidCreditCard,
+                size: 80,
               ),
-              child: InkWell(
-                borderRadius: threeSidedBorderRadius(radius: 15),
-                onTap: () => {_handleCheckout(context)},
-                child: Container(
-                  decoration: BoxDecoration(
-                      borderRadius: threeSidedBorderRadius(radius: 15),
-                      border: Border.all(color: Colors.grey)),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                        child: ConstrainedBox(
-                          constraints: BoxConstraints.expand(
-                            height: MediaQuery.of(context).size.height * 0.2,
-                            width: MediaQuery.of(context).size.width * 0.3,
-                          ),
-                          child: Icon(
-                            FontAwesomeIcons.solidCreditCard,
-                            size: 80,
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 15,
-                      ),
-                      Expanded(
-                          child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(widget.edition['name'],
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .title
-                                  .copyWith(fontSize: 15)),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Text(
-                              months[int.parse(
-                                  '${widget.edition['startingMonth']}')],
-                              textAlign: TextAlign.center,
-                              style: Theme.of(context).textTheme.subtitle),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Text('${widget.edition['year']}',
-                              textAlign: TextAlign.center,
-                              style: Theme.of(context).textTheme.subtitle),
-                        ],
-                      ))
-                    ],
-                  ),
-                ),
-              ),
+              onPressed: () => {_handleCheckout(context)},
             ),
+           
             SizedBox(
               height: 5,
             ),
@@ -181,8 +127,14 @@ class _MakePaymentScreenState extends State<MakePaymentScreen> {
                   borderRadius: BorderRadius.circular(8)),
               color: Colors.green,
               onPressed: () => {_handleCheckout(context)},
-              icon: Icon(Icons.credit_card, color: Colors.white,),
-              label: Text('Make Payment', style: TextStyle(color:Colors.white),),
+              icon: Icon(
+                Icons.credit_card,
+                color: Colors.white,
+              ),
+              label: Text(
+                'Make Payment',
+                style: TextStyle(color: Colors.white),
+              ),
             )
           ],
         ),

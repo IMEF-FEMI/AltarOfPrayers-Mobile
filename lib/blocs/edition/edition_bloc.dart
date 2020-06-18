@@ -39,7 +39,7 @@ class EditionBloc extends Bloc<EditionEvent, EditionState> {
         Edition edition = await _editionsRepository.getEdition(
             editionId: event.edition['id']);
         if (edition != null) {
-          yield EditionLoaded(editionPurchase: edition, isLoading: false);
+          yield EditionLoaded(edition: edition, isLoading: false, showDialog: false);
         } else {
           yield EditionNotLoaded(
             isLoading: false,
@@ -50,6 +50,7 @@ class EditionBloc extends Bloc<EditionEvent, EditionState> {
         yield EditionError(
             editionId: event.edition['id'],  error: 'Opps! an error occured');
       }
+      return;
     }
   }
 
@@ -84,16 +85,18 @@ class EditionBloc extends Bloc<EditionEvent, EditionState> {
           editionId: event.editionId,
           reference: event.reference,
         );
+        return;
       }
       await _editionsRepository.deleteReference(editionId: event.editionId);
-      yield EditionLoaded(editionPurchase: edition, isLoading: false);
+      yield EditionLoaded(edition: edition, isLoading: false, showDialog: true);
     } catch (e) {
-      await _editionsRepository.deleteReference(editionId: event.editionId);
+      // await _editionsRepository.deleteReference(editionId: event.editionId);
       yield EditionError(
         error: 'Server error! Hit the Button below to complete your payment',
         editionId: event.editionId,
         reference: event.reference,
       );
+      return;
     }
   }
 }
