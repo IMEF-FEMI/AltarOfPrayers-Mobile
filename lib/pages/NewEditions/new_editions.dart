@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:altar_of_prayers/blocs/new_editions/bloc.dart';
-import 'package:altar_of_prayers/utils/tools.dart';
 import 'package:altar_of_prayers/widgets/app_scaffold.dart';
 import 'package:altar_of_prayers/widgets/edition_card.dart';
 import 'package:altar_of_prayers/widgets/error_screen.dart';

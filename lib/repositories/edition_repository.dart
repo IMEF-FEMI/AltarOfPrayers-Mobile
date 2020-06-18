@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:altar_of_prayers/database/editions_dao.dart';
 import 'package:altar_of_prayers/graphql/graphql.dart';
 import 'package:altar_of_prayers/models/edition.dart';
@@ -25,7 +27,10 @@ class EditionsRepository {
         QueryOptions(documentNode: gql(_queryMutation.publishedEditions())));
 
     if (!result.hasException) {
-      return result.data['publishedEditions'];
+      // get seen editions, and modify returned result
+      List publishedEditions = result.data['publishedEditions'];
+    
+      return publishedEditions;
     }
     throw result.exception;
   }
@@ -46,7 +51,13 @@ class EditionsRepository {
           reference: reference,
         ) ==
         1;
-    // go ahead and complete transact
+  }
+
+  Future<bool> saveSeenEdition({int editionId}) async {
+    return await _editionsDao.saveSeenEdition(
+          editionId: editionId,
+        ) ==
+        1;
   }
 
   Future<Edition> confirmPayment(
@@ -55,6 +66,9 @@ class EditionsRepository {
     if (ref == null) {
       await saveReference(
         reference: reference,
+        editionId: editionId,
+      );
+      await saveSeenEdition(
         editionId: editionId,
       );
     }
@@ -122,7 +136,7 @@ class EditionsRepository {
         var dbEdition = await _editionsDao.getEdition(editionId: edition.id);
         if (dbEdition == null) await _editionsDao.saveEdition(edition);
         return edition;
-      }else{
+      } else {
         throw result.exception;
       }
     }

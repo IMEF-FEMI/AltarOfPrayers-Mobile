@@ -19,14 +19,13 @@ class EditionCard extends StatelessWidget {
     7: 'July - Sept',
     10: 'Oct - Dec',
   };
-  
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-         Navigator.of(context, rootNavigator: true)
-                      .push(MaterialPageRoute(builder: (context) => NewEditionPage(edition: edition)));
-
+        Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
+            builder: (context) => NewEditionPage(edition: edition)));
       },
       child: Card(
         clipBehavior: Clip.antiAlias,
@@ -68,9 +67,10 @@ class EditionCard extends StatelessWidget {
                     children: <Widget>[
                       Text(
                         edition['name'],
-                        style: Theme.of(context).textTheme.title.copyWith(
-                          fontSize: 14
-                        ),
+                        style: Theme.of(context)
+                            .textTheme
+                            .title
+                            .copyWith(fontSize: 14),
                       ),
                       SizedBox(
                         height: 5,
@@ -79,7 +79,9 @@ class EditionCard extends StatelessWidget {
                         duration: Duration(seconds: 1),
                         width: MediaQuery.of(context).size.width * 0.2,
                         height: 5,
-                        color: Tools.multiColors[Random().nextInt(4)],
+                        color: edition['paid'] == true
+                            ? Tools.multiColors[3]
+                            : Tools.multiColors[0],
                       ),
                     ],
                   ),
@@ -87,8 +89,12 @@ class EditionCard extends StatelessWidget {
                     height: 10,
                   ),
                   Text(
-                    months[int.parse('${edition['startingMonth']}')],
-                    style: Theme.of(context).textTheme.subtitle,
+                    months[int.parse('${edition['startingMonth']}')] +
+                        ' ( New )',
+                    style: Theme.of(context).textTheme.subtitle.copyWith(
+                        color: edition['paid'] == false
+                            ? Tools.multiColors[0]
+                            : null),
                   ),
                   SizedBox(
                     height: 10,

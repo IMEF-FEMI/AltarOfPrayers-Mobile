@@ -9,6 +9,7 @@ final userTABLE = 'user';
 final referenceTABLE = 'reference';
 final editionsTable = 'editions';
 final darkModeTable = 'dark_mode';
+final seenEditionsTable = 'seen_editions';
 
 class DatabaseProvider {
   static final DatabaseProvider dbProvider = DatabaseProvider();
@@ -63,13 +64,22 @@ class DatabaseProvider {
         "month_two TEXT, "
         "month_three TEXT, "
         "copies_gifted TEXT) ");
+
+    // create and populate tables
+    await database.execute("CREATE TABLE $seenEditionsTable ("
+        "id INTEGER PRIMARY KEY, "
+        "seen_editions TEXT) ");
+    await database.transaction((action) async {
+      await action.rawInsert(
+          'INSERT INTO $seenEditionsTable (seen_editions) VALUES("[]")');
+    });
+
     await database.execute("CREATE TABLE $darkModeTable ("
         "id INTEGER PRIMARY KEY, "
         "dark_mode_on INTEGER DEFAULT 0) ");
     await database.transaction((action) async {
-      int darkMode = await action.rawInsert(
-          'INSERT INTO $darkModeTable (dark_mode_on) VALUES(0)');
-      print('inserted1: $darkMode');
+      await action
+          .rawInsert('INSERT INTO $darkModeTable (dark_mode_on) VALUES(0)');
     });
   }
 }

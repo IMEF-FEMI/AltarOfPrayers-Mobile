@@ -36,6 +36,7 @@ class EditionBloc extends Bloc<EditionEvent, EditionState> {
           editionId: event.edition['id'], reference: ref['reference']));
     } else {
       try {
+        await _editionsRepository.saveSeenEdition(editionId: event.edition['id']);
         Edition edition = await _editionsRepository.getEdition(
             editionId: event.edition['id']);
         if (edition != null) {

@@ -22,10 +22,10 @@ class CategoryCard extends StatelessWidget {
     return Container(
       child: Material(
         // color: color.withOpacity(.15),
-        // color: Colors.grey.withOpacity(.15),
-        color: ConfigBloc().darkModeOn
-            ? Colors.blueGrey.withOpacity(.15)
-            : color.withOpacity(.15),
+        color: Colors.grey.withOpacity(.15),
+        // color: ConfigBloc().darkModeOn
+        //     ? Colors.blueGrey.withOpacity(.15)
+        //     : color.withOpacity(.15),
         borderRadius: BorderRadius.only(
             topLeft: Radius.circular(8),
             topRight: Radius.circular(8),

@@ -15,6 +15,7 @@ class NewEditionsBloc extends Bloc<NewEditionsEvent, NewEditionsState> {
       yield NewEditionsState.loading();
       try {
         List editions = await editionsRepository.getPublishedEditions();
+        print('Editions returned after several modifications: $editions');
         yield NewEditionsState(
             editions: editions, isLoading: false, isFailure: false);
       } catch (e) {
