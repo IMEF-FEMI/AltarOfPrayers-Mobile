@@ -15,14 +15,28 @@ class NewEditions extends StatefulWidget {
 }
 
 class _NewEditionsState extends State<NewEditions> {
-  Widget _editionsPage(List editions) {
+  // final RefreshController _refreshController = RefreshController();
+  
+  ListView buildList(state) {
     return ListView.builder(
       shrinkWrap: true,
-      itemCount: editions.length,
+      itemCount: state.editions.length,
       itemBuilder: (context, index) {
         return EditionCard(
-          edition: JsonDecoder().convert(editions[index]),
-        );
+            edition: JsonDecoder().convert(state.editions[index]),
+            seenEditions: state.seenEditions);
+      },
+    );
+  }
+
+  Widget _editionsPage(NewEditionsState state) {
+    return ListView.builder(
+      shrinkWrap: true,
+      itemCount: state.editions.length,
+      itemBuilder: (context, index) {
+        return EditionCard(
+            edition: JsonDecoder().convert(state.editions[index]),
+            seenEditions: state.seenEditions);
       },
     );
   }
@@ -70,7 +84,7 @@ class _NewEditionsState extends State<NewEditions> {
                     .add(ReFreshEvent()),
               );
             } else if (state.editions.length != 0) {
-              return _editionsPage(state.editions);
+              return _editionsPage(state);
             } else
               return _noEditionsPage();
           },

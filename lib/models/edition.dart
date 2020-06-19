@@ -64,7 +64,7 @@ class Edition {
     data['month_three'] = JsonEncoder().convert(this.monthThree);
     data['copies_gifted'] = JsonEncoder().convert(this.copiesGifted);
     return data;
-  } 
+  }
 
   Edition.fromDatabaseJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -72,7 +72,7 @@ class Edition {
     paidFor = JsonDecoder().convert(json['paid_for']);
     paidBy = JsonDecoder().convert(json['paid_by']);
     name = json['name'];
-    startingMonth = int.parse(json['starting_month']);
+    startingMonth = json['starting_month'];
     year = json['year'];
     monthOne = JsonDecoder().convert(json['month_one']);
     monthTwo = JsonDecoder().convert(json['month_two']);

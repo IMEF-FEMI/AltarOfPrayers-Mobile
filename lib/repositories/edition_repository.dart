@@ -27,12 +27,15 @@ class EditionsRepository {
         QueryOptions(documentNode: gql(_queryMutation.publishedEditions())));
 
     if (!result.hasException) {
-      // get seen editions, and modify returned result
       List publishedEditions = result.data['publishedEditions'];
-    
+
       return publishedEditions;
     }
     throw result.exception;
+  }
+
+  Future<Map> getSeenEditions() async {
+    return await _editionsDao.getSeenEditions();
   }
 
   Future<Map<dynamic, dynamic>> getReference({int editionId}) async {
@@ -111,6 +114,7 @@ class EditionsRepository {
 
   Future<Edition> getEdition({int editionId}) async {
     var editionObj = await _editionsDao.getEdition(editionId: editionId);
+
     if (editionObj == null) {
       GraphQLClient _client = await _graphQLConfiguration.clientToQuery();
       QueryResult result = await _client.query(QueryOptions(
@@ -133,13 +137,13 @@ class EditionsRepository {
 
         Edition edition =
             Edition.fromServerDatabaseJson(userEdition, giftedEditions);
-        var dbEdition = await _editionsDao.getEdition(editionId: edition.id);
-        if (dbEdition == null) await _editionsDao.saveEdition(edition);
+        await _editionsDao.saveEdition(edition);
         return edition;
       } else {
         throw result.exception;
       }
     }
+
     Edition edition = Edition.fromDatabaseJson(editionObj);
     return edition;
   }

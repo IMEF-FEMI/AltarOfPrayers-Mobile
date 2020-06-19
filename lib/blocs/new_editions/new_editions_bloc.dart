@@ -14,13 +14,20 @@ class NewEditionsBloc extends Bloc<NewEditionsEvent, NewEditionsState> {
     if (event is ReFreshEvent) {
       yield NewEditionsState.loading();
       try {
+        Map seenEditions = await editionsRepository.getSeenEditions();
         List editions = await editionsRepository.getPublishedEditions();
-        print('Editions returned after several modifications: $editions');
         yield NewEditionsState(
-            editions: editions, isLoading: false, isFailure: false);
+          editions: editions,
+          isLoading: false,
+          isFailure: false,
+          seenEditions: seenEditions,
+        );
       } catch (e) {
         yield NewEditionsState(
-            editions: List(), isLoading: false, isFailure: true);
+            editions: List(),
+            isLoading: false,
+            isFailure: true,
+            seenEditions: {});
       }
     }
   }

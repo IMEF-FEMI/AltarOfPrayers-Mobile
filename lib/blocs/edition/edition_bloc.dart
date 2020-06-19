@@ -30,17 +30,20 @@ class EditionBloc extends Bloc<EditionEvent, EditionState> {
     yield EditionLoading();
     var ref =
         await _editionsRepository.getReference(editionId: event.edition['id']);
-    print('Returned ref from sqflite $ref');
     if (ref != null) {
       this.add(CompleteTransaction(
           editionId: event.edition['id'], reference: ref['reference']));
     } else {
       try {
-        await _editionsRepository.saveSeenEdition(editionId: event.edition['id']);
+        await _editionsRepository.saveSeenEdition(
+            editionId: event.edition['id']);
+
         Edition edition = await _editionsRepository.getEdition(
             editionId: event.edition['id']);
+
         if (edition != null) {
-          yield EditionLoaded(edition: edition, isLoading: false, showDialog: false);
+          yield EditionLoaded(
+              edition: edition, isLoading: false, showDialog: false);
         } else {
           yield EditionNotLoaded(
             isLoading: false,
@@ -49,7 +52,7 @@ class EditionBloc extends Bloc<EditionEvent, EditionState> {
       } catch (e) {
         print(e);
         yield EditionError(
-            editionId: event.edition['id'],  error: 'Opps! an error occured');
+            editionId: event.edition['id'], error: 'Opps! an error occured');
       }
       return;
     }

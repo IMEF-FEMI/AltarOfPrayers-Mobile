@@ -71,7 +71,7 @@ class DatabaseProvider {
         "seen_editions TEXT) ");
     await database.transaction((action) async {
       await action.rawInsert(
-          'INSERT INTO $seenEditionsTable (seen_editions) VALUES("[]")');
+          'INSERT INTO $seenEditionsTable (seen_editions) VALUES("{}")');
     });
 
     await database.execute("CREATE TABLE $darkModeTable ("

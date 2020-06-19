@@ -22,8 +22,12 @@ class EditionsDao {
 
   Future<int> saveSeenEdition({int editionId}) async {
     final db = await dbProvider.database;
-    List seenEditions = await getSeenEditions();
-    seenEditions.add(editionId);
+    Map seenEditions = await getSeenEditions();
+    if(seenEditions.containsKey(editionId.toString())){
+      return 1;
+    }
+
+    seenEditions[editionId.toString()] = editionId;
     var result = await db.update(seenEditionsTable,
         {'seen_editions': JsonEncoder().convert(seenEditions)},
         where: "id = ?", whereArgs: [1]);
@@ -55,7 +59,7 @@ class EditionsDao {
     return null;
   }
 
-  Future<List> getSeenEditions({int id = 1}) async {
+  Future<Map> getSeenEditions({int id = 1}) async {
     final db = await dbProvider.database;
     var result = await db.query(
       seenEditionsTable,

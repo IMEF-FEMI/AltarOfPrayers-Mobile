@@ -7,10 +7,12 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class EditionCard extends StatelessWidget {
   final edition;
+  final Map seenEditions;
 
   EditionCard({
     Key key,
     this.edition,
+    this.seenEditions,
   }) : super(key: key);
 
   final months = {
@@ -88,13 +90,21 @@ class EditionCard extends StatelessWidget {
                   SizedBox(
                     height: 10,
                   ),
-                  Text(
-                    months[int.parse('${edition['startingMonth']}')] +
-                        ' ( New )',
-                    style: Theme.of(context).textTheme.subtitle.copyWith(
-                        color: edition['paid'] == false
-                            ? Tools.multiColors[0]
-                            : null),
+                  Row(
+                    children: <Widget>[
+                      Text(
+                        months[int.parse('${edition['startingMonth']}')] + ' ',
+                        style: Theme.of(context).textTheme.subtitle,
+                      ),
+                      // show new badge if edition has not been seen and user has not paid
+                      if (!seenEditions.containsKey(edition['id'].toString()) &&
+                          edition['paid'] == false)
+                        SvgPicture.asset(
+                          'assets/icons/new.svg',
+                          height: 22,
+                          width: 22,
+                        )
+                    ],
                   ),
                   SizedBox(
                     height: 10,

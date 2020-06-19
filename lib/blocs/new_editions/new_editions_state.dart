@@ -1,23 +1,25 @@
-
 import 'package:meta/meta.dart';
 
 class NewEditionsState {
   final bool isLoading;
   final bool isFailure;
+  final Map seenEditions;
   final List editions;
 
   NewEditionsState(
-      {@required this.isLoading,
+      {@required this.seenEditions,
+      @required this.isLoading,
       @required this.editions,
       @required this.isFailure});
 
   factory NewEditionsState.loading() {
-    return NewEditionsState(isLoading: true, editions: [], isFailure: false);
+    return NewEditionsState(isLoading: true, editions: [], isFailure: false, seenEditions:{});
   }
-@override
-  String toString() => 'isLoading: $isLoading, editions: $editions, isFailure: $isFailure';
+  @override
+  String toString() =>
+      'isLoading: $isLoading, editions: $editions, isFailure: $isFailure';
   // factory NewEditionsState.update({bool isLoading, List editions, String error}) {
-   
+
   //   return copyWith(bool isLoading, List editions, String error);
   // }
 
