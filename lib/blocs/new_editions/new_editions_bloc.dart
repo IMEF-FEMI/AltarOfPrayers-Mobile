@@ -11,8 +11,8 @@ class NewEditionsBloc extends Bloc<NewEditionsEvent, NewEditionsState> {
 
   @override
   Stream<NewEditionsState> mapEventToState(NewEditionsEvent event) async* {
-    if (event is ReFreshEvent) {
-      yield NewEditionsState.loading();
+    if (event is LoadEditions) {
+      if (state.editions.length == 0) yield NewEditionsState.loading();
       try {
         Map seenEditions = await editionsRepository.getSeenEditions();
         List editions = await editionsRepository.getPublishedEditions();

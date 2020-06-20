@@ -7,8 +7,8 @@ abstract class NewEditionsEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class ReFreshEvent extends NewEditionsEvent {
-  const ReFreshEvent();
+class LoadEditions extends NewEditionsEvent {
+  const LoadEditions();
 
   @override
   String toString() => 'Refresh Event';

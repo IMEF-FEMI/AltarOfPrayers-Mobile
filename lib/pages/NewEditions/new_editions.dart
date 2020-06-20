@@ -8,6 +8,7 @@ import 'package:altar_of_prayers/widgets/loading_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class NewEditions extends StatefulWidget {
   @override
@@ -15,18 +16,14 @@ class NewEditions extends StatefulWidget {
 }
 
 class _NewEditionsState extends State<NewEditions> {
-  // final RefreshController _refreshController = RefreshController();
-  
-  ListView buildList(state) {
-    return ListView.builder(
-      shrinkWrap: true,
-      itemCount: state.editions.length,
-      itemBuilder: (context, index) {
-        return EditionCard(
+  final RefreshController _refreshController = RefreshController();
+
+  List<Widget> buildList(NewEditionsState state) {
+    return List.generate(
+        state.editions.length,
+        (index) => EditionCard(
             edition: JsonDecoder().convert(state.editions[index]),
-            seenEditions: state.seenEditions);
-      },
-    );
+            seenEditions: state.seenEditions));
   }
 
   Widget _editionsPage(NewEditionsState state) {
@@ -69,7 +66,7 @@ class _NewEditionsState extends State<NewEditions> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<NewEditionsBloc>(
-      create: (context) => NewEditionsBloc()..add(ReFreshEvent()),
+      create: (context) => NewEditionsBloc()..add(LoadEditions()),
       child: AppScaffold(
         title: 'Editions',
         body: BlocBuilder<NewEditionsBloc, NewEditionsState>(
@@ -81,10 +78,28 @@ class _NewEditionsState extends State<NewEditions> {
                 errorMessage: 'Oops! an Error Occured',
                 btnText: 'Try Again',
                 btnOnPressed: () => BlocProvider.of<NewEditionsBloc>(context)
-                    .add(ReFreshEvent()),
+                    .add(LoadEditions()),
               );
             } else if (state.editions.length != 0) {
-              return _editionsPage(state);
+              // return _editionsPage(state);
+              return SmartRefresher(
+                  controller: _refreshController,
+                  enablePullDown: true,
+                  header: MaterialClassicHeader(color: Theme.of(context).accentColor),
+                  onRefresh: () {
+                    BlocProvider.of<NewEditionsBloc>(context)
+                        .add(LoadEditions());
+                    _refreshController.refreshCompleted();
+                  },
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: state.editions.length,
+                    itemBuilder: (context, index) {
+                      return EditionCard(
+                          edition: JsonDecoder().convert(state.editions[index]),
+                          seenEditions: state.seenEditions);
+                    },
+                  ));
             } else
               return _noEditionsPage();
           },
