@@ -20,8 +20,8 @@ class CategoryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: Material(
-        color: color.withOpacity(.15),
-        // color: Colors.grey.withOpacity(.15),
+        // color: color.withOpacity(.15),
+        color: Colors.grey.withOpacity(.15),
         // color: ConfigBloc().darkModeOn
         //     ? Colors.blueGrey.withOpacity(.15)
         //     : color.withOpacity(.15),

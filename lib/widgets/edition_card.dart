@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:altar_of_prayers/pages/NewEditions/new_edition_page.dart';
 import 'package:altar_of_prayers/utils/tools.dart';
 import 'package:altar_of_prayers/widgets/badge_decoration.dart';

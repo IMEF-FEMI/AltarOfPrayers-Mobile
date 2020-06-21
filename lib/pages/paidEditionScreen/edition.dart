@@ -40,6 +40,7 @@ class _MainEditionScreenState extends State<MainEditionScreen> {
       lastDate: DateTime.utc(year, month, 01)
           .add(Duration(days: daysInMonth(DateTime.utc(year, month, 01)) - 1)),
     );
+    
     if (picked != null) print('picked: ${picked.day}');
   }
 

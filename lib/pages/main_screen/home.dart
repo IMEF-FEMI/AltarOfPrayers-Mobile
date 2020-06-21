@@ -15,6 +15,7 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    DateTime today = DateTime.now();
     return AppScaffold(
       title: 'Altar Of Prayers',
       body: Column(
@@ -27,6 +28,12 @@ class Home extends StatelessWidget {
             crossAxisCount: 2,
             padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
             children: <Widget>[
+              CategoryCard(
+                title: 'Prayer For Today\n',
+                desctiption: 'Prayer Points for Today \n ${today.day}/${today.month}/${today.year} ',
+                color: Colors.pink,
+                icon: FontAwesomeIcons.pray
+              ),
               CategoryCard(
                 title: 'Saved Prayers Points',
                 desctiption: 'All the Prayer points you have saved recently ',
@@ -53,12 +60,12 @@ class Home extends StatelessWidget {
                 color: Colors.cyan,
                 icon: FontAwesomeIcons.bookOpen,
               ),
-              CategoryCard(
-                title: 'My Profile',
-                desctiption: 'Informations about your account ',
-                color: Colors.green,
-                icon: FontAwesomeIcons.userAlt,
-              ),
+              // CategoryCard(
+              //   title: 'My Profile',
+              //   desctiption: 'Informations about your account ',
+              //   color: Colors.green,
+              //   icon: FontAwesomeIcons.userAlt,
+              // ),
             ],
           ))
         ],
