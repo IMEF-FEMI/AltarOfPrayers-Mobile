@@ -11,4 +11,19 @@ class Tools {
     Colors.green,
     Colors.blue,
   ];
+
+  static List<String> monthString = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
 }

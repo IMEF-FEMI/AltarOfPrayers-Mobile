@@ -1,5 +1,5 @@
 import 'package:altar_of_prayers/models/user.dart';
-import 'package:altar_of_prayers/pages/NewEditions/new_editions.dart';
+import 'package:altar_of_prayers/pages/NewEditions/new_editions_page.dart';
 import 'package:altar_of_prayers/widgets/app_scaffold.dart';
 import 'package:altar_of_prayers/widgets/category_card.dart';
 import 'package:flutter/material.dart';
@@ -31,12 +31,12 @@ class Home extends StatelessWidget {
                 title: 'Saved Prayers Points',
                 desctiption: 'All the Prayer points you have saved recently ',
                 color: Colors.blue,
-                icon: FontAwesomeIcons.bookmark,
+                icon: FontAwesomeIcons.solidBookmark
               ),
               CategoryCard(
                 title: 'Prophetic Prayers',
                 desctiption: 'Prophetic Prayers from the Altar of Prayers ',
-                color: Colors.deepOrange,
+                color: Colors.red,
                 icon: FontAwesomeIcons.shieldAlt,
               ),
               CategoryCard(
@@ -46,7 +46,7 @@ class Home extends StatelessWidget {
                   color: Colors.teal,
                   icon: FontAwesomeIcons.cartArrowDown,
                   onTap: () =>
-                     Navigator.of(context).push(MaterialPageRoute(builder: (context) => NewEditions()))),
+                     Navigator.of(context).push(MaterialPageRoute(builder: (context) => NewEditionsPage()))),
               CategoryCard(
                 title: 'My Editions',
                 desctiption: 'All Editions you have Subscribed for',
@@ -57,7 +57,7 @@ class Home extends StatelessWidget {
                 title: 'My Profile',
                 desctiption: 'Informations about your account ',
                 color: Colors.green,
-                icon: FontAwesomeIcons.user,
+                icon: FontAwesomeIcons.userAlt,
               ),
             ],
           ))

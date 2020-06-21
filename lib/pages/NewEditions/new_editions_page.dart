@@ -8,34 +8,28 @@ import 'package:altar_of_prayers/widgets/loading_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-class NewEditions extends StatefulWidget {
+class NewEditionsPage extends StatefulWidget {
   @override
-  _NewEditionsState createState() => _NewEditionsState();
+  _NewEditionsPageState createState() => _NewEditionsPageState();
 }
 
-class _NewEditionsState extends State<NewEditions> {
-  final RefreshController _refreshController = RefreshController();
+class _NewEditionsPageState extends State<NewEditionsPage> {
+  GlobalKey<RefreshIndicatorState> refreshKey =
+      GlobalKey<RefreshIndicatorState>();
+  NewEditionsBloc _newEditionsBloc;
 
-  List<Widget> buildList(NewEditionsState state) {
-    return List.generate(
-        state.editions.length,
-        (index) => EditionCard(
-            edition: JsonDecoder().convert(state.editions[index]),
-            seenEditions: state.seenEditions));
+  @override
+  void initState() {
+    super.initState();
+    _newEditionsBloc = NewEditionsBloc();
+    fetchNewEditions();
   }
 
-  Widget _editionsPage(NewEditionsState state) {
-    return ListView.builder(
-      shrinkWrap: true,
-      itemCount: state.editions.length,
-      itemBuilder: (context, index) {
-        return EditionCard(
-            edition: JsonDecoder().convert(state.editions[index]),
-            seenEditions: state.seenEditions);
-      },
-    );
+  Future<Null> fetchNewEditions() async{
+    _newEditionsBloc.add(LoadEditions());
+    await Future.delayed(Duration(seconds: 2));
+    return null;
   }
 
   Widget _noEditionsPage() {
@@ -53,7 +47,7 @@ class _NewEditionsState extends State<NewEditions> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
-              'Sorry! No New Editions',
+              'Sorry! No Editions Yet',
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.title.copyWith(fontSize: 20),
             ),
@@ -66,7 +60,7 @@ class _NewEditionsState extends State<NewEditions> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<NewEditionsBloc>(
-      create: (context) => NewEditionsBloc()..add(LoadEditions()),
+      create: (context) => _newEditionsBloc..add(LoadEditions()),
       child: AppScaffold(
         title: 'Editions',
         body: BlocBuilder<NewEditionsBloc, NewEditionsState>(
@@ -81,25 +75,19 @@ class _NewEditionsState extends State<NewEditions> {
                     .add(LoadEditions()),
               );
             } else if (state.editions.length != 0) {
-              // return _editionsPage(state);
-              return SmartRefresher(
-                  controller: _refreshController,
-                  enablePullDown: true,
-                  header: MaterialClassicHeader(color: Theme.of(context).accentColor),
-                  onRefresh: () {
-                    BlocProvider.of<NewEditionsBloc>(context)
-                        .add(LoadEditions());
-                    _refreshController.refreshCompleted();
+              return RefreshIndicator(
+                key: refreshKey,
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: state.editions.length,
+                  itemBuilder: (context, index) {
+                    return EditionCard(
+                        edition: JsonDecoder().convert(state.editions[index]),
+                        seenEditions: state.seenEditions);
                   },
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: state.editions.length,
-                    itemBuilder: (context, index) {
-                      return EditionCard(
-                          edition: JsonDecoder().convert(state.editions[index]),
-                          seenEditions: state.seenEditions);
-                    },
-                  ));
+                ),
+                onRefresh: fetchNewEditions,
+              );
             } else
               return _noEditionsPage();
           },

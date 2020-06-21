@@ -1,6 +1,7 @@
 import 'package:altar_of_prayers/blocs/app_config/index.dart';
 import 'package:altar_of_prayers/blocs/edition/bloc.dart';
 import 'package:altar_of_prayers/pages/NewEditions/make_payment_screen.dart';
+import 'package:altar_of_prayers/pages/paidEditionScreen/edition.dart';
 import 'package:altar_of_prayers/repositories/edition_repository.dart';
 import 'package:altar_of_prayers/utils/config.dart';
 import 'package:altar_of_prayers/widgets/app_scaffold.dart';
@@ -116,9 +117,10 @@ class NewEditionPageState extends State<NewEditionPage> {
                   edition: widget.edition,
                   editionBloc: _editionBloc,
                 );
+
               if (state is EditionLoaded && !state.isLoading)
-                return Center(
-                  child: Text('Editions Loaded'),
+                return MainEditionScreen(
+                  edition: state.edition,
                 );
               if (state is EditionError) {
                 if (state.error == 'Transaction Failed')
