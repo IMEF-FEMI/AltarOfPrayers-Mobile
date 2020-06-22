@@ -1,4 +1,3 @@
-
 import 'package:altar_of_prayers/database/editions_dao.dart';
 import 'package:altar_of_prayers/graphql/graphql.dart';
 import 'package:altar_of_prayers/models/edition.dart';
@@ -111,13 +110,25 @@ class EditionsRepository {
     }
   }
 
-  Future<Edition> getEdition({int editionId}) async {
-    var editionObj = await _editionsDao.getEdition(editionId: editionId);
+  Future<Edition> getEdition(
+      {int editionId, int startingMonth, int year}) async {
+    var editionObj;
+    if (editionId != null)
+      editionObj = await _editionsDao.getEdition(editionId: editionId);
+    else
+      editionObj = await _editionsDao.getEdition(
+          startingMonth: startingMonth, year: year);
 
     if (editionObj == null) {
       GraphQLClient _client = await _graphQLConfiguration.clientToQuery();
-      QueryResult result = await _client.query(QueryOptions(
-          documentNode: gql(_queryMutation.myEditions(editionId: editionId))));
+      QueryResult result = await _client.query(
+        QueryOptions(
+          documentNode: gql(
+            _queryMutation.myEditions(
+                editionId: editionId, startingMonth: startingMonth, year: year),
+          ),
+        ),
+      );
       if (!result.hasException) {
         Map<String, dynamic> userEdition = {};
         List<Map<String, dynamic>> giftedEditions = [];

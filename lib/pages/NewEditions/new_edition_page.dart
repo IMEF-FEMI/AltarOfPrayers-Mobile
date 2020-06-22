@@ -1,15 +1,14 @@
 import 'package:altar_of_prayers/blocs/app_config/index.dart';
 import 'package:altar_of_prayers/blocs/edition/bloc.dart';
-import 'package:altar_of_prayers/pages/NewEditions/make_payment_screen.dart';
+import 'package:altar_of_prayers/blocs/make_payment/bloc.dart';
+import 'package:altar_of_prayers/pages/make_payment_screen.dart';
 import 'package:altar_of_prayers/pages/paidEditionScreen/edition.dart';
 import 'package:altar_of_prayers/repositories/edition_repository.dart';
-import 'package:altar_of_prayers/utils/config.dart';
 import 'package:altar_of_prayers/widgets/app_scaffold.dart';
 import 'package:altar_of_prayers/widgets/error_screen.dart';
 import 'package:altar_of_prayers/widgets/loading_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_paystack/flutter_paystack.dart';
 import 'package:giffy_dialog/giffy_dialog.dart';
 
 class NewEditionPage extends StatefulWidget {
@@ -23,6 +22,7 @@ class NewEditionPage extends StatefulWidget {
 
 class NewEditionPageState extends State<NewEditionPage> {
   EditionBloc _editionBloc;
+  MakePaymentBloc _makePaymentBloc;
   EditionsRepository _editionsRepository = EditionsRepository();
 
   threeSidedBorderRadius({double radius = 8}) {
@@ -35,8 +35,17 @@ class NewEditionPageState extends State<NewEditionPage> {
   @override
   void initState() {
     super.initState();
-    _editionBloc = EditionBloc(editionsRepository: _editionsRepository);
-    PaystackPlugin.initialize(publicKey: Config.paystackPublicKey);
+    _makePaymentBloc = MakePaymentBloc();
+    _editionBloc = EditionBloc(
+        editionsRepository: _editionsRepository,
+        makePaymentBloc: _makePaymentBloc);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _editionBloc.close();
+    _makePaymentBloc.close();
   }
 
   @override
@@ -86,65 +95,55 @@ class NewEditionPageState extends State<NewEditionPage> {
           ),
         ),
         body: BlocListener<EditionBloc, EditionState>(
-          listener: (context, state) {
-            if (state is EditionLoaded && state.showDialog)
+          listener: (context, state) async {
+            if (state is EditionLoaded && state.showDialog) {
               showDialog(
-                  context: context,
-                  barrierDismissible: false,
-                  builder: (context) => AssetGiffyDialog(
-                        image: Image.asset(
-                          'assets/images/success.gif',
-                          fit: BoxFit.fitWidth,
-                        ),
-                        title: Text(
-                          'Payment Successful',
-                          style: TextStyle(
-                              fontSize: 22.0, fontWeight: FontWeight.w500),
-                        ),
-                        onOkButtonPressed: () {
-                          Navigator.of(
-                            context,
-                            rootNavigator: true,
-                          ).pop();
-                        },
-                        onlyOkButton: true,
-                      ));
+                context: context,
+                barrierDismissible: false,
+                builder: (context) => AssetGiffyDialog(
+                  image: Image.asset(
+                    'assets/images/success.gif',
+                    fit: BoxFit.fitWidth,
+                  ),
+                  title: Text(
+                    'Congrats!',
+                    style:
+                        TextStyle(fontSize: 22.0, fontWeight: FontWeight.w500),
+                  ),
+                  description: Text(
+                    'Payment has been successfully made',
+                    style:
+                        TextStyle(fontSize: 20.0, fontWeight: FontWeight.w500),
+                  ),
+                  onOkButtonPressed: () {
+                    Navigator.of(
+                      context,
+                      rootNavigator: true,
+                    ).pop(true);
+                  },
+                  onlyOkButton: true,
+                ),
+              );
+            }
           },
           child: BlocBuilder<EditionBloc, EditionState>(
             builder: (context, state) {
-              if (state is EditionNotLoaded && !state.isLoading)
-                return MakePaymentScreen(
-                  edition: widget.edition,
-                  editionBloc: _editionBloc,
-                );
-
-              if (state is EditionLoaded && !state.isLoading)
+              if (state is EditionLoaded)
                 return MainEditionScreen(
                   edition: state.edition,
                 );
+              if (state is EditionNotLoaded)
+                return MakePaymentScreen(
+                  edition: widget.edition,
+                  makePaymentBloc: _makePaymentBloc,
+                );
               if (state is EditionError) {
-                if (state.error == 'Transaction Failed')
-                  return ErrorScreen(
-                    errorMessage: '${state.error}',
-                    btnText: 'Close',
-                    btnOnPressed: () => Navigator.of(context).pop(),
-                  );
-                if (state.error == 'Opps! an error occured')
-                  return ErrorScreen(
-                    errorMessage: '${state.error}',
-                    btnText: 'Try Again',
-                    btnOnPressed: () =>
-                        _editionBloc.add(LoadEdition(widget.edition)),
-                  );
                 return ErrorScreen(
-                    errorMessage: '${state.error}',
-                    btnText: 'Confirm Payment',
-                    btnOnPressed: () => _editionBloc.add(
-                          CompleteTransaction(
-                            reference: state.reference,
-                            editionId: state.editionId,
-                          ),
-                        ));
+                  errorMessage: '${state.error}',
+                  btnText: 'Try Again',
+                  btnOnPressed: () =>
+                      _editionBloc.add(LoadEdition(widget.edition)),
+                );
               }
               return LoadingWidget();
             },

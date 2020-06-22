@@ -7,6 +7,7 @@ class AppScaffold extends StatelessWidget {
   final Widget body;
   final IconButton leading;
   final Widget bottomNav;
+  final Widget saveButton;
 
   const AppScaffold({
     Key key,
@@ -14,6 +15,7 @@ class AppScaffold extends StatelessWidget {
     @required this.title,
     this.leading,
     this.bottomNav,
+    this.saveButton,
   }) : super(key: key);
 
   _leadingWidget() {
@@ -45,15 +47,17 @@ class AppScaffold extends StatelessWidget {
           ),
           centerTitle: true,
           actions: <Widget>[
-            IconButton(
-              icon: Icon(
-                ConfigBloc().darkModeOn
-                    ? FontAwesomeIcons.toggleOn
-                    : FontAwesomeIcons.toggleOff,
-                size: 18,
+            if (saveButton == null)
+              IconButton(
+                icon: Icon(
+                  ConfigBloc().darkModeOn
+                      ? FontAwesomeIcons.toggleOn
+                      : FontAwesomeIcons.toggleOff,
+                  size: 18,
+                ),
+                onPressed: _toggleDarkMode,
               ),
-              onPressed: _toggleDarkMode,
-            ),
+            if (saveButton != null) saveButton,
           ],
         ),
         body: body,

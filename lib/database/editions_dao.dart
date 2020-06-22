@@ -23,7 +23,7 @@ class EditionsDao {
   Future<int> saveSeenEdition({int editionId}) async {
     final db = await dbProvider.database;
     Map seenEditions = await getSeenEditions();
-    if(seenEditions.containsKey(editionId.toString())){
+    if (seenEditions.containsKey(editionId.toString())) {
       return 1;
     }
 
@@ -34,12 +34,23 @@ class EditionsDao {
     return result;
   }
 
-  Future<Map<String, dynamic>> getEdition({int editionId}) async {
+  Future<Map<String, dynamic>> getEdition(
+      {int editionId, int startingMonth, int year}) async {
     final db = await dbProvider.database;
+    String where;
+    List whereArgs;
+    if (editionId != null) {
+      where = 'id = ? ';
+      whereArgs = [editionId];
+    } else {
+      where = 'starting_month = ? and year = ? ';
+      whereArgs = [startingMonth, year];
+    }
+
     List<Map<String, dynamic>> result = await db.query(
       editionsTable,
-      where: 'id = ? ',
-      whereArgs: ['$editionId'],
+      where: where,
+      whereArgs: whereArgs,
     );
     if (result.length > 0) return result.first;
     return null;

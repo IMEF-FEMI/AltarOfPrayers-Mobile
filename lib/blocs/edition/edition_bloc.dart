@@ -1,106 +1,70 @@
+import 'dart:async';
 import 'package:altar_of_prayers/blocs/edition/bloc.dart';
+import 'package:altar_of_prayers/blocs/make_payment/bloc.dart';
 import 'package:altar_of_prayers/models/edition.dart';
 import 'package:altar_of_prayers/repositories/edition_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
 class EditionBloc extends Bloc<EditionEvent, EditionState> {
-  final EditionsRepository _editionsRepository;
+  final EditionsRepository editionsRepository;
+  final MakePaymentBloc makePaymentBloc;
+  StreamSubscription subscription;
 
-  EditionBloc({@required EditionsRepository editionsRepository})
-      : assert(editionsRepository != null),
-        _editionsRepository = editionsRepository;
+  EditionBloc(
+      {@required this.editionsRepository, @required this.makePaymentBloc}) {
+    if (makePaymentBloc == null) return;
+    subscription = makePaymentBloc.listen((makePaymentState) async* {
+      if (state is PaymentSuccessful) {
+        yield EditionLoaded(
+            edition: (state as PaymentSuccessful).edition,
+            isLoading: false,
+            showDialog: false);
+      }
+    });
+  }
   @override
   EditionState get initialState => EditionLoading();
-
+@override
+  Future<void> close() {
+    subscription.cancel();
+    return super.close();
+  }
   @override
   Stream<EditionState> mapEventToState(EditionEvent event) async* {
     if (event is LoadEdition) {
       yield* _mapLoadEditionToState(event);
-    } else if (event is CompleteTransaction) {
-      yield* _mapCompleteTransactionToState(event);
     }
   }
 
   Stream<EditionState> _mapLoadEditionToState(LoadEdition event) async* {
     // load edition here
-    // first check if reference string exists -- in the case of incomplete transactions
-    // if reference exists, complete the transaction on backend
-    // else getEdition
+    // if edition exists, return it
+    // else return editionnotLoaded state
+    // which push the make payment screen route
+    // the make payment screen goes ahead to check
+    // if theres and incomplete payment first
+    // and then renders appropriately
     yield EditionLoading();
-    var ref =
-        await _editionsRepository.getReference(editionId: event.edition['id']);
-    if (ref != null) {
-      this.add(CompleteTransaction(
-          editionId: event.edition['id'], reference: ref['reference']));
-    } else {
-      try {
-        await _editionsRepository.saveSeenEdition(
-            editionId: event.edition['id']);
-
-        Edition edition = await _editionsRepository.getEdition(
-            editionId: event.edition['id']);
-
-        if (edition != null) {
-          yield EditionLoaded(
-              edition: edition, isLoading: false, showDialog: false);
-        } else {
-          yield EditionNotLoaded(
-            isLoading: false,
-          );
-        }
-      } catch (e) {
-        print(e);
-        yield EditionError(
-            editionId: event.edition['id'], error: 'Opps! an error occured');
-      }
-      return;
-    }
-  }
-
-  Stream<EditionState> _mapCompleteTransactionToState(
-      CompleteTransaction event) async* {
-    // yield EditionLoading();
-    // if (state is EditionLoaded) {
-    //   yield EditionLoaded(
-    //       editionPurchase: (state as EditionLoaded).editionPurchase,
-    //       isLoading: true);
-    //   yield* confirmPayment(event);
-    // } else if (state is EditionNotLoaded) {
-    //   yield EditionNotLoaded(isLoading: true);
-    //   yield* confirmPayment(event);
-    // } else {
-    yield EditionLoading();
-    yield* confirmPayment(event);
-    // }
-  }
-
-  Stream<EditionState> confirmPayment(CompleteTransaction event) async* {
     try {
-      Edition edition = await _editionsRepository.confirmPayment(
-          editionId: event.editionId,
-          reference: event.reference,
-          paidFor: 'self');
-      if (edition == null) {
-        // delete reference from db
-        await _editionsRepository.deleteReference(editionId: event.editionId);
-        yield EditionError(
-          error: 'Transaction Failed',
-          editionId: event.editionId,
-          reference: event.reference,
+      await editionsRepository.saveSeenEdition(editionId: event.edition['id']);
+
+      Edition edition =
+          await editionsRepository.getEdition(editionId: event.edition['id']);
+
+      if (edition != null) {
+        yield EditionLoaded(
+            edition: edition, isLoading: false, showDialog: false);
+      } else {
+        yield EditionNotLoaded(
+          isLoading: false,
         );
-        return;
       }
-      await _editionsRepository.deleteReference(editionId: event.editionId);
-      yield EditionLoaded(edition: edition, isLoading: false, showDialog: true);
     } catch (e) {
-      // await _editionsRepository.deleteReference(editionId: event.editionId);
+      print(e);
       yield EditionError(
-        error: 'Server error! Hit the Button below to complete your payment',
-        editionId: event.editionId,
-        reference: event.reference,
-      );
-      return;
+          editionId: event.edition['id'], error: 'Opps! an error occured');
     }
+    return;
   }
 }

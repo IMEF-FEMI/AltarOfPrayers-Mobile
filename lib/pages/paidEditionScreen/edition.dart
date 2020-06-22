@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import 'prayer.dart';
+
 class MainEditionScreen extends StatefulWidget {
   final Edition edition;
 
@@ -31,7 +33,6 @@ class _MainEditionScreenState extends State<MainEditionScreen> {
   }
 
   Future<Null> _selectDate(BuildContext context, int year, int month) async {
-    print(daysInMonth(DateTime.utc(year, month, 01)));
     final DateTime picked = await showDatePicker(
       context: context,
       useRootNavigator: false,
@@ -40,8 +41,14 @@ class _MainEditionScreenState extends State<MainEditionScreen> {
       lastDate: DateTime.utc(year, month, 01)
           .add(Duration(days: daysInMonth(DateTime.utc(year, month, 01)) - 1)),
     );
-    
+
     if (picked != null) print('picked: ${picked.day}');
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => Prayer(
+              year: picked.year,
+              month: picked.month,
+              day: picked.day,
+            )));
   }
 
   @override

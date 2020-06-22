@@ -1,6 +1,6 @@
 import 'package:altar_of_prayers/models/user.dart';
 import 'package:altar_of_prayers/pages/main_screen/about.dart';
-import 'package:altar_of_prayers/pages/main_screen/profile.dart';
+import 'package:altar_of_prayers/pages/paidEditionScreen/prayer.dart';
 import 'package:altar_of_prayers/widgets/custom_nav.dart';
 import 'package:altar_of_prayers/widgets/icon_badge.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +20,7 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   int _currentIndex = 0;
-
+  DateTime today = DateTime.now().toUtc();
   final _navigatorKeys = [
     GlobalKey<NavigatorState>(),
     GlobalKey<NavigatorState>(),
@@ -37,10 +37,10 @@ class _MainScreenState extends State<MainScreen> {
 
         if (isFirstRouteInCurrentTab) {
           // if not on the 'main' tab
-          if (_currentIndex != 0) {
+          if (_currentIndex != 1) {
             // select 'main' tab
             setState(() {
-              _currentIndex = 0;
+              _currentIndex = 1;
             });
             // back button handled by app
             return false;
@@ -55,11 +55,12 @@ class _MainScreenState extends State<MainScreen> {
           index: _currentIndex,
           children: <Widget>[
             CustomNav(
-              child: Home(),
+              child:
+                  Prayer(year: today.year, month: today.month, day: today.day, disableClose:true),
               navigatorkey: _navigatorKeys[0],
             ),
             CustomNav(
-              child: Profile(),
+              child: Home(),
               navigatorkey: _navigatorKeys[1],
             ),
             CustomNav(
@@ -72,7 +73,6 @@ class _MainScreenState extends State<MainScreen> {
             ),
           ],
         ),
-    
         bottomNavigationBar: Theme(
           data: Theme.of(context).copyWith(
             canvasColor: Theme.of(context).primaryColor,
@@ -87,13 +87,13 @@ class _MainScreenState extends State<MainScreen> {
             type: BottomNavigationBarType.fixed,
             items: <BottomNavigationBarItem>[
               BottomNavigationBarItem(
-                icon: Icon(
-                  FontAwesomeIcons.home,
-                ),
+                icon: Icon(FontAwesomeIcons.calendarAlt),
                 title: Container(),
               ),
               BottomNavigationBarItem(
-                icon: Icon(FontAwesomeIcons.user),
+                icon: Icon(
+                  FontAwesomeIcons.home,
+                ),
                 title: Container(),
               ),
               BottomNavigationBarItem(

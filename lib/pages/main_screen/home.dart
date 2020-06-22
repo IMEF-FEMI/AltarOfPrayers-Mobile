@@ -15,7 +15,6 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    DateTime today = DateTime.now();
     return AppScaffold(
       title: 'Altar Of Prayers',
       body: Column(
@@ -29,17 +28,10 @@ class Home extends StatelessWidget {
             padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
             children: <Widget>[
               CategoryCard(
-                title: 'Prayer For Today\n',
-                desctiption: 'Prayer Points for Today \n ${today.day}/${today.month}/${today.year} ',
-                color: Colors.pink,
-                icon: FontAwesomeIcons.pray
-              ),
-              CategoryCard(
-                title: 'Saved Prayers Points',
-                desctiption: 'All the Prayer points you have saved recently ',
-                color: Colors.blue,
-                icon: FontAwesomeIcons.solidBookmark
-              ),
+                  title: 'Saved Prayers Points',
+                  desctiption: 'All the Prayer points you have saved recently ',
+                  color: Colors.blue,
+                  icon: FontAwesomeIcons.solidBookmark),
               CategoryCard(
                 title: 'Prophetic Prayers',
                 desctiption: 'Prophetic Prayers from the Altar of Prayers ',
@@ -48,24 +40,23 @@ class Home extends StatelessWidget {
               ),
               CategoryCard(
                   title: 'New Editions',
-                  desctiption:
-                      'Check for new Editions',
+                  desctiption: 'Check for new Editions',
                   color: Colors.teal,
                   icon: FontAwesomeIcons.cartArrowDown,
-                  onTap: () =>
-                     Navigator.of(context).push(MaterialPageRoute(builder: (context) => NewEditionsPage()))),
+                  onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => NewEditionsPage()))),
               CategoryCard(
                 title: 'My Editions',
                 desctiption: 'All Editions you have Subscribed for',
                 color: Colors.cyan,
                 icon: FontAwesomeIcons.bookOpen,
               ),
-              // CategoryCard(
-              //   title: 'My Profile',
-              //   desctiption: 'Informations about your account ',
-              //   color: Colors.green,
-              //   icon: FontAwesomeIcons.userAlt,
-              // ),
+              CategoryCard(
+                title: 'My Profile',
+                desctiption: 'Informations about your account ',
+                color: Colors.pink,
+                icon: FontAwesomeIcons.userAlt,
+              ),
             ],
           ))
         ],

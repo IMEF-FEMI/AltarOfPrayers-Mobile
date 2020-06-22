@@ -132,10 +132,16 @@ class QueryMutation {
   """;
   }
 
-  String myEditions({int editionId}){
+  String myEditions({int editionId, int startingMonth, int year}) {
+    String query = '';
+    if (editionId != null)
+      query = 'editionId: $editionId';
+    else
+      query = 'startingMonth: $startingMonth, year: $year';
+
     return """
       query{
-        myEditions(editionId: $editionId){
+        myEditions($query){
           id
           reference
           paidBy{
