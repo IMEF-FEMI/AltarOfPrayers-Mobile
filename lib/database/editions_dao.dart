@@ -34,6 +34,14 @@ class EditionsDao {
     return result;
   }
 
+Future deleteEdition({int editionId})async{
+  final db = await dbProvider.database;
+    var result = await db.delete(
+      editionsTable,
+    );
+
+    return result;
+}
   Future<Map<String, dynamic>> getEdition(
       {int editionId, int startingMonth, int year}) async {
     final db = await dbProvider.database;

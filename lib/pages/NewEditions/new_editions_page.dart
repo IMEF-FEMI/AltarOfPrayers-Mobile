@@ -39,7 +39,7 @@ class _NewEditionsPageState extends State<NewEditionsPage> {
         children: <Widget>[
           //  Icon(FontAwesomeIcons.calendarTimes, size: 50, color: Colors.teal[800],) ,
           SvgPicture.asset(
-            'assets/icons/shopping-cart.svg',
+            'assets/icons/empty.svg',
             height: 80,
           ),
 
@@ -47,9 +47,9 @@ class _NewEditionsPageState extends State<NewEditionsPage> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
-              'Sorry! No Editions Yet',
+              'Sorry! No Edition has been published Yet',
               textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.title.copyWith(fontSize: 20),
+              style: Theme.of(context).textTheme.title.copyWith(fontSize: 20, fontWeight: FontWeight.w400),
             ),
           ),
         ],

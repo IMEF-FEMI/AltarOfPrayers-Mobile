@@ -8,6 +8,7 @@ abstract class EditionEvent extends Equatable {
 
 class LoadEdition extends EditionEvent {
   final edition;
+  final bool showDialog;
 
-  const LoadEdition(this.edition);
+  const LoadEdition({this.edition, this.showDialog});
 }

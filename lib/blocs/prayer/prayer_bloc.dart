@@ -7,7 +7,6 @@ import 'package:altar_of_prayers/models/edition.dart';
 import 'package:altar_of_prayers/models/prayer.dart';
 import 'package:altar_of_prayers/repositories/edition_repository.dart';
 import 'package:bloc/bloc.dart';
-
 class PrayerBloc extends Bloc<PrayerEvent, PrayerState> {
   EditionsRepository editionsRepository = EditionsRepository();
   final MakePaymentBloc makePaymentBloc;
@@ -15,12 +14,14 @@ class PrayerBloc extends Bloc<PrayerEvent, PrayerState> {
 
   PrayerBloc({this.makePaymentBloc}){
     if (makePaymentBloc == null) return;
-    subscription = makePaymentBloc.listen((makePaymentState) async* {
-      if (state is PaymentSuccessful) {
+    subscription = makePaymentBloc.listen((makePaymentState)  {
+      if (makePaymentState is PaymentSuccessful) {
+        print('payment successful');
         DateTime today = DateTime.now().toUtc();
-        this.add(LoadPrayer(today.year, today.month, today.day));
+        this.add(LoadPrayer(year:today.year, month:today.month, day:today.day,showDialog: true));
       }
     });
+
   }
   
   @override
@@ -100,7 +101,7 @@ try{
         year: year,
         prayerPoint: JsonDecoder().convert(prayerMonthList[day]));
     print(prayer.prayerPoint);
-    yield PrayerLoaded(prayer:prayer);
+    yield PrayerLoaded(prayer:prayer, showDialog: event.showDialog);
     }catch(e){
       print(e);
       yield PrayerError('Oops! an error occured');

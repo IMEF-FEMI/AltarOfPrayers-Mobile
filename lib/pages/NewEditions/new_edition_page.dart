@@ -51,7 +51,7 @@ class NewEditionPageState extends State<NewEditionPage> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<EditionBloc>(
-      create: (context) => _editionBloc..add(LoadEdition(widget.edition)),
+      create: (context) => _editionBloc..add(LoadEdition(edition:widget.edition,showDialog: false)),
       child: AppScaffold(
         title: '',
         leading: IconButton(
@@ -106,14 +106,9 @@ class NewEditionPageState extends State<NewEditionPage> {
                     fit: BoxFit.fitWidth,
                   ),
                   title: Text(
-                    'Congrats!',
+                    'Congrats! Payment Successful',
                     style:
                         TextStyle(fontSize: 22.0, fontWeight: FontWeight.w500),
-                  ),
-                  description: Text(
-                    'Payment has been successfully made',
-                    style:
-                        TextStyle(fontSize: 20.0, fontWeight: FontWeight.w500),
                   ),
                   onOkButtonPressed: () {
                     Navigator.of(
@@ -142,7 +137,7 @@ class NewEditionPageState extends State<NewEditionPage> {
                   errorMessage: '${state.error}',
                   btnText: 'Try Again',
                   btnOnPressed: () =>
-                      _editionBloc.add(LoadEdition(widget.edition)),
+                      _editionBloc.add(LoadEdition(edition:widget.edition, showDialog: false)),
                 );
               }
               return LoadingWidget();

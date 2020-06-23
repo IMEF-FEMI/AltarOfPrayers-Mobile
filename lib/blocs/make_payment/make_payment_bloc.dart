@@ -62,7 +62,7 @@ class MakePaymentBloc extends Bloc<MakePaymentEvent, MakePaymentState> {
         return;
       }
       await _editionsRepository.deleteReference(editionId: event.editionId);
-      yield PaymentSuccessful(edition: edition);
+      yield PaymentSuccessful(edition: edition, );
     } catch (e) {
       // await _editionsRepository.deleteReference(editionId: event.editionId);
       yield PaymentFailed(

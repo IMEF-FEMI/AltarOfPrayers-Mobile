@@ -12,8 +12,9 @@ class LoadPrayer extends PrayerEvent {
   final int year;
   final int month;
   final int day;
+  final bool showDialog;
 
-  const LoadPrayer(this.year, this.month, this.day);
+  const LoadPrayer({this.year, this.month, this.day, this.showDialog});
 }
 
 class SavePrayer extends PrayerEvent {

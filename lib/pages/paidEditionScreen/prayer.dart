@@ -4,10 +4,12 @@ import 'package:altar_of_prayers/pages/make_payment_screen.dart';
 import 'package:altar_of_prayers/widgets/app_scaffold.dart';
 import 'package:altar_of_prayers/widgets/error_screen.dart';
 import 'package:altar_of_prayers/widgets/loading_widget.dart';
+import 'package:altar_of_prayers/widgets/not_available.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:giffy_dialog/giffy_dialog.dart';
+import 'package:intl/intl.dart';
 
 class Prayer extends StatefulWidget {
   final int year;
@@ -45,11 +47,15 @@ class _PrayerState extends State<Prayer> {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-      title: '${widget.day}/${widget.month}/${widget.year}',
+      title: '${DateFormat('MMMMEEEEd').format(DateTime.now().toUtc())}',
       leading: buildLeadingIcon(widget.disableClose),
       body: BlocProvider<PrayerBloc>(
-        create: (context) =>
-            _prayerBloc..add(LoadPrayer(widget.year, widget.month, widget.day)),
+        create: (context) => _prayerBloc
+          ..add(LoadPrayer(
+              year: widget.year,
+              month: widget.month,
+              day: widget.day,
+              showDialog: false)),
         child: BlocListener<PrayerBloc, PrayerState>(
           listener: (context, state) {
             if (state is PrayerLoaded && state.showDialog)
@@ -62,15 +68,11 @@ class _PrayerState extends State<Prayer> {
                     fit: BoxFit.fitWidth,
                   ),
                   title: Text(
-                    'Congrats!',
+                    'Congrats! Payment Successful',
                     style:
                         TextStyle(fontSize: 22.0, fontWeight: FontWeight.w500),
                   ),
-                  description: Text(
-                    'Payment has been successfully made',
-                    style:
-                        TextStyle(fontSize: 20.0, fontWeight: FontWeight.w500),
-                  ),
+                  
                   onOkButtonPressed: () {
                     Navigator.of(
                       context,
@@ -86,7 +88,7 @@ class _PrayerState extends State<Prayer> {
             if (state is PrayerLoaded)
               return Center(
                   child: Text(
-                      'Today: ${widget.day}/${widget.month}/${widget.year}'));
+                      'Today: ${widget.day} / ${widget.month} / ${widget.year}'));
             if (state is ShowMakePaymentScreen)
               return MakePaymentScreen(
                 edition: state.edition,
@@ -94,15 +96,15 @@ class _PrayerState extends State<Prayer> {
               );
 
             if (state is PrayerNotAvailable)
-              return Center(
-                child: Text('Edition Not Available'),
+              return NotAvailable(
+                message: 'Not available',
               );
-            if (state is PrayerError)
-              return ErrorScreen(
-                errorMessage: state.error,
-                btnOnPressed: () => _prayerBloc
-                    .add(LoadPrayer(widget.year, widget.month, widget.day)),
-              );
+            // if (state is PrayerError)
+            //   return ErrorScreen(
+            //     errorMessage: state.error,
+            //     btnOnPressed: () => _prayerBloc
+            //         .add(LoadPrayer(widget.year, widget.month, widget.day)),
+            //   );
             return LoadingWidget();
           }),
         ),
