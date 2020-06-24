@@ -57,7 +57,7 @@ class EditionDetailCard extends StatelessWidget {
                 children: <Widget>[
                   if (title != null)
                     Text(title,
-                        style: Theme.of(context).textTheme.title.copyWith(
+                        style: Theme.of(context).textTheme.headline6.copyWith(
                             fontSize: 15, fontWeight: FontWeight.w500)),
                   SizedBox(
                     height: 5,
@@ -65,14 +65,14 @@ class EditionDetailCard extends StatelessWidget {
                   if (subtitle != null)
                     Text(subtitle,
                         textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.subtitle),
+                        style: Theme.of(context).textTheme.subtitle2),
                   SizedBox(
                     height: 5,
                   ),
                   if (caption != null)
                     Text(caption,
                         textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.subtitle),
+                        style: Theme.of(context).textTheme.subtitle2),
                 ],
               ))
             ],

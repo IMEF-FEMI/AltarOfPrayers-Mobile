@@ -49,7 +49,7 @@ class _NewEditionsPageState extends State<NewEditionsPage> {
             child: Text(
               'Sorry! No Edition has been published Yet',
               textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.title.copyWith(fontSize: 20, fontWeight: FontWeight.w400),
+              style: Theme.of(context).textTheme.headline6.copyWith(fontSize: 20, fontWeight: FontWeight.w400),
             ),
           ),
         ],

@@ -21,7 +21,7 @@ class NotAvailable extends StatelessWidget {
             child: Text(
               '$message',
               textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.title.copyWith(
+              style: Theme.of(context).textTheme.headline6.copyWith(
                     fontSize: 20,
                   ),
             ),

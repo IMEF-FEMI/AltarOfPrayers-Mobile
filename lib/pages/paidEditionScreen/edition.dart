@@ -70,7 +70,7 @@ class _MainEditionScreenState extends State<MainEditionScreen> {
               Text(
                 widget.edition.name,
                 textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.title.copyWith(
+                style: Theme.of(context).textTheme.headline6.copyWith(
                       fontWeight: FontWeight.w900,
                       fontSize: 20,
                     ),
@@ -83,11 +83,11 @@ class _MainEditionScreenState extends State<MainEditionScreen> {
                   children: <Widget>[
                     Text('Gifted to you by ',
                         textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.subtitle),
+                        style: Theme.of(context).textTheme.subtitle2),
                     Text(
                         '${widget.edition.paidBy['fullname']} \n (${widget.edition.paidBy['email']})',
                         textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.subtitle),
+                        style: Theme.of(context).textTheme.subtitle2),
                   ],
                 ),
               SizedBox(

@@ -26,7 +26,7 @@ class ErrorScreen extends StatelessWidget {
             child: Text(
               '$errorMessage',
               textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.title.copyWith(
+              style: Theme.of(context).textTheme.headline6.copyWith(
                     fontSize: 20,
                   ),
             ),

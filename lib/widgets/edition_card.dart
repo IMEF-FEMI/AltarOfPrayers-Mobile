@@ -95,7 +95,7 @@ class EditionCard extends StatelessWidget {
                           edition['name'],
                           style: Theme.of(context)
                               .textTheme
-                              .title
+                              .headline6
                               .copyWith(fontSize: 14),
                         ),
                         SizedBox(
@@ -119,7 +119,7 @@ class EditionCard extends StatelessWidget {
                         Text(
                           months[int.parse('${edition['startingMonth']}')] +
                               ' ',
-                          style: Theme.of(context).textTheme.subtitle,
+                          style: Theme.of(context).textTheme.subtitle2,
                         ),
                       ],
                     ),

@@ -47,7 +47,7 @@ class MainEditionCard extends StatelessWidget {
                 Text(
                   month,
                   textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.title.copyWith(
+                  style: Theme.of(context).textTheme.subtitle2.copyWith(
                         fontSize: 20,
                         fontWeight: FontWeight.w800,
                       ),

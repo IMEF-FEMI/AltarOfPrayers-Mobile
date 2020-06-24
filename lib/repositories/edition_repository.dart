@@ -116,8 +116,7 @@ class EditionsRepository {
       {int editionId, int startingMonth, int year}) async {
     var editionObj;
     // TODO: remove delete edition
-    
-    await _editionsDao.deleteEdition(editionId: editionId);
+    // await _editionsDao.deleteEdition(editionId: editionId);
     if (editionId != null)
       editionObj = await _editionsDao.getEdition(editionId: editionId);
     else
