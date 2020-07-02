@@ -83,7 +83,7 @@ class _MainScreenState extends State<MainScreen> {
             // primaryColor: Color(0xFF28a745),
             primaryColor: Theme.of(context).accentColor,
             textTheme: Theme.of(context).textTheme.copyWith(
-                  caption: TextStyle(color: Colors.grey[500]),
+                  caption: TextStyle(color: Colors.grey[500] ),
                 ),
           ),
           child: BottomNavigationBar(

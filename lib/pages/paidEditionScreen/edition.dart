@@ -42,13 +42,13 @@ class _MainEditionScreenState extends State<MainEditionScreen> {
           .add(Duration(days: daysInMonth(DateTime.utc(year, month, 01)) - 1)),
     );
 
-    if (picked != null) print('picked: ${picked.day}');
-    Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => Prayer(
-              year: picked.year,
-              month: picked.month,
-              day: picked.day,
-            )));
+    if (picked != null)
+      Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => Prayer(
+                year: picked.year,
+                month: picked.month,
+                day: picked.day,
+              )));
   }
 
   @override
@@ -57,83 +57,111 @@ class _MainEditionScreenState extends State<MainEditionScreen> {
         (BlocProvider.of<AuthenticationBloc>(context).state as Authenticated)
             .user;
 
-    return SingleChildScrollView(
-      child: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(
-            30,
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Text(
-                widget.edition.name,
-                textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.headline6.copyWith(
-                      fontWeight: FontWeight.w900,
-                      fontSize: 20,
-                    ),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              if (user.email != widget.edition.paidBy['email'])
-                Column(
-                  children: <Widget>[
-                    Text('Gifted to you by ',
-                        textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.subtitle2),
-                    Text(
-                        '${widget.edition.paidBy['fullname']} \n (${widget.edition.paidBy['email']})',
-                        textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.subtitle2),
-                  ],
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(
+              30,
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Text(
+                  widget.edition.name,
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.headline6.copyWith(
+                        fontWeight: FontWeight.w900,
+                        fontSize: 20,
+                      ),
                 ),
-              SizedBox(
-                height: 20,
-              ),
-              MainEditionCard(
-                  month:
-                      '${Tools.monthString[widget.edition.startingMonth - 1]}',
+                SizedBox(
+                  height: 10,
+                ),
+                if (user.email != widget.edition.paidBy['email'])
+                  Column(
+                    children: <Widget>[
+                      Text('Gifted to you by ',
+                          textAlign: TextAlign.center,
+                          style: Theme.of(context).textTheme.subtitle2),
+                      Text(
+                          '${widget.edition.paidBy['fullname']} \n (${widget.edition.paidBy['email']})',
+                          textAlign: TextAlign.center,
+                          style: Theme.of(context).textTheme.subtitle2),
+                    ],
+                  ),
+                SizedBox(
+                  height: 20,
+                ),
+                MainEditionCard(
+                    month:
+                        '${Tools.monthString[widget.edition.startingMonth - 1]}',
+                    icon: FontAwesomeIcons.calendarAlt,
+                    onPressed: () => _selectDate(context, widget.edition.year,
+                        widget.edition.startingMonth)),
+                SizedBox(
+                  height: 20,
+                ),
+                MainEditionCard(
+                  month: '${Tools.monthString[widget.edition.startingMonth]}',
                   icon: FontAwesomeIcons.calendarAlt,
                   onPressed: () => _selectDate(context, widget.edition.year,
-                      widget.edition.startingMonth)),
-              SizedBox(
-                height: 20,
-              ),
-              MainEditionCard(
-                month: '${Tools.monthString[widget.edition.startingMonth]}',
-                icon: FontAwesomeIcons.calendarAlt,
-                onPressed: () => _selectDate(context, widget.edition.year,
-                    widget.edition.startingMonth + 1),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              MainEditionCard(
-                month: '${Tools.monthString[widget.edition.startingMonth + 1]}',
-                icon: FontAwesomeIcons.calendarAlt,
-                onPressed: () => _selectDate(context, widget.edition.year,
-                    widget.edition.startingMonth + 2),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              MainEditionCard(
-                month: 'Gift A Copy ',
-                icon: FontAwesomeIcons.gift,
-                onPressed: () {},
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              MainEditionCard(
-                month: 'Copies Gifted',
-                icon: FontAwesomeIcons.gifts,
-                onPressed: () {},
-              ),
-            ],
+                      widget.edition.startingMonth + 1),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                MainEditionCard(
+                  month:
+                      '${Tools.monthString[widget.edition.startingMonth + 1]}',
+                  icon: FontAwesomeIcons.calendarAlt,
+                  onPressed: () => _selectDate(context, widget.edition.year,
+                      widget.edition.startingMonth + 2),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                MainEditionCard(
+                  month: 'Gift A Copy ',
+                  icon: FontAwesomeIcons.gift,
+                  onPressed: () {
+                    // showModalBottomSheet(
+                    showBottomSheet(
+                        context: context,
+                        elevation: 0,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8)),
+                        builder: ((BuildContext contex) {
+                          return Container(
+                            height: MediaQuery.of(context).size.height * .8,
+                            width: MediaQuery.of(context).size.width,
+                            // color: Colors.amber,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                const Text('Modal BottomSheet'),
+                                RaisedButton(
+                                  child: const Text('Close BottomSheet'),
+                                  onPressed: () => Navigator.pop(context),
+                                )
+                              ],
+                            ),
+                          );
+                        }));
+                  },
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                MainEditionCard(
+                  month: 'Copies Gifted',
+                  icon: FontAwesomeIcons.gifts,
+                  onPressed: () {},
+                ),
+              ],
+            ),
           ),
         ),
       ),
