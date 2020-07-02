@@ -55,8 +55,11 @@ class _MainScreenState extends State<MainScreen> {
           index: _currentIndex,
           children: <Widget>[
             CustomNav(
-              child:
-                  Prayer(year: today.year, month: today.month, day: today.day, disableClose:true),
+              child: Prayer(
+                  year: today.year,
+                  month: today.month,
+                  day: today.day,
+                  disableClose: true),
               navigatorkey: _navigatorKeys[0],
             ),
             CustomNav(
@@ -87,26 +90,74 @@ class _MainScreenState extends State<MainScreen> {
             type: BottomNavigationBarType.fixed,
             items: <BottomNavigationBarItem>[
               BottomNavigationBarItem(
-                icon: Icon(FontAwesomeIcons.calendarAlt),
-                title: Container(),
+                icon: Icon(FontAwesomeIcons.calendarAlt, size: 25),
+                title: Container(
+                  child: Column(
+                    children: <Widget>[
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Text(
+                        "Today",
+                        style: TextStyle(fontSize: 12),
+                      ),
+                    ],
+                  ),
+                ),
               ),
               BottomNavigationBarItem(
                 icon: Icon(
                   FontAwesomeIcons.home,
                 ),
-                title: Container(),
+                title: Container(
+                  child: Column(
+                    children: <Widget>[
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Text(
+                        "Home",
+                        style: TextStyle(fontSize: 12),
+                      ),
+                    ],
+                  ),
+                ),
               ),
               BottomNavigationBarItem(
                 icon: IconBadge(
                   icon: FontAwesomeIcons.solidBell,
                 ),
-                title: Container(),
+                title: Container(
+                  child: Column(
+                    children: <Widget>[
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Text(
+                        "Notifications",
+                        style: TextStyle(fontSize: 12),
+                      ),
+                    ],
+                  ),
+                ),
               ),
               BottomNavigationBarItem(
                 icon: Icon(
                   FontAwesomeIcons.infoCircle,
                 ),
-                title: Container(),
+                title: Container(
+                  child: Column(
+                    children: <Widget>[
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Text(
+                        "About",
+                        style: TextStyle(fontSize: 12),
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ],
             onTap: (index) {
