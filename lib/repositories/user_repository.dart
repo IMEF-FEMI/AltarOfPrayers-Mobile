@@ -1,4 +1,3 @@
-
 import 'package:altar_of_prayers/database/database.dart';
 import 'package:altar_of_prayers/graphql/graphql.dart';
 import 'package:altar_of_prayers/models/user.dart';
@@ -32,7 +31,9 @@ class UserRepository {
       QueryResult result = await _client.mutate(
         MutationOptions(
             documentNode: gql(queryMutation.loginUser(
-                email: email.toLowerCase(), password: password, loginMethod: "google"))),
+                email: email.toLowerCase(),
+                password: password,
+                loginMethod: "google"))),
       );
       if (!result.hasException) {
         // print("result.data: ${jsonEncode(result.data)}");
@@ -273,6 +274,23 @@ class UserRepository {
 
   Future<User> getUser() async {
     return userDao.getUser();
+  }
+
+  Future fetchUser({String email}) async {
+    GraphQLClient _client = await graphQLConfiguration.clientToQuery();
+
+    QueryResult result = await _client.query(
+      QueryOptions(
+          documentNode: gql(queryMutation.getUser(
+        email: email.toLowerCase(),
+      ))),
+    );
+
+    if (!result.hasException) {
+      return result.data;
+    } else {
+      return throw result.exception;
+    }
   }
 
   Future<void> signOut() async {

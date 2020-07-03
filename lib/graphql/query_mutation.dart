@@ -91,6 +91,28 @@ class QueryMutation {
     """;
   }
 
+  String getUser({String email}) {
+    return """
+      query {
+        user(email: "$email"){
+          id
+          fullname
+          email
+          paidBy{
+            edition{
+              id
+            }
+          }
+          paidFor{
+            edition{
+              id
+            }
+          }
+        }
+      }
+    """;
+  }
+
   String confirmPayment({int editionId, String reference, String paidFor}) {
     return """
       mutation{

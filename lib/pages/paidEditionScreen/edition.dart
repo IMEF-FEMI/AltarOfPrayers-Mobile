@@ -138,7 +138,7 @@ class _MainEditionScreenState extends State<MainEditionScreen> {
                             height: MediaQuery.of(context).size.height * .8,
                             width: MediaQuery.of(context).size.width,
                             // color: Colors.amber,
-                            child: GiftCopyScreen()
+                            child: GiftCopyScreen(editionId: widget.edition.id,)
                           );
                         }));
                   },

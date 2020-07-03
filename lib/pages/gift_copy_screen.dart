@@ -1,8 +1,13 @@
 import 'package:altar_of_prayers/blocs/gift_copy/bloc.dart';
+import 'package:altar_of_prayers/widgets/loading_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class GiftCopyScreen extends StatefulWidget {
+  final int editionId;
+
+  const GiftCopyScreen({Key key, @required this.editionId}) : super(key: key);
+
   @override
   _GiftCopyScreenState createState() => _GiftCopyScreenState();
 }
@@ -46,6 +51,7 @@ class _GiftCopyScreenState extends State<GiftCopyScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
+                    if (state is GiftCopyLoading) LoadingWidget(),
                     if (state is GiftCopyInitial)
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 18.0),
@@ -75,12 +81,21 @@ class _GiftCopyScreenState extends State<GiftCopyScreen> {
                     if (state is GiftCopyInitial)
                       RaisedButton(
                         color: Theme.of(context).accentColor,
-                        splashColor:Colors.white.withOpacity(.5) ,
+                        splashColor: Colors.white.withOpacity(.5),
                         shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8)),
-                        onPressed:
-                            isFindUserButtonEnabled(state) ? () {} : null,
-                        child: Text('Find User', style: TextStyle(color:Colors.white, fontSize: 15),),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        onPressed: isFindUserButtonEnabled(state)
+                            ? () {
+                                giftCopyBloc.add(FindUser(
+                                    email: _emailController.text,
+                                    editionId: widget.editionId));
+                              }
+                            : null,
+                        child: Text(
+                          'Find User',
+                          style: TextStyle(color: Colors.white, fontSize: 15),
+                        ),
                       )
                   ],
                 );

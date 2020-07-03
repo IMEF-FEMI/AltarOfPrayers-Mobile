@@ -35,6 +35,7 @@ class UserFound extends GiftCopyState {
 
 class UserNotFound extends GiftCopyState {}
 
+class UserAlreadyHasACopy extends GiftCopyState{}
 class Error extends GiftCopyState {
   final String error;
 
