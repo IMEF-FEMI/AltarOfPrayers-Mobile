@@ -23,11 +23,7 @@ class NewEditionsBloc extends Bloc<NewEditionsEvent, NewEditionsState> {
           seenEditions: seenEditions,
         );
       } catch (e) {
-        yield NewEditionsState(
-            editions: List(),
-            isLoading: false,
-            isFailure: true,
-            seenEditions: {});
+        yield NewEditionsState.isFailure();
       }
     }
   }

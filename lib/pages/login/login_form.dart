@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:altar_of_prayers/blocs/app_config/index.dart';
 import 'package:altar_of_prayers/blocs/authentication/bloc.dart';
 import 'package:altar_of_prayers/blocs/login/bloc.dart';

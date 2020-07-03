@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../gift_copy_screen.dart';
 import 'prayer.dart';
 
 class MainEditionScreen extends StatefulWidget {
@@ -137,17 +138,7 @@ class _MainEditionScreenState extends State<MainEditionScreen> {
                             height: MediaQuery.of(context).size.height * .8,
                             width: MediaQuery.of(context).size.width,
                             // color: Colors.amber,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              mainAxisSize: MainAxisSize.min,
-                              children: <Widget>[
-                                const Text('Modal BottomSheet'),
-                                RaisedButton(
-                                  child: const Text('Close BottomSheet'),
-                                  onPressed: () => Navigator.pop(context),
-                                )
-                              ],
-                            ),
+                            child: GiftCopyScreen()
                           );
                         }));
                   },

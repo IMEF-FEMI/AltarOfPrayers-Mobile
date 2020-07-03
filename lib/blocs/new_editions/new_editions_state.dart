@@ -13,7 +13,12 @@ class NewEditionsState {
       @required this.isFailure});
 
   factory NewEditionsState.loading() {
-    return NewEditionsState(isLoading: true, editions: [], isFailure: false, seenEditions:{});
+    return NewEditionsState(
+        isLoading: true, editions: [], isFailure: false, seenEditions: {});
+  }
+  factory NewEditionsState.isFailure() {
+    return NewEditionsState(
+        isLoading: false, editions: [], isFailure: true, seenEditions: {});
   }
   @override
   String toString() =>

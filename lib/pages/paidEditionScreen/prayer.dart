@@ -2,6 +2,7 @@ import 'package:altar_of_prayers/blocs/make_payment/bloc.dart';
 import 'package:altar_of_prayers/blocs/prayer/bloc.dart';
 import 'package:altar_of_prayers/pages/make_payment_screen.dart';
 import 'package:altar_of_prayers/widgets/app_scaffold.dart';
+import 'package:altar_of_prayers/widgets/error_screen.dart';
 import 'package:altar_of_prayers/widgets/loading_widget.dart';
 import 'package:altar_of_prayers/widgets/not_available.dart';
 import 'package:flutter/material.dart';
@@ -71,7 +72,6 @@ class _PrayerState extends State<Prayer> {
                     style:
                         TextStyle(fontSize: 22.0, fontWeight: FontWeight.w500),
                   ),
-                  
                   onOkButtonPressed: () {
                     Navigator.of(
                       context,
@@ -98,12 +98,12 @@ class _PrayerState extends State<Prayer> {
               return NotAvailable(
                 message: 'Not available',
               );
-            // if (state is PrayerError)
-            //   return ErrorScreen(
-            //     errorMessage: state.error,
-            //     btnOnPressed: () => _prayerBloc
-            //         .add(LoadPrayer(widget.year, widget.month, widget.day)),
-            //   );
+            if (state is PrayerError)
+              return ErrorScreen(
+                errorMessage: state.error,
+                btnOnPressed: () => _prayerBloc.add(LoadPrayer(
+                    year: widget.year, month: widget.month, day: widget.day)),
+              );
             return LoadingWidget();
           }),
         ),
