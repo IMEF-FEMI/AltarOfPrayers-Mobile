@@ -17,6 +17,8 @@ class GiftCopyBloc extends Bloc<GiftCopyEvent, GiftCopyState> {
       yield* _mapEmailChangedToState(event.email);
     } else if (event is FindUser) {
       yield* _mapFindUserToState(event.email, event.editionId);
+    }else if(event is InviteUser){
+      yield* _mapInviteUserToState(event.email);
     }
   }
 
@@ -48,7 +50,13 @@ class GiftCopyBloc extends Bloc<GiftCopyEvent, GiftCopyState> {
       yield UserFound(
           email: user["user"]["email"], fullName: user["user"]["fullname"]);
     } catch (e) {
-      print(e);
+      if (e.toString().contains("User not Found")) yield UserNotFound();
+      if (e.toString().contains("Connection failed"))
+        yield Error(error: "Error Fetching User Information");
     }
+  }
+
+  Stream<GiftCopyState> _mapInviteUserToState (String email)async*{
+    await _userRepository.inviteUser(email:email);
   }
 }

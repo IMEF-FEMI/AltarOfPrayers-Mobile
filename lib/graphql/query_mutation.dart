@@ -91,6 +91,16 @@ class QueryMutation {
     """;
   }
 
+  String sendInvitation({String email}) {
+    return """
+      mutation sendInvitation{
+        sendInvitation(email: "$email"){
+          success
+        }
+      }
+    """;
+  }
+
   String getUser({String email}) {
     return """
       query {

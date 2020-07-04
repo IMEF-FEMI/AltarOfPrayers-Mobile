@@ -15,7 +15,7 @@ class NotAvailable extends StatelessWidget {
             'assets/icons/empty.svg',
             height: 100,
           ),
-          SizedBox(height: 10),
+          SizedBox(height: 30),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: Text(

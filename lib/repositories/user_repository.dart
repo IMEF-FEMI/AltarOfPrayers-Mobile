@@ -289,7 +289,24 @@ class UserRepository {
     if (!result.hasException) {
       return result.data;
     } else {
-      return throw result.exception;
+      throw result.exception;
+    }
+  }
+  
+  Future inviteUser({String email}) async {
+     GraphQLClient _client = await graphQLConfiguration.clientToQuery();
+
+    QueryResult result = await _client.mutate(
+      MutationOptions(
+          documentNode: gql(queryMutation.sendInvitation(
+        email: email.toLowerCase(),
+      ))),
+    );
+
+    if (!result.hasException) {
+      return result.data;
+    } else {
+      throw result.exception;
     }
   }
 

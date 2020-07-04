@@ -32,3 +32,11 @@ class FindUser extends GiftCopyEvent {
   @override
   List<Object> get props => [email, editionId];
 }
+
+class InviteUser extends GiftCopyEvent {
+  final String email;
+
+  const InviteUser({
+    @required this.email,
+  });
+}
