@@ -40,3 +40,8 @@ class InviteUser extends GiftCopyEvent {
     @required this.email,
   });
 }
+
+class GiftedSuccessfulEvent extends GiftCopyEvent {
+  @override
+  List<Object> get props => ["GiftedSuccessfulEvent"];
+}

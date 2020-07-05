@@ -15,11 +15,16 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 class MakePaymentScreen extends StatefulWidget {
   final edition;
   final String paidFor;
+  final String fullName;
   final MakePaymentBloc makePaymentBloc;
 
-  const MakePaymentScreen(
-      {Key key, this.edition, this.paidFor, this.makePaymentBloc})
-      : super(key: key);
+  const MakePaymentScreen({
+    Key key,
+    this.edition,
+    this.paidFor,
+    this.fullName,
+    this.makePaymentBloc,
+  }) : super(key: key);
 
   @override
   _MakePaymentScreenState createState() => _MakePaymentScreenState();
@@ -41,6 +46,8 @@ class _MakePaymentScreenState extends State<MakePaymentScreen> {
   };
 
   String _getReference({String email}) {
+    var authState = BlocProvider.of<AuthenticationBloc>(context).state;
+
     String platform;
     if (Platform.isIOS) {
       platform = 'iOS';
@@ -48,7 +55,7 @@ class _MakePaymentScreenState extends State<MakePaymentScreen> {
       platform = 'Android';
     }
 
-    return 'ChargedFrom_${email}_${platform}_${DateTime.now().millisecondsSinceEpoch}';
+    return 'ChargedFrom_${(authState as Authenticated).user.email}_${platform}_${DateTime.now().millisecondsSinceEpoch}_paidFor_${email != null ? email : "self"}';
   }
 
   PaymentCard _getCardFromUI() {
@@ -69,10 +76,7 @@ class _MakePaymentScreenState extends State<MakePaymentScreen> {
       ..email = (authState as Authenticated).user.email
       ..card = _getCardFromUI();
 
-    charge.reference = _getReference(
-        email: widget.paidFor != null
-            ? widget.paidFor
-            : (authState as Authenticated).user.email);
+    charge.reference = _getReference(email: widget.paidFor);
 
     try {
       CheckoutResponse response = await PaystackPlugin.checkout(
@@ -102,7 +106,6 @@ class _MakePaymentScreenState extends State<MakePaymentScreen> {
     super.initState();
     _makePaymentBloc = widget.makePaymentBloc;
     PaystackPlugin.initialize(publicKey: Config.paystackPublicKey);
-
   }
 
   @override
@@ -131,19 +134,35 @@ class _MakePaymentScreenState extends State<MakePaymentScreen> {
                   SizedBox(
                     height: 20,
                   ),
-                  EditionDetailCard(
-                    title: widget.edition['name'],
-                    subtitle:
-                        months[int.parse('${widget.edition['startingMonth']}')],
-                    caption: '${widget.edition['year']}',
-                    leadingIcon: Icon(
-                      FontAwesomeIcons.solidCreditCard,
-                      size: 80,
+                  if (widget.paidFor == null)
+                    EditionDetailCard(
+                      title: widget.edition['name'],
+                      subtitle: months[
+                          int.parse('${widget.edition['startingMonth']}')],
+                      caption: '${widget.edition['year']}',
+                      leadingIcon: Icon(
+                        FontAwesomeIcons.solidCreditCard,
+                        size: 80,
+                      ),
+                      onPressed: () => {_handleCheckout(context)},
                     ),
-                    onPressed: () => {_handleCheckout(context)},
-                  ),
                   SizedBox(
                     height: 5,
+                  ),
+                  if(widget.paidFor !=null)
+                       Column(
+                    children: <Widget>[
+                      Text(widget.fullName,
+                          textAlign: TextAlign.center,
+                          style: Theme.of(context).textTheme.headline5),
+                      Text(
+                          widget.paidFor,
+                          textAlign: TextAlign.center,
+                          style: Theme.of(context).textTheme.headline6),
+                    ],
+                  ),
+                   SizedBox(
+                    height: 10,
                   ),
                   FlatButton.icon(
                     shape: RoundedRectangleBorder(

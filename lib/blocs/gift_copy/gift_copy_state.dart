@@ -33,6 +33,11 @@ class UserFound extends GiftCopyState {
   List<Object> get props => [fullName, email];
 }
 
+class GiftedSuccessfulState extends GiftCopyState {
+  @override
+  List<Object> get props => ["GiftedSuccessfulState"];
+}
+
 class UserNotFound extends GiftCopyState {}
 
 class UserAlreadyHasACopy extends GiftCopyState{}
