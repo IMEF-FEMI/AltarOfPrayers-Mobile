@@ -139,6 +139,7 @@ class QueryMutation {
           paidFor{
             fullname
             email
+            createdAt
           }
           edition{
             id

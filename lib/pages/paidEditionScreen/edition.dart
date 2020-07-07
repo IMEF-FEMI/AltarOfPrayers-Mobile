@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:altar_of_prayers/blocs/authentication/bloc.dart';
 import 'package:altar_of_prayers/models/edition.dart';
 import 'package:altar_of_prayers/models/user.dart';
@@ -127,7 +129,6 @@ class _MainEditionScreenState extends State<MainEditionScreen> {
                   month: 'Gift A Copy ',
                   icon: FontAwesomeIcons.gift,
                   onPressed: () {
-                    // showModalBottomSheet(
                     showBottomSheet(
                         context: context,
                         elevation: 0,
@@ -135,11 +136,12 @@ class _MainEditionScreenState extends State<MainEditionScreen> {
                             borderRadius: BorderRadius.circular(8)),
                         builder: ((BuildContext contex) {
                           return Container(
-                            height: MediaQuery.of(context).size.height * .8,
-                            width: MediaQuery.of(context).size.width,
-                            // color: Colors.amber,
-                            child: GiftCopyScreen(editionId: widget.edition.id,)
-                          );
+                              height: MediaQuery.of(context).size.height * .8,
+                              width: MediaQuery.of(context).size.width,
+                              // color: Colors.amber,
+                              child: GiftCopyScreen(
+                                editionId: widget.edition.id,
+                              ));
                         }));
                   },
                 ),
@@ -149,7 +151,33 @@ class _MainEditionScreenState extends State<MainEditionScreen> {
                 MainEditionCard(
                   month: 'Copies Gifted',
                   icon: FontAwesomeIcons.gifts,
-                  onPressed: () {},
+                  onPressed: () {
+                   print( JsonEncoder().convert(widget.edition.paidFor));
+                    showModalBottomSheet(
+                        // showBottomSheet(
+                        context: context,
+                        elevation: 10,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(18)),
+                        builder: ((BuildContext contex) {
+                          return Container(
+                              height: MediaQuery.of(context).size.height * .9,
+                              width: MediaQuery.of(context).size.width,
+                              // color: Colors.amber,
+                              child: Center(
+                                child: SingleChildScrollView(
+                                  child: ListView.builder(
+                                    
+                                    shrinkWrap: true,
+                                    itemCount: 2,
+                                    itemBuilder: (context, index) {
+                                      return Text("data");
+                                    },
+                                  ),
+                                ),
+                              ));
+                        }));
+                  },
                 ),
               ],
             ),
