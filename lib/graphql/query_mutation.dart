@@ -108,14 +108,49 @@ class QueryMutation {
           id
           fullname
           email
+          isVerified
           paidBy{
+            id
+            paidBy{
+              fullname
+              email
+            }
+            paidFor{
+              fullname
+              email
+            }
             edition{
               id
+              name
+              startingMonth
+              year
+              published
+              createdAt
+              monthOne
+              monthTwo
+              monthThree
             }
           }
           paidFor{
+            id
+            paidBy{
+              fullname
+              email
+            }
+            paidFor{
+              fullname
+              email
+            }
             edition{
               id
+              name
+              startingMonth
+              year
+              published
+              createdAt
+              monthOne
+              monthTwo
+              monthThree
             }
           }
         }
@@ -135,6 +170,7 @@ class QueryMutation {
           paidBy{
             fullname
             email
+            createdAt
           }
           paidFor{
             fullname
@@ -180,10 +216,12 @@ class QueryMutation {
           paidBy{
             fullname
             email
+            createdAt
           }
           paidFor{
             fullname
             email
+            createdAt
           }
           edition{
             id

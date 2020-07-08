@@ -112,6 +112,10 @@ class EditionsRepository {
     }
   }
 
+  Future<List<Edition>> getEditions() async{
+    
+  }
+
   Future<Edition> getEdition(
       {int editionId, int startingMonth, int year}) async {
     var editionObj;

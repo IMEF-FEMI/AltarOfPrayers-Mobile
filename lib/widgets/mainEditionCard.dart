@@ -36,6 +36,7 @@ class MainEditionCard extends StatelessWidget {
                 child: Icon(
                   icon,
                   size: 40,
+                  color: Colors.cyan,
                 ),
               ),
             ),

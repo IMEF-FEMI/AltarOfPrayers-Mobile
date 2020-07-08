@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:altar_of_prayers/blocs/authentication/bloc.dart';
 import 'package:altar_of_prayers/models/edition.dart';
 import 'package:altar_of_prayers/models/user.dart';
@@ -8,6 +6,7 @@ import 'package:altar_of_prayers/widgets/mainEditionCard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/intl.dart';
 
 import '../gift_copy_screen.dart';
 import 'prayer.dart';
@@ -152,31 +151,107 @@ class _MainEditionScreenState extends State<MainEditionScreen> {
                   month: 'Copies Gifted',
                   icon: FontAwesomeIcons.gifts,
                   onPressed: () {
-                   print( JsonEncoder().convert(widget.edition.paidFor));
-                    showModalBottomSheet(
-                        // showBottomSheet(
-                        context: context,
-                        elevation: 10,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(18)),
-                        builder: ((BuildContext contex) {
-                          return Container(
-                              height: MediaQuery.of(context).size.height * .9,
-                              width: MediaQuery.of(context).size.width,
-                              // color: Colors.amber,
-                              child: Center(
-                                child: SingleChildScrollView(
+                    if (widget.edition.copiesGifted.length == 0)
+                      showModalBottomSheet(
+                          // showBottomSheet(
+                          context: context,
+                          elevation: 10,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(18),
+                                  topRight: Radius.circular(18))),
+                          builder: ((BuildContext contex) {
+                            return Container(
+                                height: MediaQuery.of(context).size.height * .9,
+                                width: MediaQuery.of(context).size.width,
+                                // color: Colors.amber,
+                                child: Center(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      Icon(
+                                        FontAwesomeIcons.gift,
+                                        size: 100,
+                                        color: Colors.pink,
+                                      ),
+                                      SizedBox(height: 30),
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 8.0),
+                                        child: Text(
+                                          "You have not gifted any copy yet",
+                                          textAlign: TextAlign.center,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .headline6
+                                              .copyWith(
+                                                  fontSize: 28,
+                                                  fontWeight: FontWeight.w800),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 30,
+                                      ),
+                                    ],
+                                  ),
+                                ));
+                          }));
+                    if (widget.edition.copiesGifted.length > 0)
+                      showModalBottomSheet(
+                          // showBottomSheet(
+                          context: context,
+                          elevation: 10,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(18)),
+                          builder: ((BuildContext contex) {
+                            return Container(
+                                height: MediaQuery.of(context).size.height * .9,
+                                width: MediaQuery.of(context).size.width,
+                                // color: Colors.amber,
+                                child: Center(
                                   child: ListView.builder(
-                                    
                                     shrinkWrap: true,
-                                    itemCount: 2,
+                                    itemCount:
+                                        widget.edition.copiesGifted.length,
                                     itemBuilder: (context, index) {
-                                      return Text("data");
+                                      return Column(
+                                        children: <Widget>[
+                                          Text(
+                                            widget.edition.copiesGifted[index]
+                                                ["paidFor"]["fullname"],
+                                            textAlign: TextAlign.center,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .headline5,
+                                          ),
+                                          Text(
+                                            widget.edition.copiesGifted[index]
+                                                ["paidFor"]["email"],
+                                            textAlign: TextAlign.center,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .headline6,
+                                          ),
+                                          Text(
+                                            DateFormat('yMMMMd').format(
+                                              DateTime.parse(widget.edition
+                                                      .copiesGifted[index]
+                                                  ["paidFor"]["createdAt"]),
+                                            ),
+                                            textAlign: TextAlign.center,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .subtitle2,
+                                          ),
+                                          SizedBox(
+                                            height: 20,
+                                          )
+                                        ],
+                                      );
                                     },
                                   ),
-                                ),
-                              ));
-                        }));
+                                ));
+                          }));
                   },
                 ),
               ],
