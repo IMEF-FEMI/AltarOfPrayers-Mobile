@@ -1,4 +1,3 @@
-import 'package:altar_of_prayers/models/edition.dart';
 import 'package:equatable/equatable.dart';
 
 class MyEditionsState extends Equatable {
@@ -11,15 +10,15 @@ class MyEditionsState extends Equatable {
 class LoadingMyEditions extends MyEditionsState {}
 
 class MyEditionsLoaded extends MyEditionsState {
-  final List<Edition> editions;
+  final List editions;
 
   const MyEditionsLoaded({this.editions});
 }
 
-class MyEditionNotLoaded extends MyEditionsState {
+class MyEditionsNotLoaded extends MyEditionsState {
   final bool isLoading;
 
-  const MyEditionNotLoaded({this.isLoading});
+  const MyEditionsNotLoaded({this.isLoading});
 }
 
 class MyEditionError extends MyEditionsState {

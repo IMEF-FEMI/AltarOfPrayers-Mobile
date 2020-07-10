@@ -5,6 +5,8 @@ import 'package:altar_of_prayers/widgets/category_card.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../my_edition_page.dart';
+
 class Home extends StatelessWidget {
   final User user;
 
@@ -46,11 +48,12 @@ class Home extends StatelessWidget {
                   onTap: () => Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => NewEditionsPage()))),
               CategoryCard(
-                title: 'My Editions',
-                desctiption: 'All Editions you have Subscribed for',
-                color: Colors.cyan,
-                icon: FontAwesomeIcons.bookOpen,
-              ),
+                  title: 'My Editions',
+                  desctiption: 'All Editions you have Subscribed for',
+                  color: Colors.cyan,
+                  icon: FontAwesomeIcons.bookOpen,
+                  onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => MyEditionsPage()))),
               CategoryCard(
                 title: 'My Profile',
                 desctiption: 'Informations about your account ',

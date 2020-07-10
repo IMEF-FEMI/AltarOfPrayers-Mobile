@@ -112,8 +112,15 @@ class EditionsRepository {
     }
   }
 
-  Future<List<Edition>> getEditions() async{
-    
+  Future<List<Edition>> getLocalEditions() async {
+    List<Map<String, dynamic>> localEditions = await _editionsDao.getEditions();
+    if (localEditions == null) return [];
+    List<Edition> editions = localEditions.length != 0
+        ? localEditions
+            .map((edition) => Edition.fromDatabaseJson(edition))
+            .toList()
+        : [];
+    return editions;
   }
 
   Future<Edition> getEdition(
@@ -121,14 +128,14 @@ class EditionsRepository {
     var editionObj;
     // TODO: remove delete edition
     // await _editionsDao.deleteEdition(editionId: editionId);
-    if (editionId != null)
+    if (editionId != null) {
       editionObj = await _editionsDao.getEdition(editionId: editionId);
-    else
+    } else {
       editionObj = await _editionsDao.getEdition(
           startingMonth: startingMonth, year: year);
-
+    }
     if (editionObj == null) {
-      GraphQLClient _client = await _graphQLConfiguration.clientToQuery();
+     GraphQLClient _client = await _graphQLConfiguration.clientToQuery();
       QueryResult result = await _client.query(
         QueryOptions(
           documentNode: gql(

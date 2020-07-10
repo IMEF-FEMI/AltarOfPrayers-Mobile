@@ -292,15 +292,29 @@ class UserRepository {
       throw result.exception;
     }
   }
-  
+
   Future inviteUser({String email}) async {
-     GraphQLClient _client = await graphQLConfiguration.clientToQuery();
+    GraphQLClient _client = await graphQLConfiguration.clientToQuery();
 
     QueryResult result = await _client.mutate(
       MutationOptions(
           documentNode: gql(queryMutation.sendInvitation(
         email: email.toLowerCase(),
       ))),
+    );
+
+    if (!result.hasException) {
+      return result.data;
+    } else {
+      throw result.exception;
+    }
+  }
+
+  Future<Map<String, dynamic>> currentUserInfo() async {
+    GraphQLClient _client = await graphQLConfiguration.clientToQuery();
+
+    QueryResult result = await _client.query(
+      QueryOptions(documentNode: gql(queryMutation.currentUser())),
     );
 
     if (!result.hasException) {

@@ -15,10 +15,10 @@ class EditionsDao {
   }
 
   Future<int> saveEdition(Edition edition) async {
+    
     final db = await dbProvider.database;
     // if edition exists simply update it
-    var previouslySavedEdition = getEdition(editionId: edition.id);
-    print("previouslySavedEdition $previouslySavedEdition");
+    var previouslySavedEdition = await getEdition(editionId: edition.id);
     if (previouslySavedEdition != null) {
       Future<int> result = db.update(editionsTable, edition.toDatabaseJson(),
           where: "id = ?", whereArgs: [edition.id]);
@@ -49,6 +49,15 @@ class EditionsDao {
     );
 
     return result;
+  }
+
+  Future<List<Map<String, dynamic>>> getEditions() async {
+    final db = await dbProvider.database;
+    List<Map<String, dynamic>> result = await db.query(
+      editionsTable,
+    );
+    if (result.length > 0) return result;
+    return null;
   }
 
   Future<Map<String, dynamic>> getEdition(

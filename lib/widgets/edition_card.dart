@@ -1,3 +1,4 @@
+
 import 'package:altar_of_prayers/pages/NewEditions/new_edition_page.dart';
 import 'package:altar_of_prayers/utils/tools.dart';
 import 'package:altar_of_prayers/widgets/badge_decoration.dart';
@@ -22,7 +23,9 @@ class EditionCard extends StatelessWidget {
   };
   BadgeDecoration buildBadgeDecoration() {
     // show new badge if edition has not been seen and user has not paid
-    if (!seenEditions.containsKey(edition['id'].toString()) &&
+
+    if (seenEditions != null &&
+        !seenEditions.containsKey(edition['id'].toString()) &&
         edition['paid'] == false)
       return const BadgeDecoration(
           badgeColor: Colors.red,
@@ -31,7 +34,7 @@ class EditionCard extends StatelessWidget {
             text: "New",
             style: TextStyle(color: Colors.white, fontSize: 12),
           ));
-    else if (edition['paid'] == true)
+    else if (seenEditions != null && edition['paid'] == true)
       return const BadgeDecoration(
           badgeColor: Colors.green,
           badgeSize: 50,
