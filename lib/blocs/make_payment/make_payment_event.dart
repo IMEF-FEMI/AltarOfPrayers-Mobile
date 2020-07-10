@@ -26,3 +26,5 @@ class CompleteTransaction extends MakePaymentEvent {
 
   const CompleteTransaction({this.paidFor, this.editionId, this.reference});
 }
+
+class GetUserInfo extends MakePaymentEvent {}

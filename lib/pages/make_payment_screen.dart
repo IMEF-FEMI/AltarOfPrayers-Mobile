@@ -6,6 +6,7 @@ import 'package:altar_of_prayers/utils/config.dart';
 import 'package:altar_of_prayers/widgets/edition_detail_card.dart';
 import 'package:altar_of_prayers/widgets/error_screen.dart';
 import 'package:altar_of_prayers/widgets/loading_widget.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_paystack/flutter_paystack.dart';
@@ -68,6 +69,21 @@ class _MakePaymentScreenState extends State<MakePaymentScreen> {
     );
   }
 
+  _adminCheckout(BuildContext context) async {
+    String platform;
+    if (Platform.isIOS) {
+      platform = 'iOS';
+    } else {
+      platform = 'Android';
+    }
+    _makePaymentBloc.add(CompleteTransaction(
+      reference:
+          "ChargedFrom_admin_${platform}_${DateTime.now().millisecondsSinceEpoch}_paidFor_${widget.paidFor != null ? widget.paidFor : "self"}",
+      editionId: widget.edition['id'],
+      paidFor: widget.paidFor,
+    ));
+  }
+
   _handleCheckout(BuildContext context) async {
     var authState = BlocProvider.of<AuthenticationBloc>(context).state;
 
@@ -101,6 +117,10 @@ class _MakePaymentScreenState extends State<MakePaymentScreen> {
     }
   }
 
+  _getUserInfo(BuildContext context) async {
+    _makePaymentBloc.add(GetUserInfo());
+  }
+
   @override
   void initState() {
     super.initState();
@@ -115,94 +135,154 @@ class _MakePaymentScreenState extends State<MakePaymentScreen> {
         ..add(
           CheckForIncompleteTransactions(editionId: widget.edition['id']),
         ),
-      child: BlocBuilder<MakePaymentBloc, MakePaymentState>(
-          builder: (context, state) {
-        if (state is ShowPaymentScreen)
-          return SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 30),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Center(
-                    child: SvgPicture.asset(
-                      'assets/icons/bible.svg',
-                      fit: BoxFit.contain,
-                      height: MediaQuery.of(context).size.height * .3,
+      child: BlocListener<MakePaymentBloc, MakePaymentState>(
+        listener: (context, state) {
+          if (state is ShowPaymentScreen && state.showLoadingDialog == true)
+            showDialog(
+                barrierDismissible: false,
+                context: context,
+                builder: (context) {
+                  return WillPopScope(
+                    onWillPop: () async {
+                      return false;
+                    },
+                    child: Center(
+                      child: Platform.isIOS
+                          ? new CupertinoActivityIndicator()
+                          : new CircularProgressIndicator(),
                     ),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  if (widget.paidFor == null)
-                    EditionDetailCard(
-                      title: widget.edition['name'],
-                      subtitle: months[
-                          int.parse('${widget.edition['startingMonth']}')],
-                      caption: '${widget.edition['year']}',
-                      leadingIcon: Icon(
-                        FontAwesomeIcons.solidCreditCard,
-                        size: 80,
-                      ),
-                      onPressed: () => {_handleCheckout(context)},
-                    ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  if(widget.paidFor !=null)
-                       Column(
-                    children: <Widget>[
-                      Text(widget.fullName,
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.headline5),
-                      Text(
-                          widget.paidFor,
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.headline6),
-                    ],
-                  ),
-                   SizedBox(
-                    height: 10,
-                  ),
-                  FlatButton.icon(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8)),
-                    color: Colors.green,
-                    onPressed: () => {_handleCheckout(context)},
-                    icon: Icon(
-                      Icons.credit_card,
-                      color: Colors.white,
-                    ),
-                    label: Text(
-                      'Make Payment',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  )
-                ],
-              ),
-            ),
-          );
-        if (state is PaymentFailed) {
-          if (state.error == 'Transaction Failed')
-            return ErrorScreen(
-              errorMessage: '${state.error}',
-              btnText: 'Close',
-              btnOnPressed: () => _makePaymentBloc.add(
-                  CheckForIncompleteTransactions(editionId: state.editionId)),
-            );
+                  );
+                });
 
-          return ErrorScreen(
-              errorMessage: '${state.error}',
-              btnText: 'Confirm Payment',
-              btnOnPressed: () => _makePaymentBloc.add(
-                    CompleteTransaction(
-                      reference: state.reference,
-                      editionId: state.editionId,
+          if (state is LoadUserInfo) {
+            Navigator.of(
+              context,
+              rootNavigator: true,
+            ).pop();
+            if (state.user != null && state.user.admin == false) {
+              _handleCheckout(context);
+            } else {
+              _adminCheckout(context);
+            }
+
+            if (state.user != null && state.user.isVerified == false) {
+              Navigator.of(
+                context,
+                rootNavigator: true,
+              ).pop();
+              Scaffold.of(context)
+                ..hideCurrentSnackBar()
+                ..showSnackBar(
+                  SnackBar(
+                    behavior: SnackBarBehavior.fixed,
+                    content: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                            child: Text(
+                          'Error: Please Verify Your Email before you continue',
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
+                          textAlign: TextAlign.center,
+                        )),
+                        Icon(Icons.error, color: Colors.white),
+                      ],
                     ),
-                  ));
-        }
-        return LoadingWidget();
-      }),
+                    backgroundColor: Colors.red,
+                  ),
+                );
+            }
+          }
+        },
+        child: BlocBuilder<MakePaymentBloc, MakePaymentState>(
+            builder: (context, state) {
+          if (state is ShowPaymentScreen || state is LoadUserInfo)
+            return SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 30),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Center(
+                      child: SvgPicture.asset(
+                        'assets/icons/bible.svg',
+                        fit: BoxFit.contain,
+                        height: MediaQuery.of(context).size.height * .3,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    if (widget.paidFor == null)
+                      EditionDetailCard(
+                        title: widget.edition['name'],
+                        subtitle: months[
+                            int.parse('${widget.edition['startingMonth']}')],
+                        caption: '${widget.edition['year']}',
+                        leadingIcon: Icon(
+                          FontAwesomeIcons.solidCreditCard,
+                          size: 80,
+                        ),
+                        onPressed: () => {_getUserInfo(context)},
+                      ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    if (widget.paidFor != null)
+                      Column(
+                        children: <Widget>[
+                          Text(widget.fullName,
+                              textAlign: TextAlign.center,
+                              style: Theme.of(context).textTheme.headline5),
+                          Text(widget.paidFor,
+                              textAlign: TextAlign.center,
+                              style: Theme.of(context).textTheme.headline6),
+                        ],
+                      ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    FlatButton.icon(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8)),
+                      color: Colors.green,
+                      onPressed: () => {_getUserInfo(context)},
+                      icon: Icon(
+                        Icons.credit_card,
+                        color: Colors.white,
+                      ),
+                      label: Text(
+                        'Make Payment',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            );
+          if (state is PaymentFailed) {
+            if (state.error == 'Transaction Failed')
+              return ErrorScreen(
+                errorMessage: '${state.error}',
+                btnText: 'Close',
+                btnOnPressed: () => _makePaymentBloc.add(
+                    CheckForIncompleteTransactions(editionId: state.editionId)),
+              );
+
+            return ErrorScreen(
+                errorMessage: '${state.error}',
+                btnText: 'Confirm Payment',
+                btnOnPressed: () => _makePaymentBloc.add(
+                      CompleteTransaction(
+                        reference: state.reference,
+                        editionId: state.editionId,
+                      ),
+                    ));
+          }
+          return LoadingWidget();
+        }),
+      ),
     );
   }
 }

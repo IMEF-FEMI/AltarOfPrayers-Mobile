@@ -76,6 +76,7 @@ class QueryMutation {
               email
               fullname
               accountType
+              isVerified
                paidBy{
               id
               paidBy{
@@ -143,6 +144,16 @@ class QueryMutation {
         }
       }
     """;
+  }
+
+  String resendConfirmationEmail({String email}) {
+    return """
+        mutation resendConfirmationEmail {
+          resendConfirmationEmail(email: "$email"){
+            success
+            error
+          }
+      }""";
   }
 
   String getUser({String email}) {

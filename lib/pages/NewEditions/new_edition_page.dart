@@ -51,7 +51,8 @@ class NewEditionPageState extends State<NewEditionPage> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<EditionBloc>(
-      create: (context) => _editionBloc..add(LoadEdition(edition:widget.edition,showDialog: false)),
+      create: (context) => _editionBloc
+        ..add(LoadEdition(edition: widget.edition, showDialog: false)),
       child: AppScaffold(
         title: '',
         leading: IconButton(
@@ -100,23 +101,28 @@ class NewEditionPageState extends State<NewEditionPage> {
               showDialog(
                 context: context,
                 barrierDismissible: false,
-                builder: (context) => AssetGiffyDialog(
-                  image: Image.asset(
-                    'assets/images/success.gif',
-                    fit: BoxFit.fitWidth,
-                  ),
-                  title: Text(
-                    'Congrats! Payment Successful',
-                    style:
-                        TextStyle(fontSize: 22.0, fontWeight: FontWeight.w500),
-                  ),
-                  onOkButtonPressed: () {
-                    Navigator.of(
-                      context,
-                      rootNavigator: true,
-                    ).pop(true);
+                builder: (context) => WillPopScope(
+                  onWillPop: () async {
+                    return false;
                   },
-                  onlyOkButton: true,
+                  child: AssetGiffyDialog(
+                    image: Image.asset(
+                      'assets/images/success.gif',
+                      fit: BoxFit.fitWidth,
+                    ),
+                    title: Text(
+                      'Congrats! Payment Successful',
+                      style: TextStyle(
+                          fontSize: 22.0, fontWeight: FontWeight.w500),
+                    ),
+                    onOkButtonPressed: () {
+                      Navigator.of(
+                        context,
+                        rootNavigator: true,
+                      ).pop(true);
+                    },
+                    onlyOkButton: true,
+                  ),
                 ),
               );
             }
@@ -136,8 +142,8 @@ class NewEditionPageState extends State<NewEditionPage> {
                 return ErrorScreen(
                   errorMessage: '${state.error}',
                   btnText: 'Try Again',
-                  btnOnPressed: () =>
-                      _editionBloc.add(LoadEdition(edition:widget.edition, showDialog: false)),
+                  btnOnPressed: () => _editionBloc.add(
+                      LoadEdition(edition: widget.edition, showDialog: false)),
                 );
               }
               return LoadingWidget();

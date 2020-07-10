@@ -27,6 +27,9 @@ class Prayer extends StatefulWidget {
 
 class _PrayerState extends State<Prayer> {
   PrayerBloc _prayerBloc;
+  GlobalKey<RefreshIndicatorState> refreshKey =
+      GlobalKey<RefreshIndicatorState>();
+
   MakePaymentBloc _makePaymentBloc;
   bool saved = false;
 
@@ -42,6 +45,16 @@ class _PrayerState extends State<Prayer> {
     super.dispose();
     _makePaymentBloc.close();
     _prayerBloc.close();
+  }
+
+  Future<Null> loadPrayer() async {
+    _prayerBloc.add(LoadPrayer(
+        year: widget.year,
+        month: widget.month,
+        day: widget.day,
+        showDialog: false));
+    await Future.delayed(Duration(seconds: 2));
+    return null;
   }
 
   @override
