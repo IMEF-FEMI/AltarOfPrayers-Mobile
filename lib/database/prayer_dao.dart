@@ -16,6 +16,17 @@ class PrayerDao {
     return 1;
   }
 
+  Future deletePrayer({int id}) async {
+    final db = await dbProvider.database;
+    var result = await db.delete(
+      prayersTable,
+      where: "id = ?",
+      whereArgs: [id],
+    );
+
+    return result;
+  }
+
   Future<Map<String, dynamic>> getPrayer({int id}) async {
     final db = await dbProvider.database;
 

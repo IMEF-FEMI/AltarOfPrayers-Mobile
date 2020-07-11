@@ -20,11 +20,11 @@ class LoadPrayer extends PrayerEvent {
 class SavePrayer extends PrayerEvent {
   final Prayer prayer;
 
-  const SavePrayer(this.prayer);
+  const SavePrayer({this.prayer});
 }
 
 class UnsavePrayer extends PrayerEvent {
   final Prayer prayer;
 
-  const UnsavePrayer(this.prayer);
+  const UnsavePrayer({this.prayer});
 }

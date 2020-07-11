@@ -6,16 +6,19 @@ import 'package:altar_of_prayers/blocs/prayer/bloc.dart';
 import 'package:altar_of_prayers/models/edition.dart';
 import 'package:altar_of_prayers/models/prayer.dart';
 import 'package:altar_of_prayers/repositories/edition_repository.dart';
+import 'package:altar_of_prayers/repositories/prayer_repository.dart';
 import 'package:bloc/bloc.dart';
 
 class PrayerBloc extends Bloc<PrayerEvent, PrayerState> {
-  EditionsRepository editionsRepository = EditionsRepository();
+  EditionsRepository _editionsRepository = EditionsRepository();
+  PrayerRepository _prayerRepository = PrayerRepository();
+
   final MakePaymentBloc makePaymentBloc;
-  StreamSubscription subscription;
+  StreamSubscription _subscription;
 
   PrayerBloc({this.makePaymentBloc}) {
     if (makePaymentBloc == null) return;
-    subscription = makePaymentBloc.listen((makePaymentState) {
+    _subscription = makePaymentBloc.listen((makePaymentState) {
       if (makePaymentState is PaymentSuccessful) {
         DateTime today = DateTime.now().toUtc();
         this.add(LoadPrayer(
@@ -32,7 +35,7 @@ class PrayerBloc extends Bloc<PrayerEvent, PrayerState> {
 
   @override
   Future<void> close() {
-    subscription.cancel();
+    _subscription.cancel();
     return super.close();
   }
 
@@ -41,7 +44,12 @@ class PrayerBloc extends Bloc<PrayerEvent, PrayerState> {
     if (event is LoadPrayer) {
       yield* _mapLoadPrayerToState(event);
     } else if (event is SavePrayer) {
-    } else if (event is UnsavePrayer) {}
+      await _prayerRepository.savePrayer(prayer: event.prayer);
+      yield PrayerLoaded(prayer: event.prayer, saved: true);
+    } else if (event is UnsavePrayer) {
+      await _prayerRepository.deletePrayer(id: event.prayer.id);
+      yield PrayerLoaded(prayer: event.prayer, saved: false);
+    }
   }
 
   Map<String, dynamic> checkIfEditionAvailable(
@@ -76,7 +84,7 @@ class PrayerBloc extends Bloc<PrayerEvent, PrayerState> {
 
     try {
       // get Prayer
-      Edition edition = await editionsRepository.getEdition(
+      Edition edition = await _editionsRepository.getEdition(
           startingMonth: startingMonth, year: year);
 
       if (edition == null) {
@@ -84,7 +92,7 @@ class PrayerBloc extends Bloc<PrayerEvent, PrayerState> {
         // if edition returns null check if that edition exists,
         // if it does, display make payment page else
         // show not available screen
-        final editionList = await editionsRepository.getPublishedEditions();
+        final editionList = await _editionsRepository.getPublishedEditions();
         Map available =
             checkIfEditionAvailable(editionList, startingMonth, year);
         if (available['available']) {
@@ -108,9 +116,12 @@ class PrayerBloc extends Bloc<PrayerEvent, PrayerState> {
           passage: prayerJson["passage"],
           message: prayerJson["message"],
           prayerPoints: prayerJson["prayerPoints"]);
-      // check if prayer has been saved here
+      // check if prayer has been saved
+      var savedPrayer = await _prayerRepository.getPrayer(id: prayer.id);
       yield PrayerLoaded(
-          prayer: prayer, showDialog: event.showDialog, saved: false);
+          prayer: prayer,
+          showDialog: event.showDialog,
+          saved: savedPrayer != null);
     } catch (e) {
       print(e);
       yield PrayerError('Oops! an error occured');

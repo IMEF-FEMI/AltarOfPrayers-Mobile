@@ -29,7 +29,7 @@ class Prayer {
       'topic': topic,
       'passage': passage,
       'message': message,
-      'prayerPoints': JsonEncoder().convert(prayerPoints)
+      'prayer_points': JsonEncoder().convert(prayerPoints)
     };
   }
 }

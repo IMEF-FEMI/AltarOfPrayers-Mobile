@@ -92,13 +92,21 @@ class _PrayerState extends State<Prayer> {
                   onlyOkButton: true,
                 ),
               );
+            if (state is PrayerLoaded && state.saved == true)
+              setState(() {
+                saved = true;
+              });
+            if (state is PrayerLoaded && state.saved == false)
+              setState(() {
+                saved = false;
+              });
           },
           child:
               BlocBuilder<PrayerBloc, PrayerState>(builder: (context, state) {
             return AppScaffold(
               title:
                   '${DateFormat('MMMMEEEEd').format(DateTime(widget.year, widget.month, widget.day))}',
-              leading: buildLeadingIcon(widget.disableClose, state),
+              leading: _buildLeadingIcon(context, widget.disableClose, state),
               body: _prayerBody(state),
             );
           }),
@@ -131,7 +139,7 @@ class _PrayerState extends State<Prayer> {
     return LoadingWidget();
   }
 
-  IconButton buildLeadingIcon(bool disableClose, PrayerState state) {
+  IconButton _buildLeadingIcon(BuildContext context, bool disableClose, PrayerState state) {
     if (!widget.disableClose)
       return IconButton(
         icon: Icon(
@@ -143,16 +151,67 @@ class _PrayerState extends State<Prayer> {
       );
     return IconButton(
       icon: Icon(
-        state is PrayerLoaded
-            ? state.saved
-                ? FontAwesomeIcons.solidBookmark
-                : FontAwesomeIcons.bookmark
-            : FontAwesomeIcons.bookmark,
-      ),
+          saved ? FontAwesomeIcons.solidBookmark : FontAwesomeIcons.bookmark),
       onPressed: () {
-        setState(() {
-          saved = !saved;
-        });
+        if (state is PrayerLoaded) {
+          if (saved) {
+            _prayerBloc.add(UnsavePrayer(prayer: state.prayer));
+            setState(() {
+              saved = false;
+            });
+             Scaffold.of(context)
+                ..hideCurrentSnackBar()
+                ..showSnackBar(
+                  SnackBar(
+                    behavior: SnackBarBehavior.fixed,
+                    content: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                            child: Text(
+                          'Removed',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                          ),
+                          textAlign: TextAlign.center,
+                        )),
+                        Icon(FontAwesomeIcons.bookmark, color: Colors.white),
+                      ],
+                    ),
+                    backgroundColor: Colors.red,
+                  ),
+                );
+          } else {
+            _prayerBloc.add(SavePrayer(prayer: state.prayer));
+            setState(() {
+              saved = true;
+            });
+             Scaffold.of(context)
+                ..hideCurrentSnackBar()
+                ..showSnackBar(
+                  SnackBar(
+                    behavior: SnackBarBehavior.fixed,
+                    content: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                            child: Text(
+                          'Saved',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                          ),
+                          textAlign: TextAlign.center,
+                        )),
+                        Icon(FontAwesomeIcons.solidBookmark, color: Colors.white),
+                      ],
+                    ),
+                    backgroundColor: Colors.green,
+                  ),
+                );
+          }
+        }
       },
     );
   }

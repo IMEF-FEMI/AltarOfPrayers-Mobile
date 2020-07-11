@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:altar_of_prayers/database/editions_dao.dart';
 import 'package:altar_of_prayers/graphql/graphql.dart';
 import 'package:altar_of_prayers/models/edition.dart';
@@ -146,6 +148,7 @@ class EditionsRepository {
         Map<String, dynamic> userEdition = {};
         List<Map<String, dynamic>> giftedEditions = [];
         User _user = await _userRepository.getUser();
+
         if ((result.data['myEditions'] as List).length == 0) return null;
         // get the edition the current user should use (one paid on his behalf) regardless of who
         (result.data['myEditions'] as List).forEach((edition) {
@@ -163,6 +166,7 @@ class EditionsRepository {
         await _editionsDao.saveEdition(edition);
         return edition;
       } else {
+        print(result.exception);
         throw result.exception;
       }
     }

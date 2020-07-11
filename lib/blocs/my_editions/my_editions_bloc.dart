@@ -31,12 +31,11 @@ class MyEditionsBloc extends Bloc<MyEditionEvent, MyEditionsState> {
           .toList();
       if (localEditions.length != 0)
         yield MyEditionsLoaded(editions: localEditions);
-
       try {
         Map currentUserInfo = await _userRepository.currentUserInfo();
         (currentUserInfo["currentUser"]["paidFor"] as List).forEach((edition) {
           myEditionsListFromServer.add({
-            'id': int.parse(edition["id"]),
+            'id': int.parse(edition["edition"]["id"]),
             'published': edition["edition"]["published"],
             'name': edition["edition"]["name"],
             'startingMonth': edition["edition"]["startingMonth"],
@@ -44,13 +43,15 @@ class MyEditionsBloc extends Bloc<MyEditionEvent, MyEditionsState> {
             'paid': true,
           });
         });
-        if (myEditionsListFromServer.length != 0)
+        if (myEditionsListFromServer.length != 0) {
+          yield LoadingMyEditions();
           yield MyEditionsLoaded(editions: myEditionsListFromServer);
+        }
       } catch (e) {
         // only show the error if no edition was saved locally
         if (localEditions.length == 0)
           yield MyEditionError(error: "Oops! an error occured");
-          return;
+        return;
       }
       if (localEditions.length == 0 && myEditionsListFromServer.length == 0)
         yield MyEditionsNotLoaded();
