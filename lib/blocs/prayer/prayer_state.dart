@@ -11,11 +11,15 @@ abstract class PrayerState extends Equatable {
 class LoadingPrayer extends PrayerState {}
 
 class PrayerLoaded extends PrayerState {
+  final bool saved;
   final bool showDialog;
   final Prayer prayer;
 
-
-  const PrayerLoaded({this.prayer, this.showDialog});
+  const PrayerLoaded({
+    this.prayer,
+    this.showDialog,
+    this.saved,
+  });
 
   @override
   List<Object> get props => [prayer];
@@ -28,7 +32,6 @@ class ShowMakePaymentScreen extends PrayerState {
 
   const ShowMakePaymentScreen({this.edition});
 }
-
 
 class PrayerError extends PrayerState {
   final String error;

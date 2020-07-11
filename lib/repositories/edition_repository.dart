@@ -101,11 +101,9 @@ class EditionsRepository {
           giftedEditions.add(edition);
         }
       });
-
       Edition edition =
           Edition.fromServerDatabaseJson(userEdition, giftedEditions);
-      var dbEdition = await _editionsDao.getEdition(editionId: edition.id);
-      if (dbEdition == null) await _editionsDao.saveEdition(edition);
+      await _editionsDao.saveEdition(edition);
       return edition;
     } else {
       throw result.exception;
@@ -135,7 +133,7 @@ class EditionsRepository {
           startingMonth: startingMonth, year: year);
     }
     if (editionObj == null) {
-     GraphQLClient _client = await _graphQLConfiguration.clientToQuery();
+      GraphQLClient _client = await _graphQLConfiguration.clientToQuery();
       QueryResult result = await _client.query(
         QueryOptions(
           documentNode: gql(

@@ -1,24 +1,35 @@
+import 'dart:convert';
+
 class Prayer {
-  int year;
-  int month;
-  int day;
-  int startingMonth;
-  Map prayerPoint;
+  int id;
+  String topic;
+  String passage;
+  String message;
+  List prayerPoints;
 
   Prayer({
-    this.year,
-    this.month,
-    this.day,
-    this.startingMonth,
-    this.prayerPoint,
+    this.id,
+    this.topic,
+    this.passage,
+    this.message,
+    this.prayerPoints,
   });
 
-  Map<String, dynamic> toDatabaseJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['year'] = this.year;
-    data['month'] = this.month;
-    data['day'] = this.day;
-    data['starting_month'] = this.startingMonth;
-    return data;
+  Prayer.fromDatabaseJson(Map<String, dynamic> json) {
+    id = json["id"];
+    topic = json["topic"];
+    passage = json["passage"];
+    message = json["message"];
+    prayerPoints = JsonDecoder().convert(json["prayer_points"]);
+  }
+
+  Map<String, dynamic> toDatabasejson() {
+    return {
+      'id': id,
+      'topic': topic,
+      'passage': passage,
+      'message': message,
+      'prayerPoints': JsonEncoder().convert(prayerPoints)
+    };
   }
 }

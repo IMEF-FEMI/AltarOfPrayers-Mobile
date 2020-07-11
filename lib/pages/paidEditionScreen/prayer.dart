@@ -59,9 +59,7 @@ class _PrayerState extends State<Prayer> {
 
   @override
   Widget build(BuildContext context) {
-    return AppScaffold(
-      title: '${DateFormat('MMMMEEEEd').format(DateTime.now().toUtc())}',
-      leading: buildLeadingIcon(widget.disableClose),
+    return Scaffold(
       body: BlocProvider<PrayerBloc>(
         create: (context) => _prayerBloc
           ..add(LoadPrayer(
@@ -97,34 +95,43 @@ class _PrayerState extends State<Prayer> {
           },
           child:
               BlocBuilder<PrayerBloc, PrayerState>(builder: (context, state) {
-            if (state is PrayerLoaded)
-              return Center(
-                  child: Text(
-                      'Today: ${widget.day} / ${widget.month} / ${widget.year}'));
-            if (state is ShowMakePaymentScreen)
-              return MakePaymentScreen(
-                edition: state.edition,
-                makePaymentBloc: _makePaymentBloc,
-              );
-
-            if (state is PrayerNotAvailable)
-              return NotAvailable(
-                message: 'Not available',
-              );
-            if (state is PrayerError)
-              return ErrorScreen(
-                errorMessage: state.error,
-                btnOnPressed: () => _prayerBloc.add(LoadPrayer(
-                    year: widget.year, month: widget.month, day: widget.day)),
-              );
-            return LoadingWidget();
+            return AppScaffold(
+              title:
+                  '${DateFormat('MMMMEEEEd').format(DateTime(widget.year, widget.month, widget.day))}',
+              leading: buildLeadingIcon(widget.disableClose, state),
+              body: _prayerBody(state),
+            );
           }),
         ),
       ),
     );
   }
 
-  IconButton buildLeadingIcon(bool disableClose) {
+  Widget _prayerBody(PrayerState state) {
+    if (state is PrayerLoaded)
+      return Center(
+          child:
+              Text('Today: ${widget.day} / ${widget.month} / ${widget.year}'));
+    if (state is ShowMakePaymentScreen)
+      return MakePaymentScreen(
+        edition: state.edition,
+        makePaymentBloc: _makePaymentBloc,
+      );
+
+    if (state is PrayerNotAvailable)
+      return NotAvailable(
+        message: 'Edition Not available',
+      );
+    if (state is PrayerError)
+      return ErrorScreen(
+        errorMessage: state.error,
+        btnOnPressed: () => _prayerBloc.add(LoadPrayer(
+            year: widget.year, month: widget.month, day: widget.day)),
+      );
+    return LoadingWidget();
+  }
+
+  IconButton buildLeadingIcon(bool disableClose, PrayerState state) {
     if (!widget.disableClose)
       return IconButton(
         icon: Icon(
@@ -136,8 +143,11 @@ class _PrayerState extends State<Prayer> {
       );
     return IconButton(
       icon: Icon(
-        saved ? FontAwesomeIcons.solidBookmark : FontAwesomeIcons.bookmark,
-        color: Colors.blue,
+        state is PrayerLoaded
+            ? state.saved
+                ? FontAwesomeIcons.solidBookmark
+                : FontAwesomeIcons.bookmark
+            : FontAwesomeIcons.bookmark,
       ),
       onPressed: () {
         setState(() {

@@ -166,10 +166,10 @@ class _MakePaymentScreenState extends State<MakePaymentScreen> {
             }
 
             if (state.user != null && state.user.isVerified == false) {
-              Navigator.of(
-                context,
-                rootNavigator: true,
-              ).pop();
+              int count = 0;
+              Navigator.popUntil(context, (route) {
+                return count++ == 2;
+              });
               Scaffold.of(context)
                 ..hideCurrentSnackBar()
                 ..showSnackBar(

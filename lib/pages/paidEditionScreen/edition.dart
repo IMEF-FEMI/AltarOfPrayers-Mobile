@@ -50,6 +50,7 @@ class _MainEditionScreenState extends State<MainEditionScreen> {
                 year: picked.year,
                 month: picked.month,
                 day: picked.day,
+                disableClose: true,
               )));
   }
 

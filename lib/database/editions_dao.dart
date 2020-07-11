@@ -15,7 +15,6 @@ class EditionsDao {
   }
 
   Future<int> saveEdition(Edition edition) async {
-    
     final db = await dbProvider.database;
     // if edition exists simply update it
     var previouslySavedEdition = await getEdition(editionId: edition.id);

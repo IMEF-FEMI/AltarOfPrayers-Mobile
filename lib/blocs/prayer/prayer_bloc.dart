@@ -41,10 +41,7 @@ class PrayerBloc extends Bloc<PrayerEvent, PrayerState> {
     if (event is LoadPrayer) {
       yield* _mapLoadPrayerToState(event);
     } else if (event is SavePrayer) {
-      
-    } else if (event is UnsavePrayer) {
-      
-    }
+    } else if (event is UnsavePrayer) {}
   }
 
   Map<String, dynamic> checkIfEditionAvailable(
@@ -104,14 +101,16 @@ class PrayerBloc extends Bloc<PrayerEvent, PrayerState> {
       if (prayerMonthInt == 1) prayerMonthList = edition.monthTwo;
       if (prayerMonthInt == 2) prayerMonthList = edition.monthThree;
 
+      Map prayerJson = JsonDecoder().convert(prayerMonthList[day]);
       Prayer prayer = Prayer(
-          day: day,
-          month: month,
-          startingMonth: startingMonth,
-          year: year,
-          prayerPoint: JsonDecoder().convert(prayerMonthList[day]));
-      print(prayer.prayerPoint);
-      yield PrayerLoaded(prayer: prayer, showDialog: event.showDialog);
+          id: int.parse("$year$month$day"),
+          topic: prayerJson["topic"],
+          passage: prayerJson["passage"],
+          message: prayerJson["message"],
+          prayerPoints: prayerJson["prayerPoints"]);
+      // check if prayer has been saved here
+      yield PrayerLoaded(
+          prayer: prayer, showDialog: event.showDialog, saved: false);
     } catch (e) {
       print(e);
       yield PrayerError('Oops! an error occured');
