@@ -1,11 +1,11 @@
 import 'package:altar_of_prayers/models/user.dart';
 import 'package:altar_of_prayers/pages/NewEditions/new_editions_page.dart';
+import 'package:altar_of_prayers/pages/myEditions/my_edition_page.dart';
+import 'package:altar_of_prayers/pages/savedPrayers/savedPrayers.dart';
 import 'package:altar_of_prayers/widgets/app_scaffold.dart';
 import 'package:altar_of_prayers/widgets/category_card.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
-import '../my_edition_page.dart';
 
 class Home extends StatelessWidget {
   final User user;
@@ -33,7 +33,9 @@ class Home extends StatelessWidget {
                   title: 'Saved Prayers Points',
                   desctiption: 'All the Prayer points you have saved recently ',
                   color: Colors.blue,
-                  icon: FontAwesomeIcons.solidBookmark),
+                  icon: FontAwesomeIcons.solidBookmark,
+                  onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => SavedPrayersScreen()))),
               CategoryCard(
                 title: 'Prophetic Prayers',
                 desctiption: 'Prophetic Prayers from the Altar of Prayers ',

@@ -55,7 +55,7 @@ class _MainScreenState extends State<MainScreen> {
           index: _currentIndex,
           children: <Widget>[
             CustomNav(
-              child: Prayer(
+              child: PrayerScreen(
                   year: today.year,
                   month: today.month,
                   day: today.day,

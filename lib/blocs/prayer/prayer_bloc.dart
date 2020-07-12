@@ -112,6 +112,9 @@ class PrayerBloc extends Bloc<PrayerEvent, PrayerState> {
       Map prayerJson = JsonDecoder().convert(prayerMonthList[day]);
       Prayer prayer = Prayer(
           id: int.parse("$year$month$day"),
+          day: day,
+          month: month,
+          year: year,
           topic: prayerJson["topic"],
           passage: prayerJson["passage"],
           message: prayerJson["message"],

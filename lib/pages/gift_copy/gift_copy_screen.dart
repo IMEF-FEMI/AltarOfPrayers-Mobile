@@ -1,12 +1,12 @@
 import 'package:altar_of_prayers/blocs/gift_copy/bloc.dart';
 import 'package:altar_of_prayers/blocs/make_payment/bloc.dart';
+import 'package:altar_of_prayers/pages/make_payment/make_payment_screen.dart';
 import 'package:altar_of_prayers/widgets/error_screen.dart';
 import 'package:altar_of_prayers/widgets/loading_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
-import 'make_payment_screen.dart';
 
 class GiftCopyScreen extends StatefulWidget {
   final int editionId;

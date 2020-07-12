@@ -1,6 +1,7 @@
 import 'package:altar_of_prayers/blocs/authentication/bloc.dart';
 import 'package:altar_of_prayers/models/edition.dart';
 import 'package:altar_of_prayers/models/user.dart';
+import 'package:altar_of_prayers/pages/gift_copy/gift_copy_screen.dart';
 import 'package:altar_of_prayers/utils/tools.dart';
 import 'package:altar_of_prayers/widgets/mainEditionCard.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +9,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 
-import '../gift_copy_screen.dart';
 import 'prayer.dart';
 
 class MainEditionScreen extends StatefulWidget {
@@ -46,7 +46,7 @@ class _MainEditionScreenState extends State<MainEditionScreen> {
 
     if (picked != null)
       Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => Prayer(
+          builder: (context) => PrayerScreen(
                 year: picked.year,
                 month: picked.month,
                 day: picked.day,

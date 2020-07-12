@@ -1,7 +1,7 @@
 import 'package:altar_of_prayers/blocs/app_config/index.dart';
 import 'package:altar_of_prayers/blocs/edition/bloc.dart';
 import 'package:altar_of_prayers/blocs/make_payment/bloc.dart';
-import 'package:altar_of_prayers/pages/make_payment_screen.dart';
+import 'package:altar_of_prayers/pages/make_payment/make_payment_screen.dart';
 import 'package:altar_of_prayers/pages/paidEditionScreen/edition.dart';
 import 'package:altar_of_prayers/repositories/edition_repository.dart';
 import 'package:altar_of_prayers/widgets/app_scaffold.dart';

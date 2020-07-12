@@ -1,22 +1,32 @@
 import 'dart:convert';
+import 'package:meta/meta.dart';
 
 class Prayer {
   int id;
+  int day;
+  int month;
+  int year;
   String topic;
   String passage;
   String message;
   List prayerPoints;
 
   Prayer({
-    this.id,
-    this.topic,
-    this.passage,
-    this.message,
-    this.prayerPoints,
+    @required this.id,
+    @required this.day,
+    @required this.month,
+    @required this.year,
+    @required this.topic,
+    @required this.passage,
+    @required this.message,
+    @required this.prayerPoints,
   });
 
   Prayer.fromDatabaseJson(Map<String, dynamic> json) {
     id = json["id"];
+    day = json["day"];
+    month = json["month"];
+    year = json["year"];
     topic = json["topic"];
     passage = json["passage"];
     message = json["message"];
@@ -26,6 +36,9 @@ class Prayer {
   Map<String, dynamic> toDatabasejson() {
     return {
       'id': id,
+      'day': day,
+      'month': month,
+      'year': year,
       'topic': topic,
       'passage': passage,
       'message': message,

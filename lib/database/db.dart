@@ -68,6 +68,9 @@ class DatabaseProvider {
 
     await database.execute("CREATE TABLE $prayersTable ("
         "id INTEGER PRIMARY KEY, "
+        "day INTEGER, "
+        "month INTEGER, "
+        "year INTEGER, "
         "topic TEXT, "
         "passage TEXT, "
         "message TEXT, "

@@ -1,6 +1,6 @@
 import 'package:altar_of_prayers/blocs/make_payment/bloc.dart';
 import 'package:altar_of_prayers/blocs/prayer/bloc.dart';
-import 'package:altar_of_prayers/pages/make_payment_screen.dart';
+import 'package:altar_of_prayers/pages/make_payment/make_payment_screen.dart';
 import 'package:altar_of_prayers/widgets/app_scaffold.dart';
 import 'package:altar_of_prayers/widgets/error_screen.dart';
 import 'package:altar_of_prayers/widgets/loading_widget.dart';
@@ -11,13 +11,13 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:giffy_dialog/giffy_dialog.dart';
 import 'package:intl/intl.dart';
 
-class Prayer extends StatefulWidget {
+class PrayerScreen extends StatefulWidget {
   final int year;
   final int month;
   final int day;
   final bool disableClose;
 
-  const Prayer(
+  const PrayerScreen(
       {Key key, this.year, this.month, this.day, this.disableClose = false})
       : super(key: key);
 
@@ -25,7 +25,7 @@ class Prayer extends StatefulWidget {
   _PrayerState createState() => _PrayerState();
 }
 
-class _PrayerState extends State<Prayer> {
+class _PrayerState extends State<PrayerScreen> {
   PrayerBloc _prayerBloc;
   GlobalKey<RefreshIndicatorState> refreshKey =
       GlobalKey<RefreshIndicatorState>();

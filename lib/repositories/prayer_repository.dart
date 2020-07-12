@@ -9,7 +9,9 @@ class PrayerRepository {
   }
 
   Future<List<Map<String, dynamic>>> getPrayers() async {
-    return await _prayerDao.getPrayers();
+    List<Map<String, dynamic>> prayers = await _prayerDao.getPrayers();
+    if (prayers != null) return prayers;
+    return [];
   }
 
   Future<int> savePrayer({Prayer prayer}) async {
