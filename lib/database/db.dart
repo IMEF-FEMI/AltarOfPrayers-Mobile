@@ -11,6 +11,7 @@ final editionsTable = 'editions';
 final darkModeTable = 'dark_mode';
 final seenEditionsTable = 'seen_editions';
 final prayersTable = 'prayers';
+final notificationsTable = 'notifications';
 
 class DatabaseProvider {
   static final DatabaseProvider dbProvider = DatabaseProvider();
@@ -76,7 +77,13 @@ class DatabaseProvider {
         "message TEXT, "
         "prayer_points TEXT) ");
 
-    // create and populate tables
+    await database.execute("CREATE TABLE $notificationsTable ("
+        "id INTEGER PRIMARY KEY, "
+        "title TEXT, "
+        "message TEXT, "
+        "read INTEGER) ");
+
+    // create and populate table
     await database.execute("CREATE TABLE $seenEditionsTable ("
         "id INTEGER PRIMARY KEY, "
         "seen_editions TEXT) ");

@@ -38,5 +38,5 @@ class User {
         "staff": this.staff == false ? 0 : 1,
         "admin": this.admin == false ? 0 : 1,
         "is_verified": this.isVerified == false ? 0 : 1,
-      };
+    };
 }
