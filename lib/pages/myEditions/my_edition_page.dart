@@ -71,7 +71,7 @@ class _MyEditionsPageState extends State<MyEditionsPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         SvgPicture.asset(
-                          'assets/icons/empty-folder.svg',
+                          'assets/icons/empty-calendar.svg',
                           height: 100,
                         ),
                         SizedBox(height: 30),

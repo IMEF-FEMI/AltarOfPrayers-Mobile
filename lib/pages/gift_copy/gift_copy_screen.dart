@@ -170,7 +170,7 @@ class _GiftCopyScreenState extends State<GiftCopyScreen> {
                           children: <Widget>[
                             Center(
                               child: SvgPicture.asset(
-                                'assets/icons/bible.svg',
+                                'assets/icons/study.svg',
                                 fit: BoxFit.contain,
                                 height: MediaQuery.of(context).size.height * .3,
                               ),

@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:altar_of_prayers/blocs/saved_prayers/bloc.dart';
 import 'package:altar_of_prayers/models/prayer.dart';
 import 'package:altar_of_prayers/pages/paidEditionScreen/prayer.dart';
@@ -8,6 +6,7 @@ import 'package:altar_of_prayers/widgets/app_scaffold.dart';
 import 'package:altar_of_prayers/widgets/loading_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 
@@ -66,36 +65,40 @@ class _SavedPrayersScreenState extends State<SavedPrayersScreen> {
                           _savedPrayersBloc.add(RemovePrayer(prayer: _prayer));
 
                           // Then show a snackbar.
-                          Scaffold.of(context).showSnackBar(
-                            SnackBar(
-                              backgroundColor: Colors.red,
-                              content: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  Text(
-                                    "Prayer Point Deleted",
-                                    style: TextStyle(color: Colors.white),
+                          Scaffold.of(context)
+                              .showSnackBar(
+                                SnackBar(
+                                  backgroundColor: Colors.red,
+                                  content: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      Text(
+                                        "Prayer Point Deleted",
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                      FlatButton(
+                                        color: Colors.red,
+                                        onPressed: () {
+                                          _savedPrayersBloc.add(UndoRemove(
+                                              index: index, prayer: _prayer));
+                                          Scaffold.of(context)
+                                              .hideCurrentSnackBar();
+                                        },
+                                        child: Text(
+                                          "Undo",
+                                          style: TextStyle(color: Colors.white),
+                                        ),
+                                      )
+                                    ],
                                   ),
-                                  FlatButton(
-                                    color: Colors.red,
-                                    onPressed: () {
-                                      _savedPrayersBloc.add(UndoRemove(
-                                          index: index, prayer: _prayer));
-                                      Scaffold.of(context)
-                                          .hideCurrentSnackBar();
-                                    },
-                                    child: Text(
-                                      "Undo",
-                                      style: TextStyle(color: Colors.white),
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                          ).closed.then((value)  {
-                            if(value == SnackBarClosedReason.timeout){
-                              _savedPrayersBloc.add(DeletePrayer(prayer: _prayer));
+                                ),
+                              )
+                              .closed
+                              .then((value) {
+                            if (value == SnackBarClosedReason.timeout) {
+                              _savedPrayersBloc
+                                  .add(DeletePrayer(prayer: _prayer));
                             }
                           });
                         },
@@ -110,6 +113,32 @@ class _SavedPrayersScreenState extends State<SavedPrayersScreen> {
                 onRefresh: _reFetchSavedPrayers,
               );
             }
+            if (state is SavedPrayersLoaded && state.prayers.length == 0)
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    SvgPicture.asset(
+                      'assets/icons/empty-calendar.svg',
+                      height: 100,
+                    ),
+                    SizedBox(height: 30),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: Text(
+                        "Nothing here",
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context).textTheme.headline6.copyWith(
+                              fontSize: 20,
+                            ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 30,
+                    ),
+                  ],
+                ),
+              );
             return LoadingWidget();
           },
         ),
@@ -155,12 +184,12 @@ class PrayerCard extends StatelessWidget {
               children: <Widget>[
                 ConstrainedBox(
                   constraints: BoxConstraints.expand(
-                    height: MediaQuery.of(context).size.height * 0.1,
+                    height: MediaQuery.of(context).size.height * 0.08,
                     width: MediaQuery.of(context).size.width * 0.2,
                   ),
                   child: Icon(
-                    FontAwesomeIcons.solidBookmark,
-                    size: 70,
+                    FontAwesomeIcons.calendarAlt,
+                    size: 50,
                     color: Tools.multiColors[(index % 2)].withOpacity(.8),
                   ),
                 ),
@@ -180,28 +209,20 @@ class PrayerCard extends StatelessWidget {
                         Text(
                           prayer.topic,
                           textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.headline5.copyWith(
+                          style: Theme.of(context).textTheme.headline6.copyWith(
                                 fontWeight: FontWeight.w900,
                               ),
                         ),
                         SizedBox(
                           height: 5,
                         ),
-                        // AnimatedContainer(
-                        //   duration: Duration(seconds: 1),
-                        //   width: MediaQuery.of(context).size.width * 0.2,
-                        //   height: 5,
-                        //   color: edition['paid'] == true
-                        //       ? Tools.multiColors[3]
-                        //       : Tools.multiColors[0],
-                        // ),
                       ],
                     ),
                     SizedBox(
                       height: 10,
                     ),
                     Text(
-                      '${DateFormat('MMMMEEEEd').format(DateTime(prayer.year, prayer.month, prayer.day))}',
+                      '${DateFormat('yMMMMd').format(DateTime(prayer.year, prayer.month, prayer.day))}',
                       style: Theme.of(context).textTheme.subtitle1.copyWith(
                             fontWeight: FontWeight.w600,
                           ),

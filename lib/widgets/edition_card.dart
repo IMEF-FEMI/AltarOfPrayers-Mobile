@@ -76,7 +76,7 @@ class EditionCard extends StatelessWidget {
                   child: Hero(
                     tag: edition['name'],
                     child: SvgPicture.asset(
-                      'assets/icons/bible.svg',
+                      'assets/icons/study.svg',
                       fit: BoxFit.contain,
                     ),
                   ),

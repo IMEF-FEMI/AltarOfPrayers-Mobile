@@ -1,3 +1,4 @@
+import 'package:altar_of_prayers/blocs/app_config/config_bloc.dart';
 import 'package:altar_of_prayers/blocs/make_payment/bloc.dart';
 import 'package:altar_of_prayers/blocs/prayer/bloc.dart';
 import 'package:altar_of_prayers/pages/make_payment/make_payment_screen.dart';
@@ -117,9 +118,167 @@ class _PrayerState extends State<PrayerScreen> {
 
   Widget _prayerBody(PrayerState state) {
     if (state is PrayerLoaded)
-      return Center(
-          child:
-              Text('Today: ${widget.day} / ${widget.month} / ${widget.year}'));
+      return SingleChildScrollView(
+        child: Column(
+          // crossAxisAlignment: CrossAxisAlignment.center,
+          // mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Row(
+              // crossAxisAlignment: CrossAxisAlignment.center,
+              // mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(18.0),
+                  child: Text(
+                    state.prayer.topic,
+                    style: Theme.of(context).textTheme.headline4.copyWith(
+                          fontWeight: FontWeight.w400,
+                          fontFamily: "Georgia",
+                          color: ConfigBloc().darkModeOn
+                              ? Colors.white
+                              : Colors.black,
+                        ),
+                  ),
+                ),
+              ],
+            ),
+            Container(
+              decoration: BoxDecoration(
+                  color:
+                      ConfigBloc().darkModeOn ? Colors.grey : Colors.grey[300]),
+              child: Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Row(
+                      children: <Widget>[
+                        Text(
+                          "Bible Reading",
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline6
+                              .copyWith(fontWeight: FontWeight.w800),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 20),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20.0),
+                      child: Column(
+                        children: <Widget>[
+                          Text(
+                            state.prayer.passage,
+                            softWrap: true,
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline6
+                                .copyWith(
+                                    fontWeight: FontWeight.w200,
+                                    fontStyle: FontStyle.italic),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Container(
+              decoration: BoxDecoration(
+                  color: ConfigBloc().darkModeOn
+                      ? Colors.blueGrey
+                      : Colors.blueGrey[100]),
+              child: Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20.0),
+                      child: Column(
+                        children: <Widget>[
+                          Text(
+                            state.prayer.message,
+                            softWrap: true,
+                            style:
+                                Theme.of(context).textTheme.headline6.copyWith(
+                                      fontWeight: FontWeight.w200,
+                                    ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Container(
+              child: Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Row(
+                      children: <Widget>[
+                        Text(
+                          "Prayer Points",
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline6
+                              .copyWith(fontWeight: FontWeight.w800),
+                        ),
+                      ],
+                    ),
+                    // SizedBox(height: 5),
+                    Padding(
+                        padding: const EdgeInsets.only(left: 20.0),
+                        child: ListView.builder(
+                          physics: NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: state.prayer.prayerPoints.length,
+                          itemBuilder: (context, index) {
+                            return Column(
+                              children: <Widget>[
+                                Row(
+                                  children: <Widget>[
+                                    Text(
+                                      "${index + 1}.",
+                                      style:
+                                          Theme.of(context).textTheme.headline5,
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Expanded(
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(top:18.0),
+                                        child: Text(
+                                          state.prayer.prayerPoints[index] +
+                                              state.prayer.prayerPoints[index],
+                                          softWrap: true,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .headline6,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                              ],
+                            );
+                          },
+                        )),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
     if (state is ShowMakePaymentScreen)
       return MakePaymentScreen(
         edition: state.edition,
@@ -139,7 +298,8 @@ class _PrayerState extends State<PrayerScreen> {
     return LoadingWidget();
   }
 
-  IconButton _buildLeadingIcon(BuildContext context, bool disableClose, PrayerState state) {
+  IconButton _buildLeadingIcon(
+      BuildContext context, bool disableClose, PrayerState state) {
     if (!widget.disableClose)
       return IconButton(
         icon: Icon(
@@ -159,57 +319,57 @@ class _PrayerState extends State<PrayerScreen> {
             setState(() {
               saved = false;
             });
-             Scaffold.of(context)
-                ..hideCurrentSnackBar()
-                ..showSnackBar(
-                  SnackBar(
-                    behavior: SnackBarBehavior.fixed,
-                    content: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                            child: Text(
-                          'Removed',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                          ),
-                          textAlign: TextAlign.center,
-                        )),
-                        Icon(FontAwesomeIcons.bookmark, color: Colors.white),
-                      ],
-                    ),
-                    backgroundColor: Colors.red,
+            Scaffold.of(context)
+              ..hideCurrentSnackBar()
+              ..showSnackBar(
+                SnackBar(
+                  behavior: SnackBarBehavior.fixed,
+                  content: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                          child: Text(
+                        'Removed',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                        ),
+                        textAlign: TextAlign.center,
+                      )),
+                      Icon(FontAwesomeIcons.bookmark, color: Colors.white),
+                    ],
                   ),
-                );
+                  backgroundColor: Colors.red,
+                ),
+              );
           } else {
             _prayerBloc.add(SavePrayer(prayer: state.prayer));
             setState(() {
               saved = true;
             });
-             Scaffold.of(context)
-                ..hideCurrentSnackBar()
-                ..showSnackBar(
-                  SnackBar(
-                    behavior: SnackBarBehavior.fixed,
-                    content: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                            child: Text(
-                          'Saved',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                          ),
-                          textAlign: TextAlign.center,
-                        )),
-                        Icon(FontAwesomeIcons.solidBookmark, color: Colors.white),
-                      ],
-                    ),
-                    backgroundColor: Colors.green,
+            Scaffold.of(context)
+              ..hideCurrentSnackBar()
+              ..showSnackBar(
+                SnackBar(
+                  behavior: SnackBarBehavior.fixed,
+                  content: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                          child: Text(
+                        'Saved',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                        ),
+                        textAlign: TextAlign.center,
+                      )),
+                      Icon(FontAwesomeIcons.solidBookmark, color: Colors.white),
+                    ],
                   ),
-                );
+                  backgroundColor: Colors.green,
+                ),
+              );
           }
         }
       },

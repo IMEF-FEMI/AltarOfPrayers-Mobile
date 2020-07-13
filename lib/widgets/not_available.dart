@@ -12,7 +12,7 @@ class NotAvailable extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           SvgPicture.asset(
-            'assets/icons/empty.svg',
+            'assets/icons/empty-calendar.svg',
             height: 100,
           ),
           SizedBox(height: 30),
