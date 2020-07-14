@@ -1,5 +1,6 @@
 import 'package:altar_of_prayers/models/user.dart';
 import 'package:altar_of_prayers/pages/main_screen/about.dart';
+import 'package:altar_of_prayers/pages/notifications/notifications.dart';
 import 'package:altar_of_prayers/pages/paidEditionScreen/prayer.dart';
 import 'package:altar_of_prayers/widgets/custom_nav.dart';
 import 'package:altar_of_prayers/widgets/icon_badge.dart';
@@ -7,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'home.dart';
-import 'notifications.dart';
 
 class MainScreen extends StatefulWidget {
   final User user;

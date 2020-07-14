@@ -5,13 +5,18 @@ import 'db.dart';
 class NotificationsDao {
   final dbProvider = DatabaseProvider.dbProvider;
 
-  Future<int> saveNotification({Notification notification}) async {
+  Future<int> saveNotification({NotificationModel notification}) async {
     final db = await dbProvider.database;
     var result = db.insert(notificationsTable, notification.toDatabaseJson());
     return result;
   }
 
-  Future<int> markNotificationAsRead({Notification notification}) async {
+  Future<int> deleteAllNotifications() async {
+    final db = await dbProvider.database;
+    return await db.delete(notificationsTable);
+  }
+
+  Future<int> markNotificationAsRead({NotificationModel notification}) async {
     final db = await dbProvider.database;
 
     var result = await db.update(
@@ -21,7 +26,7 @@ class NotificationsDao {
     return result;
   }
 
-  Future deleteNotification({Notification notification}) async {
+  Future deleteNotification({NotificationModel notification}) async {
     final db = await dbProvider.database;
     var result = await db.delete(
       notificationsTable,

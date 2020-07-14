@@ -123,12 +123,12 @@ class _PrayerState extends State<PrayerScreen> {
           // crossAxisAlignment: CrossAxisAlignment.center,
           // mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Row(
+            Column(
               // crossAxisAlignment: CrossAxisAlignment.center,
               // mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
                 Padding(
-                  padding: const EdgeInsets.all(18.0),
+                  padding: const EdgeInsets.only(left:30.0, right:25.0, top:18.0, bottom:18.0),
                   child: Text(
                     state.prayer.topic,
                     style: Theme.of(context).textTheme.headline4.copyWith(
@@ -147,24 +147,28 @@ class _PrayerState extends State<PrayerScreen> {
                   color:
                       ConfigBloc().darkModeOn ? Colors.grey : Colors.grey[300]),
               child: Padding(
-                padding: const EdgeInsets.all(15.0),
+                padding: const EdgeInsets.all(10.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Row(
                       children: <Widget>[
-                        Text(
-                          "Bible Reading",
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline6
-                              .copyWith(fontWeight: FontWeight.w800),
+                        Padding(
+                          padding:
+                              const EdgeInsets.only(left: 20.0, right: 20.0),
+                          child: Text(
+                            "Bible Reading",
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline6
+                                .copyWith(fontWeight: FontWeight.w800),
+                          ),
                         ),
                       ],
                     ),
                     SizedBox(height: 20),
                     Padding(
-                      padding: const EdgeInsets.only(left: 20.0),
+                      padding: const EdgeInsets.only(left: 20.0, right: 20.0),
                       child: Column(
                         children: <Widget>[
                           Text(
@@ -190,12 +194,12 @@ class _PrayerState extends State<PrayerScreen> {
                       ? Colors.blueGrey
                       : Colors.blueGrey[100]),
               child: Padding(
-                padding: const EdgeInsets.all(5.0),
+                padding: const EdgeInsets.only(left: 20.0, right: 20.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Padding(
-                      padding: const EdgeInsets.only(left: 20.0),
+                      padding: const EdgeInsets.all( 20.0),
                       child: Column(
                         children: <Widget>[
                           Text(
@@ -252,7 +256,8 @@ class _PrayerState extends State<PrayerScreen> {
                                     ),
                                     Expanded(
                                       child: Padding(
-                                        padding: const EdgeInsets.only(top:18.0),
+                                        padding:
+                                            const EdgeInsets.only(top: 18.0),
                                         child: Text(
                                           state.prayer.prayerPoints[index] +
                                               state.prayer.prayerPoints[index],

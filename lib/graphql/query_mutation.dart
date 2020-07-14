@@ -77,6 +77,13 @@ class QueryMutation {
               fullname
               accountType
               isVerified
+              userNotification{
+                id
+                title
+                message
+                read
+                createdAt
+              }
                paidBy{
               id
               paidBy{
@@ -120,8 +127,9 @@ class QueryMutation {
                 monthTwo
                 monthThree
               }
+            
             }
-            }
+          }
         }
       """;
   }

@@ -75,7 +75,8 @@ class _SavedPrayersScreenState extends State<SavedPrayersScreen> {
                                     children: <Widget>[
                                       Text(
                                         "Prayer Point Deleted",
-                                        style: TextStyle(color: Colors.white),
+                                        style: TextStyle(
+                                            color: Colors.white, fontSize: 20),
                                       ),
                                       FlatButton(
                                         color: Colors.red,
@@ -87,7 +88,9 @@ class _SavedPrayersScreenState extends State<SavedPrayersScreen> {
                                         },
                                         child: Text(
                                           "Undo",
-                                          style: TextStyle(color: Colors.white),
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 20),
                                         ),
                                       )
                                     ],
@@ -227,13 +230,7 @@ class PrayerCard extends StatelessWidget {
                             fontWeight: FontWeight.w600,
                           ),
                     ),
-                    // SizedBox(
-                    //   height: 10,
-                    // ),
-                    // Text(
-                    //   '${edition['year']}',
-                    //   style: Theme.of(context).textTheme.caption,
-                    // )
+                   
                   ],
                 )),
               ],

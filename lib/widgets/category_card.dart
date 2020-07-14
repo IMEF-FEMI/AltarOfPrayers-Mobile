@@ -43,7 +43,7 @@ class CategoryCard extends StatelessWidget {
               children: <Widget>[
                 Icon(
                   icon,
-                  size: 20,
+                  size: 25,
                   color: color.withOpacity(.7),
                 ),
                 SizedBox(
