@@ -62,7 +62,7 @@ class _SavedPrayersScreenState extends State<SavedPrayersScreen> {
                         // what to do after an item has been swiped away.
                         onDismissed: (direction) {
                           // Remove the item from the data source.
-                          _savedPrayersBloc.add(RemovePrayer(prayer: _prayer));
+                          _savedPrayersBloc.add(DeletePrayer(prayer: _prayer));
 
                           // Then show a snackbar.
                           Scaffold.of(context)
@@ -71,28 +71,28 @@ class _SavedPrayersScreenState extends State<SavedPrayersScreen> {
                                   backgroundColor: Colors.red,
                                   content: Row(
                                     mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                        MainAxisAlignment.center,
                                     children: <Widget>[
                                       Text(
                                         "Prayer Point Deleted",
                                         style: TextStyle(
                                             color: Colors.white, fontSize: 20),
                                       ),
-                                      FlatButton(
-                                        color: Colors.red,
-                                        onPressed: () {
-                                          _savedPrayersBloc.add(UndoRemove(
-                                              index: index, prayer: _prayer));
-                                          Scaffold.of(context)
-                                              .hideCurrentSnackBar();
-                                        },
-                                        child: Text(
-                                          "Undo",
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 20),
-                                        ),
-                                      )
+                                      // FlatButton(
+                                      //   color: Colors.red,
+                                      //   onPressed: () {
+                                      //     _savedPrayersBloc.add(UndoRemove(
+                                      //         index: index, prayer: _prayer));
+                                      //     Scaffold.of(context)
+                                      //         .hideCurrentSnackBar();
+                                      //   },
+                                      //   child: Text(
+                                      //     "Undo",
+                                      //     style: TextStyle(
+                                      //         color: Colors.white,
+                                      //         fontSize: 20),
+                                      //   ),
+                                      // )
                                     ],
                                   ),
                                 ),

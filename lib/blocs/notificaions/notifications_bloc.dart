@@ -17,7 +17,35 @@ class NotificationsBloc extends Bloc<NotificationEvent, NotificationsState> {
   ) async* {
     if (event is LoadNotifications) {
       yield* _mapLoadNotificationsToState(event);
+    } else if (event is MarkAsRead) {
+      yield* _mapMarkAsReadToState(event);
+    } else if (event is RemoveNotification) {
+      yield* _mapRemoveNotificationToState(event);
+    } else if (event is DeleteNotification) {
+      yield* _mapDeleteNotificationToState(event);
     }
+    //  else if (event is UndoRemove) {
+    //   yield* _mapUndoRemoveToState(event);
+    // }
+  }
+
+  Stream<NotificationsState> _mapDeleteNotificationToState(
+      DeleteNotification event) async* {
+    yield NotificationLoading();
+      await _notificationsRepository.deleteNotification(notification: event.notification);
+    this.add(LoadNotifications());
+  }
+
+  Stream<NotificationsState> _mapRemoveNotificationToState(
+      RemoveNotification event) async* {
+    List<NotificationModel> _notifications = (state as NotificationsLoaded)
+        .notifications
+        .where((
+          notification,
+        ) =>
+            notification.id != event.notification.id)
+        .toList();
+    yield NotificationsLoaded(notifications: _notifications);
   }
 
   Stream<NotificationsState> _mapLoadNotificationsToState(
@@ -27,11 +55,10 @@ class NotificationsBloc extends Bloc<NotificationEvent, NotificationsState> {
     // get from local
     List notificationsFromLocal =
         await _notificationsRepository.getLocalNotifications();
-      print('notificationsFromLocal: $notificationsFromLocal');
     if (notificationsFromLocal.length != 0)
       yield NotificationsLoaded(
           notifications: notificationsFromLocal
-              .map((notification) async =>
+              .map((notification) =>
                   NotificationModel.fromDatabaseJson(notification))
               .toList());
 
@@ -50,5 +77,10 @@ class NotificationsBloc extends Bloc<NotificationEvent, NotificationsState> {
 
     if (notificationsFromLocal.length == 0 &&
         notificationsFromServer.length == 0) yield NoNewNotification();
+  }
+
+  Stream<NotificationsState> _mapMarkAsReadToState(MarkAsRead event) async* {
+    await _notificationsRepository.markNotificationAsRead(
+        id: event.notification.id);
   }
 }

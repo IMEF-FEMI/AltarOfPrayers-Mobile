@@ -10,7 +10,7 @@ abstract class NotificationsState extends Equatable {
 class NotificationLoading extends NotificationsState {}
 
 class NotificationsLoaded extends NotificationsState {
-  final List<Future<NotificationModel>> notifications;
+  final List<NotificationModel> notifications;
 
   const NotificationsLoaded({this.notifications});
 }

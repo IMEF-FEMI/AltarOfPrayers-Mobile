@@ -56,80 +56,64 @@ class _NotificationsState extends State<Notifications> {
                     shrinkWrap: true,
                     itemCount: state.notifications.length,
                     itemBuilder: (context, index) {
-                      return FutureBuilder<NotificationModel>(
-                          future: state.notifications[index],
-                          builder: (BuildContext context,
-                              AsyncSnapshot<NotificationModel> snapshot) {
-                            if (snapshot.hasData) {
-                              NotificationModel notification = snapshot.data;
-                              return Dismissible(
-                                  key: Key('${notification.id}'),
-                                  onDismissed: (direction) {
-                                    // Remove the item from the data source.
-                                    // _savedPrayersBloc.add(RemovePrayer(prayer: _prayer));
+                      NotificationModel notification =
+                          state.notifications[index];
+                      return Dismissible(
+                          key: Key('${notification.id}'),
+                          onDismissed: (direction) {
+                            // Remove the item from the data source.
 
-                                    // // Then show a snackbar.
-                                    // Scaffold.of(context)
-                                    //     .showSnackBar(
-                                    //       SnackBar(
-                                    //         backgroundColor: Colors.red,
-                                    //         content: Row(
-                                    //           mainAxisAlignment:
-                                    //               MainAxisAlignment.spaceBetween,
-                                    //           children: <Widget>[
-                                    //             Text(
-                                    //               "Prayer Point Deleted",
-                                    //               style: TextStyle(
-                                    //                   color: Colors.white, fontSize: 20),
-                                    //             ),
-                                    //             FlatButton(
-                                    //               color: Colors.red,
-                                    //               onPressed: () {
-                                    //                 _savedPrayersBloc.add(UndoRemove(
-                                    //                     index: index, prayer: _prayer));
-                                    //                 Scaffold.of(context)
-                                    //                     .hideCurrentSnackBar();
-                                    //               },
-                                    //               child: Text(
-                                    //                 "Undo",
-                                    //                 style: TextStyle(
-                                    //                     color: Colors.white,
-                                    //                     fontSize: 20),
-                                    //               ),
-                                    //             )
-                                    //           ],
-                                    //         ),
-                                    //       ),
-                                    //     )
-                                    //     .closed
-                                    //     .then((value) {
-                                    //   if (value == SnackBarClosedReason.timeout) {
-                                    //     _savedPrayersBloc
-                                    //         .add(DeletePrayer(prayer: _prayer));
-                                    //   }
-                                    // });
-                                  },
-                                  // Show a red background as the item is swiped away.
-                                  background: Container(color: Colors.red),
-                                  child: NotificationCard(
-                                    notification: notification,
-                                    index: index,
-                                  ));
-                            }
-                            return Container();
-                          });
+                            _notificationsBloc.add(
+                                DeleteNotification(notification: notification));
+
+                            // Then show a snackbar.
+                            Scaffold.of(context)
+                                .showSnackBar(
+                                  SnackBar(
+                                    backgroundColor: Colors.red,
+                                    content: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: <Widget>[
+                                        Text(
+                                          "Prayer Point Deleted",
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 20),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                )
+                                .closed
+                                .then((value) {
+                              if (value == SnackBarClosedReason.timeout) {
+                                _notificationsBloc.add(
+                                    DeletePrayer(notification: notification));
+                              }
+                            });
+                          },
+                          // Show a red background as the item is swiped away.
+                          background: Container(color: Colors.red),
+                          child: NotificationCard(
+                            notification: notification,
+                            index: index,
+                            notificationsBloc: _notificationsBloc,
+                          ));
                     },
                   ));
             }
-            if (state is NotificationsLoaded &&
-                state.notifications.length == 0) {
+            if ((state is NotificationsLoaded &&
+                    state.notifications.length == 0) ||
+                state is NoNewNotification) {
               return Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    SvgPicture.asset(
-                      'assets/icons/empty-calendar.svg',
-                      height: 100,
+                    Icon(
+                      FontAwesomeIcons.bell,
+                      size: 100,
+                      color: Tools.multiColors[(2)].withOpacity(.8),
                     ),
                     SizedBox(height: 30),
                     Padding(
@@ -158,8 +142,10 @@ class _NotificationsState extends State<Notifications> {
 class NotificationCard extends StatelessWidget {
   final NotificationModel notification;
   final int index;
+  final NotificationsBloc notificationsBloc;
 
-  const NotificationCard({Key key, this.notification, this.index})
+  const NotificationCard(
+      {Key key, this.notification, this.index, this.notificationsBloc})
       : super(key: key);
   BadgeDecoration buildBadgeDecoration() {
     // show new badge if edition has not been seen and user has not paid
@@ -180,11 +166,14 @@ class NotificationCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       borderRadius: BorderRadius.circular(10.0),
-      onTap: () {
-        Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
+      onTap: () async {
+        if (!notification.read)
+          notificationsBloc.add(MarkAsRead(notification: notification));
+        await Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
             builder: (context) => NotificationDetail(
                   notification: notification,
                 )));
+        notificationsBloc.add(LoadNotifications());
       },
       child: Card(
         clipBehavior: Clip.antiAlias,

@@ -303,4 +303,25 @@ class QueryMutation {
       }
     """;
   }
+
+  String markNotificationAsRead({int id}) {
+    return """
+    mutation {
+        markNotificationAsRead(id: $id) {
+          success
+          error
+        }
+      }
+  """;
+  }
+  String deleteUserNotification({int id}) {
+    return """
+    mutation {
+        deleteUserNotification(id: $id) {
+          success
+          error
+        }
+      }
+  """;
+  }
 }
