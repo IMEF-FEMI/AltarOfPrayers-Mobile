@@ -34,26 +34,35 @@ class NotificationsRepository {
   Future<List> getNotificationsFromServer() async {
     // get notifications from server and empty the prev notificationsTable
     //  then replace with new ones
-    Map currentUserInfo = await _userRepository.currentUserInfo();
+    // Map currentUserInfo = await _userRepository.currentUserInfo();
 
-    _notificationsDao.deleteAllNotifications();
+    GraphQLClient _client = await graphQLConfiguration.clientToQuery();
 
-    List<NotificationModel> _userNotifications =
-        (currentUserInfo["currentUser"]["userNotification"] as List)
-            .map((notification) {
-      NotificationModel _notification =
-          NotificationModel.fromServerJson(notification);
+    QueryResult result = await _client.query(
+      QueryOptions(documentNode: gql(queryMutation.notifications())),
+    );
 
-      return _notification;
-    }).toList();
+    if (!result.hasException) {
+      List<NotificationModel> _userNotifications =
+          (result.data["notifications"] as List).map((notification) {
+        NotificationModel _notification =
+            NotificationModel.fromServerJson(notification);
 
-    Future.forEach(_userNotifications, (notification) async {
-      // save notification and return
-      // print("notification: ${notification.runtimeType}");
-      await _notificationsDao.saveNotification(notification: notification);
-      return null;
-    });
-    return _userNotifications;
+        return _notification;
+      }).toList();
+      if (_userNotifications.length != 0)
+        _notificationsDao.deleteAllNotifications();
+
+      Future.forEach(_userNotifications, (notification) async {
+        // save notification and return
+        // print("notification: ${notification.runtimeType}");
+        await _notificationsDao.saveNotification(notification: notification);
+        return null;
+      });
+      return _userNotifications;
+    } else {
+      return [];
+    }
   }
 
   Future<int> saveNotification({NotificationModel notification}) async {
@@ -64,7 +73,8 @@ class NotificationsRepository {
     GraphQLClient _client = await graphQLConfiguration.clientToQuery();
     QueryResult result = await _client.mutate(
       MutationOptions(
-          documentNode: gql(queryMutation.deleteUserNotification(id: notification.id))),
+          documentNode:
+              gql(queryMutation.deleteUserNotification(id: notification.id))),
     );
 
     if (!result.hasException) {

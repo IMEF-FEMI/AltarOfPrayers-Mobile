@@ -314,12 +314,27 @@ class QueryMutation {
       }
   """;
   }
+
   String deleteUserNotification({int id}) {
     return """
     mutation {
         deleteUserNotification(id: $id) {
           success
           error
+        }
+      }
+  """;
+  }
+
+  String notifications() {
+    return """
+    query {
+        notifications{
+          id
+          title
+          message
+          read
+          createdAt
         }
       }
   """;

@@ -6,12 +6,17 @@ import 'package:altar_of_prayers/widgets/badge_decoration.dart';
 import 'package:altar_of_prayers/widgets/loading_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'notification_detail.dart';
 
 class Notifications extends StatefulWidget {
+  final NotificationsBloc notificationsBloc;
+
+  const Notifications({Key key, @required this.notificationsBloc})
+      : assert(notificationsBloc != null),
+        super(key: key);
+
   @override
   _NotificationsState createState() => _NotificationsState();
 }
@@ -24,13 +29,7 @@ class _NotificationsState extends State<Notifications> {
   @override
   void initState() {
     super.initState();
-    _notificationsBloc = NotificationsBloc();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _notificationsBloc.close();
+    _notificationsBloc = widget.notificationsBloc;
   }
 
   Future<Null> _reFetchNotifications() async {

@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 
 class IconBadge extends StatefulWidget {
-
   final IconData icon;
   final double size;
   final Color color;
+  final int badgeCount;
 
-  IconBadge({Key key, @required this.icon, this.size, this.color})
+  IconBadge(
+      {Key key, @required this.icon, this.size, this.color, this.badgeCount})
       : super(key: key);
 
   @override
@@ -14,9 +15,6 @@ class IconBadge extends StatefulWidget {
 }
 
 class _IconBadgeState extends State<IconBadge> {
-
-  int counter = 0;
-
   @override
   void initState() {
     super.initState();
@@ -31,31 +29,32 @@ class _IconBadgeState extends State<IconBadge> {
           size: widget.size,
           color: widget.color ?? null,
         ),
-        Positioned(
-          right: 0.0,
-          child: Container(
-            padding: EdgeInsets.all(1),
-            decoration: BoxDecoration(
-              color: Colors.red,
-              borderRadius: BorderRadius.circular(6),
-            ),
-            constraints: BoxConstraints(
-              minWidth: 11,
-              minHeight: 11,
-            ),
-            child: Padding(
-              padding: EdgeInsets.only(top: 1),
-              child:Text(
-                '16',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 9,
+        if (widget.badgeCount != 0)
+          Positioned(
+            right: 0.0,
+            child: Container(
+              padding: EdgeInsets.all(1),
+              decoration: BoxDecoration(
+                color: Colors.red,
+                borderRadius: BorderRadius.circular(6),
+              ),
+              constraints: BoxConstraints(
+                minWidth: 11,
+                minHeight: 11,
+              ),
+              child: Padding(
+                padding: EdgeInsets.only(top: 1),
+                child: Text(
+                  '${widget.badgeCount}',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 9,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
-                textAlign: TextAlign.center,
               ),
             ),
           ),
-        ),
       ],
     );
   }
