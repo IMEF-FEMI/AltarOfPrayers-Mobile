@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 
 class MainEditionCard extends StatelessWidget {
-  final IconData icon;
+  final Widget icon;
   final String month;
   final Function onPressed;
+  final double height;
 
-  const MainEditionCard({Key key, this.icon, this.month, this.onPressed}) : super(key: key);
+  const MainEditionCard({Key key, this.icon, this.month, this.onPressed, this.height}) : super(key: key);
 
   threeSidedBorderRadius({double radius = 8}) {
     return BorderRadius.only(
@@ -20,6 +21,7 @@ class MainEditionCard extends StatelessWidget {
       borderRadius: threeSidedBorderRadius(radius: 15),
       onTap: onPressed,
       child: Container(
+        height: height,
         decoration: BoxDecoration(
             borderRadius: threeSidedBorderRadius(radius: 15),
             border: Border.all(color: Colors.grey)),
@@ -33,17 +35,13 @@ class MainEditionCard extends StatelessWidget {
                   height: MediaQuery.of(context).size.height * 0.1,
                   width: MediaQuery.of(context).size.width * 0.0,
                 ),
-                child: Icon(
-                  icon,
-                  size: 40,
-                  color: Colors.cyan,
-                ),
+                child:icon
               ),
             ),
             Expanded(
                 child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
-              // mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Text(
                   month,

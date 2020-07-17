@@ -41,7 +41,7 @@ class EditionsDao {
     return result;
   }
 
-  Future deleteEdition({int editionId}) async {
+  Future clearEditionsTable() async {
     final db = await dbProvider.database;
     var result = await db.delete(
       editionsTable,
@@ -113,6 +113,27 @@ class EditionsDao {
     final db = await dbProvider.database;
     var result = await db.delete(referenceTABLE,
         where: 'editionId = ?', whereArgs: ['$editionId']);
+    return result;
+  }
+
+  Future clearReferenceTable() async {
+    final db = await dbProvider.database;
+    var result = await db.delete(
+      referenceTABLE,
+    );
+    return result;
+  }
+
+  Future clearSeenEditionsTable() async {
+    final db = await dbProvider.database;
+    var result = await db.delete(seenEditionsTable);
+    await db.insert(seenEditionsTable, {"seen_editions": "{}"});
+    return result;
+  }
+
+  Future clearSavedPrayersTable() async {
+    final db = await dbProvider.database;
+    var result = await db.delete(prayersTable);
     return result;
   }
 }

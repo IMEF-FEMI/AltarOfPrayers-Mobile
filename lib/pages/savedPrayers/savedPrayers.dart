@@ -78,21 +78,6 @@ class _SavedPrayersScreenState extends State<SavedPrayersScreen> {
                                         style: TextStyle(
                                             color: Colors.white, fontSize: 20),
                                       ),
-                                      // FlatButton(
-                                      //   color: Colors.red,
-                                      //   onPressed: () {
-                                      //     _savedPrayersBloc.add(UndoRemove(
-                                      //         index: index, prayer: _prayer));
-                                      //     Scaffold.of(context)
-                                      //         .hideCurrentSnackBar();
-                                      //   },
-                                      //   child: Text(
-                                      //     "Undo",
-                                      //     style: TextStyle(
-                                      //         color: Colors.white,
-                                      //         fontSize: 20),
-                                      //   ),
-                                      // )
                                     ],
                                   ),
                                 ),

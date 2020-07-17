@@ -36,6 +36,7 @@ class MakePaymentBloc extends Bloc<MakePaymentEvent, MakePaymentState> {
         staff: currentUserInfo["currentUser"]['staff'],
         admin: currentUserInfo["currentUser"]['admin'],
         isVerified: currentUserInfo["currentUser"]['isVerified'],
+        createdAt: currentUserInfo["currentUser"]['createdAt'],
       );
       if (user.isVerified == false)
         await _userRepository.resendConfirmationEmail(email: user.email);

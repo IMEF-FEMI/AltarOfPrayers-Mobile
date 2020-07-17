@@ -100,7 +100,11 @@ class _MainEditionScreenState extends State<MainEditionScreen> {
                 MainEditionCard(
                     month:
                         '${Tools.monthString[widget.edition.startingMonth - 1]}',
-                    icon: FontAwesomeIcons.calendarAlt,
+                    icon: Icon(
+                      FontAwesomeIcons.calendarAlt,
+                      size: 40,
+                      color: Colors.cyan,
+                    ),
                     onPressed: () => _selectDate(context, widget.edition.year,
                         widget.edition.startingMonth)),
                 SizedBox(
@@ -108,7 +112,11 @@ class _MainEditionScreenState extends State<MainEditionScreen> {
                 ),
                 MainEditionCard(
                   month: '${Tools.monthString[widget.edition.startingMonth]}',
-                  icon: FontAwesomeIcons.calendarAlt,
+                  icon: Icon(
+                    FontAwesomeIcons.calendarAlt,
+                    size: 40,
+                    color: Colors.cyan,
+                  ),
                   onPressed: () => _selectDate(context, widget.edition.year,
                       widget.edition.startingMonth + 1),
                 ),
@@ -118,7 +126,11 @@ class _MainEditionScreenState extends State<MainEditionScreen> {
                 MainEditionCard(
                   month:
                       '${Tools.monthString[widget.edition.startingMonth + 1]}',
-                  icon: FontAwesomeIcons.calendarAlt,
+                  icon: Icon(
+                      FontAwesomeIcons.calendarAlt,
+                      size: 40,
+                      color: Colors.cyan,
+                    ),
                   onPressed: () => _selectDate(context, widget.edition.year,
                       widget.edition.startingMonth + 2),
                 ),
@@ -127,7 +139,11 @@ class _MainEditionScreenState extends State<MainEditionScreen> {
                 ),
                 MainEditionCard(
                   month: 'Gift A Copy ',
-                  icon: FontAwesomeIcons.gift,
+                   icon: Icon(
+                      FontAwesomeIcons.gift,
+                      size: 40,
+                      color: Colors.cyan,
+                    ),
                   onPressed: () {
                     showBottomSheet(
                         context: context,
@@ -150,7 +166,11 @@ class _MainEditionScreenState extends State<MainEditionScreen> {
                 ),
                 MainEditionCard(
                   month: 'Copies Gifted',
-                  icon: FontAwesomeIcons.gifts,
+                  icon: Icon(
+                      FontAwesomeIcons.gifts,
+                      size: 40,
+                      color: Colors.cyan,
+                    ),
                   onPressed: () {
                     if (widget.edition.copiesGifted.length == 0)
                       showModalBottomSheet(

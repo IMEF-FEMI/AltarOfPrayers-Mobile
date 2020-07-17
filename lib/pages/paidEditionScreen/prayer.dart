@@ -234,7 +234,7 @@ class _PrayerState extends State<PrayerScreen> {
                         ),
                       ],
                     ),
-                    // SizedBox(height: 5),
+                    SizedBox(height: 15),
                     Padding(
                         padding: const EdgeInsets.only(left: 20.0),
                         child: ListView.builder(
@@ -244,31 +244,13 @@ class _PrayerState extends State<PrayerScreen> {
                           itemBuilder: (context, index) {
                             return Column(
                               children: <Widget>[
-                                Row(
-                                  children: <Widget>[
-                                    Text(
-                                      "${index + 1}.",
-                                      style:
-                                          Theme.of(context).textTheme.headline5,
-                                    ),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    Expanded(
-                                      child: Padding(
-                                        padding:
-                                            const EdgeInsets.only(top: 18.0),
-                                        child: Text(
-                                          state.prayer.prayerPoints[index] +
-                                              state.prayer.prayerPoints[index],
-                                          softWrap: true,
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .headline6,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
+                                Text(
+                                  "${index + 1}. "+state.prayer.prayerPoints[index] +
+                                      state.prayer.prayerPoints[index],
+                                  softWrap: true,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headline6,
                                 ),
                                 SizedBox(
                                   height: 20,

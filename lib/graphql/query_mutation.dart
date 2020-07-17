@@ -60,6 +60,7 @@ class QueryMutation {
               staff
               admin
               isVerified
+              createdAt
     }
   }
 }

@@ -1,6 +1,7 @@
 import 'package:altar_of_prayers/models/user.dart';
 import 'package:altar_of_prayers/pages/NewEditions/new_editions_page.dart';
 import 'package:altar_of_prayers/pages/myEditions/my_edition_page.dart';
+import 'package:altar_of_prayers/pages/profile/profile_page.dart';
 import 'package:altar_of_prayers/pages/savedPrayers/savedPrayers.dart';
 import 'package:altar_of_prayers/widgets/app_scaffold.dart';
 import 'package:altar_of_prayers/widgets/category_card.dart';
@@ -57,11 +58,12 @@ class Home extends StatelessWidget {
                   onTap: () => Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => MyEditionsPage()))),
               CategoryCard(
-                title: 'My Profile',
-                desctiption: 'Informations about your account ',
-                color: Colors.pink,
-                icon: FontAwesomeIcons.userAlt,
-              ),
+                  title: 'My Profile',
+                  desctiption: 'Informations about your account ',
+                  color: Colors.pink,
+                  icon: FontAwesomeIcons.userAlt,
+                  onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => ProfilePage()))),
             ],
           ))
         ],

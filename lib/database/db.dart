@@ -45,6 +45,7 @@ class DatabaseProvider {
         "full_name TEXT, "
         "email TEXT, "
         "account_type TEXT, "
+        "created_at TEXT, "
         "token TEXT, "
         "staff INTEGER, "
         "is_verified INTEGER, "

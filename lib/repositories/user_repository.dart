@@ -1,4 +1,7 @@
 import 'package:altar_of_prayers/database/database.dart';
+import 'package:altar_of_prayers/database/editions_dao.dart';
+import 'package:altar_of_prayers/database/notifications_dao.dart';
+import 'package:altar_of_prayers/database/prayer_dao.dart';
 import 'package:altar_of_prayers/graphql/graphql.dart';
 import 'package:altar_of_prayers/models/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -13,6 +16,9 @@ class UserRepository {
   QueryMutation queryMutation = QueryMutation();
 
   final userDao = UserDao();
+  final editionsDao = EditionsDao();
+  final notificationsDao = NotificationsDao();
+  final prayerDao = PrayerDao();
 
   UserRepository({FirebaseAuth firebaseAuth, GoogleSignIn googleSignin})
       : _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance,
@@ -53,15 +59,15 @@ class UserRepository {
           // get token and add to db
           // return User obj
           final user = new User(
-            id: result.data['loginUser']['user']['id'],
-            email: result.data['loginUser']['user']['email'],
-            fullName: result.data['loginUser']['user']['fullname'],
-            accountType: result.data['loginUser']['user']['accountType'],
-            token: result.data['loginUser']['token'],
-            staff: result.data['loginUser']['user']['staff'],
-            admin: result.data['loginUser']['user']['admin'],
-            isVerified: result.data['loginUser']['user']['isVerified'],
-          );
+              id: result.data['loginUser']['user']['id'],
+              email: result.data['loginUser']['user']['email'],
+              fullName: result.data['loginUser']['user']['fullname'],
+              accountType: result.data['loginUser']['user']['accountType'],
+              token: result.data['loginUser']['token'],
+              staff: result.data['loginUser']['user']['staff'],
+              admin: result.data['loginUser']['user']['admin'],
+              isVerified: result.data['loginUser']['user']['isVerified'],
+              createdAt: result.data['loginUser']['user']['createdAt']);
 
           await userDao.saveUser(user);
           print("user saved");
@@ -125,15 +131,15 @@ class UserRepository {
         // get token and add to db
         // return User obj
         final user = new User(
-          id: result.data['createUser']['user']['id'],
-          email: result.data['createUser']['user']['email'],
-          fullName: result.data['createUser']['user']['fullname'],
-          accountType: result.data['createUser']['user']['accountType'],
-          token: result.data['createUser']['token'],
-          staff: result.data['createUser']['user']['staff'],
-          admin: result.data['createUser']['user']['admin'],
-          isVerified: result.data['createUser']['user']['isVerified'],
-        );
+            id: result.data['createUser']['user']['id'],
+            email: result.data['createUser']['user']['email'],
+            fullName: result.data['createUser']['user']['fullname'],
+            accountType: result.data['createUser']['user']['accountType'],
+            token: result.data['createUser']['token'],
+            staff: result.data['createUser']['user']['staff'],
+            admin: result.data['createUser']['user']['admin'],
+            isVerified: result.data['createUser']['user']['isVerified'],
+            createdAt: result.data['loginUser']['user']['createdAt']);
 
         await userDao.saveUser(user);
         return true;
@@ -181,15 +187,15 @@ class UserRepository {
         // get token and add to db
         // return User obj
         final user = new User(
-          id: result.data['loginUser']['user']['id'],
-          email: result.data['loginUser']['user']['email'],
-          fullName: result.data['loginUser']['user']['fullname'],
-          accountType: result.data['loginUser']['user']['accountType'],
-          token: result.data['loginUser']['token'],
-          staff: result.data['loginUser']['user']['staff'],
-          admin: result.data['loginUser']['user']['admin'],
-          isVerified: result.data['loginUser']['user']['isVerified'],
-        );
+            id: result.data['loginUser']['user']['id'],
+            email: result.data['loginUser']['user']['email'],
+            fullName: result.data['loginUser']['user']['fullname'],
+            accountType: result.data['loginUser']['user']['accountType'],
+            token: result.data['loginUser']['token'],
+            staff: result.data['loginUser']['user']['staff'],
+            admin: result.data['loginUser']['user']['admin'],
+            isVerified: result.data['loginUser']['user']['isVerified'],
+            createdAt: result.data['loginUser']['user']['createdAt']);
 
         await userDao.saveUser(user);
         print("user saved");
@@ -244,15 +250,15 @@ class UserRepository {
           // get token and add to db
           // return User obj
           final user = new User(
-            id: result.data['createUser']['user']['id'],
-            email: result.data['createUser']['user']['email'],
-            fullName: result.data['createUser']['user']['fullname'],
-            accountType: result.data['createUser']['user']['accountType'],
-            token: result.data['createUser']['token'],
-            staff: result.data['createUser']['user']['staff'],
-            admin: result.data['createUser']['user']['admin'],
-            isVerified: result.data['createUser']['user']['isVerified'],
-          );
+              id: result.data['createUser']['user']['id'],
+              email: result.data['createUser']['user']['email'],
+              fullName: result.data['createUser']['user']['fullname'],
+              accountType: result.data['createUser']['user']['accountType'],
+              token: result.data['createUser']['token'],
+              staff: result.data['createUser']['user']['staff'],
+              admin: result.data['createUser']['user']['admin'],
+              isVerified: result.data['createUser']['user']['isVerified'],
+              createdAt: result.data['loginUser']['user']['createdAt']);
 
           await userDao.saveUser(user);
           print("user saved");
@@ -350,8 +356,17 @@ class UserRepository {
       ]);
     }
 
-    // remove user and token from db
+    // clear all 7 user table except dark mode table
+    try{
+    await editionsDao.clearReferenceTable();
+    await editionsDao.clearEditionsTable();
+    await editionsDao.clearSeenEditionsTable();
+    await editionsDao.clearSavedPrayersTable();
+    await notificationsDao.deleteAllNotifications();
     await userDao.deleteUser();
+    }catch(e){
+      print(e);
+    }
   }
 
   Future<bool> resetPassword(String email) async {
