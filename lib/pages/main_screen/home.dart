@@ -2,6 +2,7 @@ import 'package:altar_of_prayers/models/user.dart';
 import 'package:altar_of_prayers/pages/NewEditions/new_editions_page.dart';
 import 'package:altar_of_prayers/pages/myEditions/my_edition_page.dart';
 import 'package:altar_of_prayers/pages/profile/profile_page.dart';
+import 'package:altar_of_prayers/pages/prophetic_prayers/prophetic_prayers.dart';
 import 'package:altar_of_prayers/pages/savedPrayers/savedPrayers.dart';
 import 'package:altar_of_prayers/widgets/app_scaffold.dart';
 import 'package:altar_of_prayers/widgets/category_card.dart';
@@ -38,12 +39,6 @@ class Home extends StatelessWidget {
                   onTap: () => Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => SavedPrayersScreen()))),
               CategoryCard(
-                title: 'Prophetic Prayers',
-                desctiption: 'Prophetic Prayers from the Altar of Prayers ',
-                color: Colors.red,
-                icon: FontAwesomeIcons.shieldAlt,
-              ),
-              CategoryCard(
                   title: 'New Editions',
                   desctiption: 'Check for new Editions',
                   color: Colors.teal,
@@ -58,12 +53,19 @@ class Home extends StatelessWidget {
                   onTap: () => Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => MyEditionsPage()))),
               CategoryCard(
+                  title: 'Prophetic Prayers',
+                  desctiption: 'Prophetic Prayers from the Altar of Prayers ',
+                  color: Colors.red,
+                  icon: FontAwesomeIcons.shieldAlt,
+                  onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => PropheticPrayers()))),
+              CategoryCard(
                   title: 'My Profile',
                   desctiption: 'Informations about your account ',
                   color: Colors.pink,
                   icon: FontAwesomeIcons.userAlt,
-                  onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => ProfilePage()))),
+                  onTap: () => Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => ProfilePage()))),
             ],
           ))
         ],

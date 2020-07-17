@@ -128,7 +128,8 @@ class _PrayerState extends State<PrayerScreen> {
               // mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
                 Padding(
-                  padding: const EdgeInsets.only(left:30.0, right:25.0, top:18.0, bottom:18.0),
+                  padding: const EdgeInsets.only(
+                      left: 30.0, right: 25.0, top: 18.0, bottom: 18.0),
                   child: Text(
                     state.prayer.topic,
                     style: Theme.of(context).textTheme.headline4.copyWith(
@@ -174,12 +175,13 @@ class _PrayerState extends State<PrayerScreen> {
                           Text(
                             state.prayer.passage,
                             softWrap: true,
-                            style: Theme.of(context)
-                                .textTheme
-                                .headline6
-                                .copyWith(
-                                    fontWeight: FontWeight.w200,
-                                    fontStyle: FontStyle.italic),
+                            style:
+                                Theme.of(context).textTheme.headline6.copyWith(
+                                      fontWeight: FontWeight.w200,
+                                      fontStyle: FontStyle.italic,
+                                      letterSpacing: 1.5,
+                                      wordSpacing: 1.5,
+                                    ),
                           ),
                         ],
                       ),
@@ -199,16 +201,22 @@ class _PrayerState extends State<PrayerScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Padding(
-                      padding: const EdgeInsets.all( 20.0),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 20.0,
+                        vertical: 5,
+                      ),
                       child: Column(
                         children: <Widget>[
                           Text(
                             state.prayer.message,
                             softWrap: true,
-                            style:
-                                Theme.of(context).textTheme.headline6.copyWith(
-                                      fontWeight: FontWeight.w200,
-                                    ),
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline6
+                                .copyWith(
+                                    fontWeight: FontWeight.w200,
+                                    letterSpacing: 1.5,
+                                    wordSpacing: 1.5),
                           ),
                         ],
                       ),
@@ -218,6 +226,7 @@ class _PrayerState extends State<PrayerScreen> {
               ),
             ),
             Container(
+              
               child: Padding(
                 padding: const EdgeInsets.all(15.0),
                 child: Column(
@@ -227,31 +236,34 @@ class _PrayerState extends State<PrayerScreen> {
                       children: <Widget>[
                         Text(
                           "Prayer Points",
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline6
-                              .copyWith(fontWeight: FontWeight.w800),
+                          style: Theme.of(context).textTheme.headline6.copyWith(
+                                fontWeight: FontWeight.w800,
+                              ),
                         ),
                       ],
                     ),
                     SizedBox(height: 15),
                     Padding(
-                        padding: const EdgeInsets.only(left: 20.0),
+                        padding: const EdgeInsets.all(20.0),
                         child: ListView.builder(
                           physics: NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
                           itemCount: state.prayer.prayerPoints.length,
                           itemBuilder: (context, index) {
                             return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Text(
-                                  "${index + 1}. "+state.prayer.prayerPoints[index] +
-                                      state.prayer.prayerPoints[index],
-                                  softWrap: true,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .headline6,
-                                ),
+                                    "${index + 1}. " +
+                                        state.prayer.prayerPoints[index],
+                                    softWrap: true,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headline6
+                                        .copyWith(
+                                          letterSpacing: 1.5,
+                                          wordSpacing: 1.5,
+                                        )),
                                 SizedBox(
                                   height: 20,
                                 ),
