@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:altar_of_prayers/database/editions_dao.dart';
 import 'package:altar_of_prayers/graphql/graphql.dart';
@@ -65,8 +64,7 @@ class EditionsRepository {
 
   Future<Edition> confirmPayment(
       {int editionId, String reference, String paidFor}) async {
-    // TODO: remove delete reference
-    // await deleteReference(editionId: editionId);
+   
     var ref = await getReference(editionId: editionId);
     if (ref == null) {
       await saveReference(
@@ -126,8 +124,6 @@ class EditionsRepository {
   Future<Edition> getEdition(
       {int editionId, int startingMonth, int year}) async {
     var editionObj;
-    // TODO: remove delete edition
-    // await _editionsDao.deleteEdition(editionId: editionId);
     if (editionId != null) {
       editionObj = await _editionsDao.getEdition(editionId: editionId);
     } else {

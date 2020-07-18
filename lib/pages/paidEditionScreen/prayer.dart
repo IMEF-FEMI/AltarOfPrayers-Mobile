@@ -175,12 +175,11 @@ class _PrayerState extends State<PrayerScreen> {
                           Text(
                             state.prayer.passage,
                             softWrap: true,
+                            textAlign: TextAlign.justify,
                             style:
                                 Theme.of(context).textTheme.headline6.copyWith(
                                       fontWeight: FontWeight.w200,
                                       fontStyle: FontStyle.italic,
-                                      letterSpacing: 1.5,
-                                      wordSpacing: 1.5,
                                     ),
                           ),
                         ],
@@ -210,13 +209,13 @@ class _PrayerState extends State<PrayerScreen> {
                           Text(
                             state.prayer.message,
                             softWrap: true,
-                            style: Theme.of(context)
-                                .textTheme
-                                .headline6
-                                .copyWith(
-                                    fontWeight: FontWeight.w200,
-                                    letterSpacing: 1.5,
-                                    wordSpacing: 1.5),
+                            textAlign: TextAlign.justify,
+                            style:
+                                Theme.of(context).textTheme.headline6.copyWith(
+                                      fontWeight: FontWeight.w200,
+                                      // letterSpacing: 1.5,
+                                      // wordSpacing: 1.5,
+                                    ),
                           ),
                         ],
                       ),
@@ -226,7 +225,6 @@ class _PrayerState extends State<PrayerScreen> {
               ),
             ),
             Container(
-              
               child: Padding(
                 padding: const EdgeInsets.all(15.0),
                 child: Column(
@@ -254,16 +252,18 @@ class _PrayerState extends State<PrayerScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Text(
-                                    "${index + 1}. " +
-                                        state.prayer.prayerPoints[index],
-                                    softWrap: true,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .headline6
-                                        .copyWith(
-                                          letterSpacing: 1.5,
-                                          wordSpacing: 1.5,
-                                        )),
+                                  "${index + 1}. " +
+                                      state.prayer.prayerPoints[index],
+                                  softWrap: true,
+                                  textAlign: TextAlign.justify,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headline6
+                                      .copyWith(
+                                        letterSpacing: 1.5,
+                                        wordSpacing: 1.5,
+                                      ),
+                                ),
                                 SizedBox(
                                   height: 20,
                                 ),

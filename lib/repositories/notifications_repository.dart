@@ -1,12 +1,10 @@
 import 'package:altar_of_prayers/database/notifications_dao.dart';
 import 'package:altar_of_prayers/graphql/graphql.dart';
 import 'package:altar_of_prayers/models/notification.dart';
-import 'package:altar_of_prayers/repositories/user_repository.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
 class NotificationsRepository {
   NotificationsDao _notificationsDao = NotificationsDao();
-  UserRepository _userRepository = UserRepository();
   GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
   QueryMutation queryMutation = QueryMutation();
 

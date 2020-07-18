@@ -27,7 +27,7 @@ class Tools {
     "December",
   ];
 
-    static List<String> propheicPrayers = [
+  static List<String> propheicPrayers = [
     "Today is the day of my advancement",
     "Today is the day of my breakthrough",
     "Today is the day of my celebration",
@@ -52,6 +52,13 @@ class Tools {
     "Today shall not be a day of weeping for me",
     "Today shall not be a day of affliction for me",
     "Thank God for answering your prayers",
-
   ];
+
+  String aboutText =
+      "Altar of prayers is a DYNAMIC DAILY PRAYER GUIDE written and Authored by PASTOR J. S. AKANDE The General overseer of Covenant of Restoration Ministry with a mission to help you build a consistent and effective prayer life without struggle, To set the captive free, Restore hope to the hopeless and Set many feet on the pedestal of success ";
+
+  String contactText =
+      "You can reach us at:\n Convenant of Restoration Ministries Trikania Kaduna \n Kaduna South Nigeria, \nP.O.BOX 6484 \n08033190291 \naltarofprayersteam@gmail.com";
+
+  
 }

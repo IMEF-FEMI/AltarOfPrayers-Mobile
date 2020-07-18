@@ -15,7 +15,6 @@ class NewEditionsBloc extends Bloc<NewEditionsEvent, NewEditionsState> {
       if (state.editions.length == 0) yield NewEditionsState.loading();
       try {
         Map seenEditions = await editionsRepository.getSeenEditions();
-        print("We here");
         List editions = await editionsRepository.getPublishedEditions();
         yield NewEditionsState(
           editions: editions,

@@ -1,7 +1,7 @@
 import 'package:altar_of_prayers/blocs/main_screen/bloc.dart';
 import 'package:altar_of_prayers/blocs/notificaions/bloc.dart';
 import 'package:altar_of_prayers/models/user.dart';
-import 'package:altar_of_prayers/pages/main_screen/about.dart';
+import 'package:altar_of_prayers/pages/about/about_page.dart';
 import 'package:altar_of_prayers/pages/notifications/notifications.dart';
 import 'package:altar_of_prayers/pages/paidEditionScreen/prayer.dart';
 import 'package:altar_of_prayers/widgets/custom_nav.dart';
@@ -92,7 +92,7 @@ class _MainScreenState extends State<MainScreen> {
                     navigatorkey: _navigatorKeys[2],
                   ),
                   CustomNav(
-                    child: About(),
+                    child: AboutPage(),
                     navigatorkey: _navigatorKeys[3],
                   ),
                 ],
