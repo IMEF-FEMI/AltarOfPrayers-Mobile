@@ -311,7 +311,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                               enabled:
                                   currentScreen != PasswordScreen.ENTER_TOKEN,
                               validator: (value) {
-
                                 return !isEmailValid(state)
                                     ? 'Invalid Email'
                                     : null;
@@ -429,7 +428,10 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                                         ? _onSendPasswordResetEmailButtonPressed
                                         : null,
                                 shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(40)),
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(8),
+                                        topRight: Radius.circular(8),
+                                        bottomRight: Radius.circular(8))),
                                 // color: Colors.white,
                                 child: Padding(
                                   padding:

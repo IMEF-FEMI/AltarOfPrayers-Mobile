@@ -51,17 +51,17 @@ class _MainScreenState extends State<MainScreen> {
           MainScreenBloc(notificationsBloc: _notificationsBloc),
       child: BlocBuilder<MainScreenBloc, MainScreenState>(
         builder: (context, state) {
-         return WillPopScope(
+          return WillPopScope(
             onWillPop: () async {
               final isFirstRouteInCurrentTab =
                   !await _navigatorKeys[_currentIndex].currentState.maybePop();
 
               if (isFirstRouteInCurrentTab) {
                 // if not on the 'main' tab
-                if (_currentIndex != 1) {
+                if (_currentIndex != 0) {
                   // select 'main' tab
                   setState(() {
-                    _currentIndex = 1;
+                    _currentIndex = 0;
                   });
                   // back button handled by app
                   return false;
@@ -76,19 +76,21 @@ class _MainScreenState extends State<MainScreen> {
                 index: _currentIndex,
                 children: <Widget>[
                   CustomNav(
+                    child: Home(),
+                    navigatorkey: _navigatorKeys[0],
+                  ),
+                  CustomNav(
                     child: PrayerScreen(
                         year: today.year,
                         month: today.month,
                         day: today.day,
                         disableClose: true),
-                    navigatorkey: _navigatorKeys[0],
-                  ),
-                  CustomNav(
-                    child: Home(),
                     navigatorkey: _navigatorKeys[1],
                   ),
                   CustomNav(
-                    child: Notifications(notificationsBloc: _notificationsBloc,),
+                    child: Notifications(
+                      notificationsBloc: _notificationsBloc,
+                    ),
                     navigatorkey: _navigatorKeys[2],
                   ),
                   CustomNav(
@@ -111,22 +113,6 @@ class _MainScreenState extends State<MainScreen> {
                   type: BottomNavigationBarType.fixed,
                   items: <BottomNavigationBarItem>[
                     BottomNavigationBarItem(
-                      icon: Icon(FontAwesomeIcons.calendarAlt, size: 25),
-                      title: Container(
-                        child: Column(
-                          children: <Widget>[
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Text(
-                              "Today",
-                              style: TextStyle(fontSize: 12),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    BottomNavigationBarItem(
                       icon: Icon(
                         FontAwesomeIcons.home,
                       ),
@@ -138,6 +124,22 @@ class _MainScreenState extends State<MainScreen> {
                             ),
                             Text(
                               "Home",
+                              style: TextStyle(fontSize: 12),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    BottomNavigationBarItem(
+                      icon: Icon(FontAwesomeIcons.calendarAlt, size: 25),
+                      title: Container(
+                        child: Column(
+                          children: <Widget>[
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Text(
+                              "Today",
                               style: TextStyle(fontSize: 12),
                             ),
                           ],

@@ -4,19 +4,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-
 class GoogleRegisterButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-
     return OutlineButton(
       splashColor: Colors.grey,
-       onPressed: () {
+      onPressed: () {
         BlocProvider.of<RegisterBloc>(context).add(
           RegisterWithGooglePressed(),
         );
       },
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(8),
+              topRight: Radius.circular(8),
+              bottomRight: Radius.circular(8))),
       highlightElevation: 0,
       borderSide: BorderSide(color: Colors.grey),
       child: Padding(
@@ -25,7 +27,10 @@ class GoogleRegisterButton extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Icon(FontAwesomeIcons.google, color: Colors.red,),
+            Icon(
+              FontAwesomeIcons.google,
+              color: Colors.red,
+            ),
             Padding(
               padding: const EdgeInsets.only(left: 10),
               child: Text(
@@ -42,5 +47,3 @@ class GoogleRegisterButton extends StatelessWidget {
     );
   }
 }
-
-

@@ -9,10 +9,13 @@ class LoginButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-   
     return RaisedButton(
       onPressed: _onPressed,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(8),
+              topRight: Radius.circular(8),
+              bottomRight: Radius.circular(8))),
       child: Padding(
         padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
         child: Row(

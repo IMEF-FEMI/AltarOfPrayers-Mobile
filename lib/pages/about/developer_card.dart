@@ -21,7 +21,7 @@ class DeveloperCard extends StatelessWidget {
                 size: 15,
               ),
               onPressed: () {
-                launch("https://twiter.com/dev_femi");
+                launch("https://twitter.com/dev_femi");
               },
             ),
             IconButton(
@@ -44,7 +44,7 @@ class DeveloperCard extends StatelessWidget {
             ),
              IconButton(
               icon: Icon(
-                FontAwesomeIcons.mailBulk,
+                FontAwesomeIcons.envelope,
                 size: 15,
               ),
               onPressed: () {

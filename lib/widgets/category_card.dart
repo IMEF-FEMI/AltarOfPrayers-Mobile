@@ -43,7 +43,7 @@ class CategoryCard extends StatelessWidget {
               children: <Widget>[
                 Icon(
                   icon,
-                  size: 25,
+                  size: 20,
                   color: color.withOpacity(.7),
                 ),
                 SizedBox(
@@ -51,7 +51,7 @@ class CategoryCard extends StatelessWidget {
                 ),
                 Text(title,
                     style: Theme.of(context).textTheme.headline6.copyWith(
-                          fontSize: 14,
+                          fontSize: 12,
                           color: color.withOpacity(.7),
                         )),
                 SizedBox(

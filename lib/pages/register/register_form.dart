@@ -13,7 +13,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:giffy_dialog/giffy_dialog.dart';
 
-
 class RegisterForm extends StatefulWidget {
   RegisterForm({
     Key key,
@@ -87,7 +86,6 @@ class _RegisterFormState extends State<RegisterForm> {
     );
   }
 
- 
   @override
   void dispose() {
     _nameController.dispose();
@@ -123,8 +121,8 @@ class _RegisterFormState extends State<RegisterForm> {
                     children: <Widget>[
                       Center(
                         child: Platform.isIOS
-                                  ? new CupertinoActivityIndicator()
-                                  : new CircularProgressIndicator(),
+                            ? new CupertinoActivityIndicator()
+                            : new CircularProgressIndicator(),
                       ),
                     ],
                   );
@@ -137,8 +135,8 @@ class _RegisterFormState extends State<RegisterForm> {
                 builder: (context) {
                   return Center(
                     child: Platform.isIOS
-                                  ? new CupertinoActivityIndicator()
-                                  : new CircularProgressIndicator(),
+                        ? new CupertinoActivityIndicator()
+                        : new CircularProgressIndicator(),
                   );
                 });
           }
@@ -221,142 +219,146 @@ class _RegisterFormState extends State<RegisterForm> {
             key: _formKey,
             child: ListView(
               children: <Widget>[
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    ImageCard(
-                      img: AltarOfPrayers.banner_light,
-                    ),
-                    Container(
-                        padding:
-                            EdgeInsets.only(top: 0.0, left: 20.0, right: 20.0),
-                        child: Column(
-                          children: <Widget>[
-                            TextFormField(
-                              controller: _nameController,
-                              autocorrect: false,
-                              decoration: InputDecoration(
-                                  labelText: 'Full Name',
-                                  prefixIcon: Icon(
-                                    Icons.text_fields,
-                                    color: Colors.grey,
-                                  ),
-                                  labelStyle: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.grey),
-                                  focusedBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color: Color(0xff002244)))),
-                            ),
-                            TextFormField(
-                              keyboardType: TextInputType.emailAddress,
-                              controller: _emailController,
-                              autocorrect: false,
-                              autovalidate: true,
-                              validator: (_) {
-                                return !state.isEmailValid
-                                    ? 'Invalid Email'
-                                    : null;
-                              },
-                              decoration: InputDecoration(
-                                  labelText: 'Email',
-                                  prefixIcon: Icon(
-                                    Icons.person_outline,
-                                    color: Colors.grey,
-                                  ),
-                                  labelStyle: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.grey),
-                                  focusedBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color: Color(0xff002244)))),
-                            ),
-                            TextFormField(
-                              controller: _passwordOneController,
-                              autovalidate: true,
-                              validator: (_) {
-                                if (!state.isPasswordValid)
-                                  return 'password must be at least 8 characters \nlong contain a number';
-                                return null;
-                              },
-                              decoration: InputDecoration(
-                                  labelText: 'Password',
-                                  prefixIcon: Icon(
-                                    Icons.lock_outline,
-                                    color: Colors.grey,
-                                  ),
-                                  suffixIcon: InkWell(
-                                    child: Icon(
-                                      _obscurePassword1
-                                          ? FontAwesomeIcons.eye
-                                          : FontAwesomeIcons.eyeSlash,
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      ImageCard(
+                        img: AltarOfPrayers.banner_light,
+                      ),
+                      Container(
+                          padding: EdgeInsets.only(
+                              top: 0.0, left: 20.0, right: 20.0),
+                          child: Column(
+                            children: <Widget>[
+                              TextFormField(
+                                controller: _nameController,
+                                autocorrect: false,
+                                decoration: InputDecoration(
+                                    labelText: 'Full Name',
+                                    prefixIcon: Icon(
+                                      Icons.text_fields,
                                       color: Colors.grey,
                                     ),
-                                    onTap: () {
-                                      _toggleObscurePassword1();
-                                    },
-                                  ),
-                                  labelStyle: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.grey),
-                                  focusedBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color: Color(0xff002244)))),
-                              obscureText: _obscurePassword1,
-                            ),
-                            TextFormField(
-                              controller: _passwordTwoController,
-                              autovalidate: true,
-                              validator: (_) {
-                                if (!state.isPasswordsMatch)
-                                  return 'Passwords don\'t match';
-                                return null;
-                              },
-                              decoration: InputDecoration(
-                                  labelText: 'Confirm Password',
-                                  prefixIcon: Icon(
-                                    Icons.lock_outline,
-                                    color: Colors.grey,
-                                  ),
-                                  suffixIcon: InkWell(
-                                    child: Icon(
-                                      _obscurePassword2
-                                          ? FontAwesomeIcons.eye
-                                          : FontAwesomeIcons.eyeSlash,
-                                      color: Colors.grey,
-                                    ),
-                                    onTap: () {
-                                      _toggleObscurePassword2();
-                                    },
-                                  ),
-                                  labelStyle: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.grey),
-                                  focusedBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color: Color(0xff002244)))),
-                              obscureText: _obscurePassword2,
-                            ),
-                            Padding(
-                              padding: EdgeInsets.symmetric(vertical: 20),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
-                                children: <Widget>[
-                                  RegisterButton(
-                                    onPressed: isRegisterButtonEnabled(state)
-                                        ? _onFormSubmitted
-                                        : null,
-                                  ),
-                                  SizedBox(
-                                    height: 6,
-                                  ),
-                                  GoogleRegisterButton(),
-                                ],
+                                    labelStyle: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.grey),
+                                    focusedBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: Color(0xff002244)))),
                               ),
-                            ),
-                          ],
-                        )),
-                  ],
+                              TextFormField(
+                                keyboardType: TextInputType.emailAddress,
+                                controller: _emailController,
+                                autocorrect: false,
+                                autovalidate: true,
+                                validator: (_) {
+                                  return !state.isEmailValid
+                                      ? 'Invalid Email'
+                                      : null;
+                                },
+                                decoration: InputDecoration(
+                                    labelText: 'Email',
+                                    prefixIcon: Icon(
+                                      Icons.person_outline,
+                                      color: Colors.grey,
+                                    ),
+                                    labelStyle: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.grey),
+                                    focusedBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: Color(0xff002244)))),
+                              ),
+                              TextFormField(
+                                controller: _passwordOneController,
+                                autovalidate: true,
+                                validator: (_) {
+                                  if (!state.isPasswordValid)
+                                    return 'password must be at least 8 characters \nlong contain a number';
+                                  return null;
+                                },
+                                decoration: InputDecoration(
+                                    labelText: 'Password',
+                                    prefixIcon: Icon(
+                                      Icons.lock_outline,
+                                      color: Colors.grey,
+                                    ),
+                                    suffixIcon: InkWell(
+                                      child: Icon(
+                                        _obscurePassword1
+                                            ? FontAwesomeIcons.eye
+                                            : FontAwesomeIcons.eyeSlash,
+                                        color: Colors.grey,
+                                      ),
+                                      onTap: () {
+                                        _toggleObscurePassword1();
+                                      },
+                                    ),
+                                    labelStyle: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.grey),
+                                    focusedBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: Color(0xff002244)))),
+                                obscureText: _obscurePassword1,
+                              ),
+                              TextFormField(
+                                controller: _passwordTwoController,
+                                autovalidate: true,
+                                validator: (_) {
+                                  if (!state.isPasswordsMatch)
+                                    return 'Passwords don\'t match';
+                                  return null;
+                                },
+                                decoration: InputDecoration(
+                                    labelText: 'Confirm Password',
+                                    prefixIcon: Icon(
+                                      Icons.lock_outline,
+                                      color: Colors.grey,
+                                    ),
+                                    suffixIcon: InkWell(
+                                      child: Icon(
+                                        _obscurePassword2
+                                            ? FontAwesomeIcons.eye
+                                            : FontAwesomeIcons.eyeSlash,
+                                        color: Colors.grey,
+                                      ),
+                                      onTap: () {
+                                        _toggleObscurePassword2();
+                                      },
+                                    ),
+                                    labelStyle: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.grey),
+                                    focusedBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: Color(0xff002244)))),
+                                obscureText: _obscurePassword2,
+                              ),
+                              Padding(
+                                padding: EdgeInsets.symmetric(vertical: 20),
+                                child: Column(
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.stretch,
+                                  children: <Widget>[
+                                    RegisterButton(
+                                      onPressed: isRegisterButtonEnabled(state)
+                                          ? _onFormSubmitted
+                                          : null,
+                                    ),
+                                    SizedBox(
+                                      height: 6,
+                                    ),
+                                    GoogleRegisterButton(),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          )),
+                    ],
+                  ),
                 ),
               ],
             ),

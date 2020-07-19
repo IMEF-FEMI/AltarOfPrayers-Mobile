@@ -179,6 +179,7 @@ class _PrayerState extends State<PrayerScreen> {
                             style:
                                 Theme.of(context).textTheme.headline6.copyWith(
                                       fontWeight: FontWeight.w200,
+                                      fontSize: 18,
                                       fontStyle: FontStyle.italic,
                                     ),
                           ),
@@ -214,6 +215,7 @@ class _PrayerState extends State<PrayerScreen> {
                                 Theme.of(context).textTheme.headline6.copyWith(
                                       fontWeight: FontWeight.w200,
                                       // letterSpacing: 1.5,
+                                      fontSize: 18,
                                       // wordSpacing: 1.5,
                                     ),
                           ),
@@ -232,11 +234,16 @@ class _PrayerState extends State<PrayerScreen> {
                   children: <Widget>[
                     Row(
                       children: <Widget>[
-                        Text(
-                          "Prayer Points",
-                          style: Theme.of(context).textTheme.headline6.copyWith(
-                                fontWeight: FontWeight.w800,
-                              ),
+                        Padding(
+                          padding:
+                              const EdgeInsets.only(left: 20.0, right: 20.0),
+                          child: Text(
+                            "Prayer Points",
+                            style:
+                                Theme.of(context).textTheme.headline6.copyWith(
+                                      fontWeight: FontWeight.w800,
+                                    ),
+                          ),
                         ),
                       ],
                     ),
@@ -260,8 +267,9 @@ class _PrayerState extends State<PrayerScreen> {
                                       .textTheme
                                       .headline6
                                       .copyWith(
-                                        letterSpacing: 1.5,
-                                        wordSpacing: 1.5,
+                                        // letterSpacing: 1.5,
+                                        // wordSpacing: 1.5,
+                                        fontSize: 18,
                                       ),
                                 ),
                                 SizedBox(

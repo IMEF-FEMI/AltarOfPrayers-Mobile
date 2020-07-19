@@ -23,6 +23,7 @@ class AboutPage extends StatelessWidget {
               textAlign: TextAlign.justify,
               style: Theme.of(context).textTheme.headline6.copyWith(
                     fontWeight: FontWeight.w400,
+                    fontSize: 18,
                     fontFamily: "Georgia",
                   ),
             ),
@@ -45,7 +46,7 @@ class AboutPage extends StatelessWidget {
               style: Theme.of(context).textTheme.subtitle2.copyWith(
                   // fontWeight: FontWeight.bold,
                   fontFamily: "Georgia",
-                  fontSize: 20),
+                  fontSize: 18),
               textAlign: TextAlign.left,
             ),
           ),

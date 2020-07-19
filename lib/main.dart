@@ -43,8 +43,11 @@ Future<void> main() async {
             userRepository: userRepository,
           )..add(AppStarted()),
           child: ConfigPage(userRepository: userRepository, darkModeOn: darkModeOn,),
+          
         ),
       ),
     ),
   );
 }
+
+
