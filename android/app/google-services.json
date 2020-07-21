@@ -8,17 +8,17 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:204660540793:android:9dd6e4498902943e99dba8",
+        "mobilesdk_app_id": "1:204660540793:android:629cfcd277e68f2c99dba8",
         "android_client_info": {
-          "package_name": "com.example.altar_of_prayers"
+          "package_name": "com.mobile.altar_of_prayers"
         }
       },
       "oauth_client": [
         {
-          "client_id": "204660540793-a6r9p10blbq3cov2kbrnq9kb01hu1hc2.apps.googleusercontent.com",
+          "client_id": "204660540793-3liorll2go2cg57h7t5mkio0cjsi62mf.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.altar_of_prayers",
+            "package_name": "com.mobile.altar_of_prayers",
             "certificate_hash": "316cac2bed05b915b02771ddd8dc040a86e08d63"
           }
         },
@@ -38,6 +38,13 @@
             {
               "client_id": "204660540793-d4u0i1e8nqkbtruktjav7uf6unrpv3g6.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "204660540793-fih6r4pnsmqje4p5q620vd921ara1d7h.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.altarOfPrayers"
+              }
             }
           ]
         }

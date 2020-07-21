@@ -86,9 +86,7 @@ class UserRepository {
       }
     } catch (e) {
       print('error $e');
-      if (e.contains("firebase")) throw "Authentication Error Try Again!";
-
-      throw e;
+      throw "Authentication Error Try Again!";
     }
   }
 
@@ -357,14 +355,14 @@ class UserRepository {
     }
 
     // clear all 7 user table except dark mode table
-    try{
-    await editionsDao.clearReferenceTable();
-    await editionsDao.clearEditionsTable();
-    await editionsDao.clearSeenEditionsTable();
-    await editionsDao.clearSavedPrayersTable();
-    await notificationsDao.deleteAllNotifications();
-    await userDao.deleteUser();
-    }catch(e){
+    try {
+      await editionsDao.clearReferenceTable();
+      await editionsDao.clearEditionsTable();
+      await editionsDao.clearSeenEditionsTable();
+      await editionsDao.clearSavedPrayersTable();
+      await notificationsDao.deleteAllNotifications();
+      await userDao.deleteUser();
+    } catch (e) {
       print(e);
     }
   }

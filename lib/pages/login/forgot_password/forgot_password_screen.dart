@@ -77,7 +77,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
       return state.isEmailValid && !state.isSendingEmail;
     }
 
-    return true;
+    return false;
   }
 
   bool isSavePasswordButtonEnabled(ForgotPasswordState state) {

@@ -32,7 +32,7 @@ class ForgotPasswordFormState extends ForgotPasswordState {
 
   factory ForgotPasswordFormState.empty() {
     return ForgotPasswordFormState(
-        isEmailValid: true,
+        isEmailValid: false,
         isPasswordValid: true,
         isPasswordsMatch: true,
         isTokenValid: true,

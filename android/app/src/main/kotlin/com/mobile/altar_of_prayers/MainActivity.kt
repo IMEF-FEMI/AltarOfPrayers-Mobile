@@ -1,4 +1,4 @@
-package com.example.altar_of_prayers
+package com.mobile.altar_of_prayers
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity
