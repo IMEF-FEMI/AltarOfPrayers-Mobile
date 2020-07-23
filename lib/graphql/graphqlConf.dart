@@ -9,7 +9,7 @@ class GraphQLConfiguration {
   // );
 
   static HttpLink httpLink = HttpLink(
-    uri: "http://13.58.15.192/graphql/",
+    uri: "http://3.21.220.171/graphql/",
   );
 
   ValueNotifier<GraphQLClient> client = ValueNotifier(GraphQLClient(
