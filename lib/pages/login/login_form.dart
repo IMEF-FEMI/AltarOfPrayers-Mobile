@@ -181,7 +181,7 @@ class _LoginFormState extends State<LoginForm> {
                                 autovalidate: true,
                                 validator: (_) {
                                   return !state.isEmailValid
-                                      ? 'Invalid Email'
+                                      ? 'Please Enter a valid Email address'
                                       : null;
                                 },
                                 decoration: InputDecoration(
@@ -203,7 +203,7 @@ class _LoginFormState extends State<LoginForm> {
                                 autovalidate: true,
                                 validator: (_) {
                                   if (!state.isPasswordValid)
-                                    return 'password must be at least 8 characters \nlong contain a number';
+                                    return 'password must be at least 8 characters \nlong and must contain a number';
                                   return null;
                                 },
                                 decoration: InputDecoration(
