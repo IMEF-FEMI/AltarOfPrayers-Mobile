@@ -33,14 +33,14 @@ class Home extends StatelessWidget {
             children: <Widget>[
               CategoryCard(
                   title: 'Saved Prayers Points',
-                  desctiption: 'All the Prayer points you have saved recently ',
+                  desctiption: 'View Prayer Points you have recently saved',
                   color: Colors.blue,
                   icon: FontAwesomeIcons.solidBookmark,
                   onTap: () => Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => SavedPrayersScreen()))),
               CategoryCard(
                   title: 'New Editions',
-                  desctiption: 'Check for new Editions',
+                  desctiption: 'Check for new Edition',
                   color: Colors.teal,
                   icon: FontAwesomeIcons.cartArrowDown,
                   onTap: () => Navigator.of(context).push(MaterialPageRoute(
@@ -54,7 +54,7 @@ class Home extends StatelessWidget {
                       builder: (context) => MyEditionsPage()))),
               CategoryCard(
                   title: 'Prophetic Prayers',
-                  desctiption: 'Prophetic Prayers from the Altar of Prayers ',
+                  desctiption: 'Daily Prophetic Prayers from the Altar of Prayers ',
                   color: Colors.red,
                   icon: FontAwesomeIcons.shieldAlt,
                   onTap: () => Navigator.of(context).push(MaterialPageRoute(
