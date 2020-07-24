@@ -28,23 +28,23 @@ class UserRepository {
     await signOut();
     try {
       final FirebaseUser firebaseUser = await getFirebaseUser();
+      
+        String email = firebaseUser.email;
+        String password = "123456";
 
-      String email = firebaseUser.email;
-      String password = "123456";
+        GraphQLClient _client = await graphQLConfiguration.clientToQuery();
 
-      GraphQLClient _client = await graphQLConfiguration.clientToQuery();
-
-      QueryResult result = await _client.mutate(
-        MutationOptions(
-            documentNode: gql(queryMutation.loginUser(
-                email: email.toLowerCase(),
-                password: password,
-                loginMethod: "google"))),
-      );
-      if (!result.hasException) {
-        // print("result.data: ${jsonEncode(result.data)}");
-        if (result.data['loginUser']['success']) {
-          print('''
+        QueryResult result = await _client.mutate(
+          MutationOptions(
+              documentNode: gql(queryMutation.loginUser(
+                  email: email.toLowerCase(),
+                  password: password,
+                  loginMethod: "google"))),
+        );
+        if (!result.hasException) {
+          // print("result.data: ${jsonEncode(result.data)}");
+          if (result.data['loginUser']['success']) {
+            print('''
          id: ${result.data['loginUser']['user']['id']},
          email: ${result.data['loginUser']['user']['email']},
          fullName: ${result.data['loginUser']['user']['fullname']},
@@ -55,43 +55,40 @@ class UserRepository {
          token: ${result.data['loginUser']['token']},
       ''');
 
-          // add user to db
-          // get token and add to db
-          // return User obj
-          final user = new User(
-              id: result.data['loginUser']['user']['id'],
-              email: result.data['loginUser']['user']['email'],
-              fullName: result.data['loginUser']['user']['fullname'],
-              accountType: result.data['loginUser']['user']['accountType'],
-              token: result.data['loginUser']['token'],
-              staff: result.data['loginUser']['user']['staff'],
-              admin: result.data['loginUser']['user']['admin'],
-              isVerified: result.data['loginUser']['user']['isVerified'],
-              createdAt: result.data['loginUser']['user']['createdAt']);
+            // add user to db
+            // get token and add to db
+            // return User obj
+            final user = new User(
+                id: result.data['loginUser']['user']['id'],
+                email: result.data['loginUser']['user']['email'],
+                fullName: result.data['loginUser']['user']['fullname'],
+                accountType: result.data['loginUser']['user']['accountType'],
+                token: result.data['loginUser']['token'],
+                staff: result.data['loginUser']['user']['staff'],
+                admin: result.data['loginUser']['user']['admin'],
+                isVerified: result.data['loginUser']['user']['isVerified'],
+                createdAt: result.data['loginUser']['user']['createdAt']);
 
-          await userDao.saveUser(user);
-          print("user saved");
-          return true;
+            await userDao.saveUser(user);
+            print("user saved");
+            return true;
+          } else {
+            throw result.data['loginUser']['error'];
+          }
         } else {
-          throw result.data['loginUser']['error'];
+          print('error ${result.exception}');
+          if (result.exception.clientException.message
+                  .contains("Connection failed") ||
+              result.exception.clientException.message.contains("Firebase"))
+            throw "Connection Failed! try again";
+         
+          throw "Authentication Error Try Again!";
         }
-      } else {
-        print('error ${result.exception}');
-        if (result.exception.clientException.message
-                .contains("Connection failed") ||
-            result.exception.clientException.message.contains("Firebase"))
-          throw "Connection Failed! try again";
-        if (result.exception.clientException.message
-            .contains("Email not registered")) throw "Email not registered";
-
-        throw "Authentication Error Try Again!";
-      }
+      
+      
     } catch (e) {
       print('error $e');
-      if (e.toString().contains("Email not registered"))
-        throw "Email not registered";
-      else
-        throw "Authentication Error Try Again!";
+      throw e.toString();
     }
   }
 
@@ -142,7 +139,7 @@ class UserRepository {
             staff: result.data['createUser']['user']['staff'],
             admin: result.data['createUser']['user']['admin'],
             isVerified: result.data['createUser']['user']['isVerified'],
-            createdAt: result.data['loginUser']['user']['createdAt']);
+            createdAt: result.data['createUser']['user']['createdAt']);
 
         await userDao.saveUser(user);
         return true;
@@ -277,9 +274,7 @@ class UserRepository {
       }
     } catch (e) {
       print("error: $e");
-      if(e.toString().contains("Email already registered"))
-      throw "Email already registered";
-      throw "Sign Up Error! Try Again";
+      throw e.toString();
     }
   }
 
@@ -422,16 +417,20 @@ class UserRepository {
   }
 
   Future<FirebaseUser> getFirebaseUser() async {
-    final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
-    final GoogleSignInAuthentication googleAuth =
-        await googleUser.authentication;
-    final AuthCredential credential = GoogleAuthProvider.getCredential(
-      accessToken: googleAuth.accessToken,
-      idToken: googleAuth.idToken,
-    );
-    final AuthResult authResult =
-        await _firebaseAuth.signInWithCredential(credential);
-    final FirebaseUser firebaseUser = authResult.user;
-    return firebaseUser;
+    try {
+      final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
+      final AuthCredential credential = GoogleAuthProvider.getCredential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+      final AuthResult authResult =
+          await _firebaseAuth.signInWithCredential(credential);
+      final FirebaseUser firebaseUser = authResult.user;
+      return firebaseUser;
+    } catch (e) {
+      throw "Try again";
+    }
   }
 }

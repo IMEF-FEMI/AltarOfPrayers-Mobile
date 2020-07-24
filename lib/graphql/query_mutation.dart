@@ -17,6 +17,7 @@ class QueryMutation {
                       fullname
                       accountType
                       isVerified
+                      createdAt
                   }
               }
             }
