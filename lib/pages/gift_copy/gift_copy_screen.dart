@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
-
 class GiftCopyScreen extends StatefulWidget {
   final int editionId;
 
@@ -143,7 +142,10 @@ class _GiftCopyScreenState extends State<GiftCopyScreen> {
                           color: Theme.of(context).accentColor,
                           splashColor: Colors.white.withOpacity(.5),
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(8),
+                                topRight: Radius.circular(8),
+                                bottomRight: Radius.circular(8)),
                           ),
                           onPressed: isFindUserButtonEnabled(state)
                               ? () {

@@ -32,12 +32,10 @@ class PropheticPrayers extends StatelessWidget {
                                     .textTheme
                                     .headline6
                                     .copyWith(
-                                      letterSpacing: 1,
-                                      wordSpacing: 1,
                                       fontFamily: "Georgia",
                                     )),
                             SizedBox(
-                              height: 20,
+                              height: 10,
                             ),
                           ],
                         );

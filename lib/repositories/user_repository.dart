@@ -81,12 +81,17 @@ class UserRepository {
                 .contains("Connection failed") ||
             result.exception.clientException.message.contains("Firebase"))
           throw "Connection Failed! try again";
+        if (result.exception.clientException.message
+            .contains("Email not registered")) throw "Email not registered";
 
         throw "Authentication Error Try Again!";
       }
     } catch (e) {
       print('error $e');
-      throw "Authentication Error Try Again!";
+      if (e.toString().contains("Email not registered"))
+        throw "Email not registered";
+      else
+        throw "Authentication Error Try Again!";
     }
   }
 
@@ -256,8 +261,7 @@ class UserRepository {
               staff: result.data['createUser']['user']['staff'],
               admin: result.data['createUser']['user']['admin'],
               isVerified: result.data['createUser']['user']['isVerified'],
-              createdAt: result.data['loginUser']['user']['createdAt']);
-
+              createdAt: result.data['createUser']['user']['createdAt']);
           await userDao.saveUser(user);
           print("user saved");
           return true;
@@ -269,10 +273,13 @@ class UserRepository {
             .contains("Connection failed"))
           throw "Connection Failed! try again";
 
-        throw "Authentication Error! Try Again";
+        throw "Sign Up Error! Try Again";
       }
     } catch (e) {
-      throw "Authentication Error! Try Again";
+      print("error: $e");
+      if(e.toString().contains("Email already registered"))
+      throw "Email already registered";
+      throw "Sign Up Error! Try Again";
     }
   }
 

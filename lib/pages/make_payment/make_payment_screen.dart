@@ -159,17 +159,23 @@ class _MakePaymentScreenState extends State<MakePaymentScreen> {
               context,
               rootNavigator: true,
             ).pop();
-            if (state.user != null && state.user.admin == false) {
+            if (state.user != null &&
+                state.user.admin == false &&
+                state.user.isVerified == true) {
               _handleCheckout(context);
-            } else {
+              print("${state.user.admin}");
+            } else if (state.user != null && state.user.admin == true) {
               _adminCheckout(context);
             }
 
             if (state.user != null && state.user.isVerified == false) {
-              int count = 0;
-              Navigator.popUntil(context, (route) {
-                return count++ == 2;
-              });
+              // int count = 0;
+              if (widget.paidFor != null)
+                Navigator.of(
+                  context,
+                  rootNavigator: true,
+                ).pop();
+
               Scaffold.of(context)
                 ..hideCurrentSnackBar()
                 ..showSnackBar(
