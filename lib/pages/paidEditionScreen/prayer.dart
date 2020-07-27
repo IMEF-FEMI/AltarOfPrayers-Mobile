@@ -85,10 +85,12 @@ class _PrayerState extends State<PrayerScreen> {
                         TextStyle(fontSize: 22.0, fontWeight: FontWeight.w500),
                   ),
                   onOkButtonPressed: () {
+
                     Navigator.of(
                       context,
                       rootNavigator: true,
                     ).pop(true);
+                    
                   },
                   onlyOkButton: true,
                 ),

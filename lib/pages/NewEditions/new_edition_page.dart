@@ -11,6 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:giffy_dialog/giffy_dialog.dart';
 
+import '../../main.dart';
+
 class NewEditionPage extends StatefulWidget {
   final edition;
 
@@ -120,6 +122,7 @@ class NewEditionPageState extends State<NewEditionPage> {
                         context,
                         rootNavigator: true,
                       ).pop(true);
+                      RestartWidget.restartApp(context);
                     },
                     onlyOkButton: true,
                   ),

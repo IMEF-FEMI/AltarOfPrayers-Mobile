@@ -4,12 +4,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
 class GraphQLConfiguration {
-  // static HttpLink httpLink = HttpLink(
-  //   uri: "http://192.168.137.1:8000/graphql/",
-  // );
 
   static HttpLink httpLink = HttpLink(
-    uri: "http://3.21.220.171/graphql/",
+    uri: "https://altarofprayers.com/graphql/",
   );
 
   ValueNotifier<GraphQLClient> client = ValueNotifier(GraphQLClient(

@@ -18,7 +18,7 @@ Future<void> main() async {
   SystemChrome.setSystemUIOverlayStyle(
     SystemUiOverlayStyle(
       // statusBarColor: Colors.transparent,
-       statusBarColor: Colors.white10,
+      statusBarColor: Colors.white10,
     ),
   );
 
@@ -35,19 +35,52 @@ Future<void> main() async {
   GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
 
   runApp(
-    GraphQLProvider(
-      client: graphQLConfiguration.client,
-      child: CacheProvider(
-        child: BlocProvider(
-          create: (context) => AuthenticationBloc(
-            userRepository: userRepository,
-          )..add(AppStarted()),
-          child: ConfigPage(userRepository: userRepository, darkModeOn: darkModeOn,),
-          
+    RestartWidget(
+      child: GraphQLProvider(
+        client: graphQLConfiguration.client,
+        child: CacheProvider(
+          child: BlocProvider(
+            create: (context) => AuthenticationBloc(
+              userRepository: userRepository,
+            )..add(AppStarted()),
+            child: ConfigPage(
+              userRepository: userRepository,
+              darkModeOn: darkModeOn,
+            ),
+          ),
         ),
       ),
     ),
   );
 }
 
+class RestartWidget extends StatefulWidget {
+  RestartWidget({this.child});
 
+  final Widget child;
+
+  static void restartApp(BuildContext context) {
+    context.findAncestorStateOfType<_RestartWidgetState>().restartApp();
+  }
+
+  @override
+  _RestartWidgetState createState() => _RestartWidgetState();
+}
+
+class _RestartWidgetState extends State<RestartWidget> {
+  Key key = UniqueKey();
+
+  void restartApp() {
+    setState(() {
+      key = UniqueKey();
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return KeyedSubtree(
+      key: key,
+      child: widget.child,
+    );
+  }
+}
