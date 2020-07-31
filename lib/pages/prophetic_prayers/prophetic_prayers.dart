@@ -19,7 +19,7 @@ class PropheticPrayers extends StatelessWidget {
                     padding: const EdgeInsets.all(20.0),
                     child: ListView.builder(
                       physics: NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
+                      // shrinkWrap: true,
                       itemCount: prayers.length,
                       itemBuilder: (context, index) {
                         return Column(
