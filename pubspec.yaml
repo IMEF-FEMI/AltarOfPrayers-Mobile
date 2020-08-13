@@ -28,6 +28,8 @@ dependencies:
   cupertino_icons: ^0.1.2
   intl: ^0.16.1
   url_launcher: ^5.5.0
+  flutter_local_notifications: ^1.4.4+2
+  background_fetch: ^0.6.0
 
 dev_dependencies:
   flutter_test:

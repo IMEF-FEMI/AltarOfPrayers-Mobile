@@ -2,7 +2,6 @@ import 'dart:io';
 import 'package:altar_of_prayers/blocs/app_config/index.dart';
 import 'package:altar_of_prayers/blocs/authentication/bloc.dart';
 import 'package:altar_of_prayers/blocs/login/bloc.dart';
-import 'package:altar_of_prayers/main.dart';
 import 'package:altar_of_prayers/repositories/user_repository.dart';
 import 'package:altar_of_prayers/widgets/app_scaffold.dart';
 import 'package:altar_of_prayers/widgets/create_account_button.dart';

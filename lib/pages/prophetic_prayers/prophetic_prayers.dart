@@ -19,21 +19,23 @@ class PropheticPrayers extends StatelessWidget {
                     padding: const EdgeInsets.all(20.0),
                     child: ListView.builder(
                       physics: NeverScrollableScrollPhysics(),
-                      // shrinkWrap: true,
+                      shrinkWrap: true,
                       itemCount: prayers.length,
                       itemBuilder: (context, index) {
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            Text("${index + 1}. " + prayers[index],
-                                softWrap: true,
-                                textAlign: TextAlign.justify,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .headline6
-                                    .copyWith(
-                                      fontFamily: "Georgia",
-                                    )),
+                            Text(
+                              "${index + 1}. " + prayers[index],
+                              softWrap: true,
+                              textAlign: TextAlign.justify,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headline6
+                                  .copyWith(
+                                    fontFamily: "Georgia",
+                                  ),
+                            ),
                             SizedBox(
                               height: 10,
                             ),

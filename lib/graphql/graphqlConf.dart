@@ -6,6 +6,7 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 class GraphQLConfiguration {
 
   static HttpLink httpLink = HttpLink(
+    // uri: "http://192.168.43.74:8000/graphql/",
     uri: "https://altarofprayers.com/graphql/",
   );
 
