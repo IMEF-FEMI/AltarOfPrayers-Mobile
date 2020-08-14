@@ -1,5 +1,5 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'dart:io' show  Platform;
+import 'dart:io' show Platform;
 
 import 'package:rxdart/rxdart.dart';
 
@@ -58,9 +58,11 @@ class NotificationPlugin {
         onSelectNotification: (String payload) async {
       onNotificationClick(payload);
     });
+    
   }
 
-  Future<void> showNotification() async {
+  Future<void> showNotification(
+      {ReceivedNotification receivedNotification}) async {
     var androidChannelSpecifics = AndroidNotificationDetails(
       "AltarofPrayers.id",
       "AltarofPrayers.channel",
@@ -75,8 +77,12 @@ class NotificationPlugin {
         NotificationDetails(androidChannelSpecifics, iosChannelSpecifics);
 
     await flutterLocalNotificationsPlugin.show(
-        0, "Test", "Test Body", platFormSpecifics,
-        payload: "Test PAyload");
+      0,
+      "Altar of Prayers",
+      receivedNotification.body,
+      platFormSpecifics,
+      payload: receivedNotification.payload,
+    );
   }
 
   Future<void> scheduleNotification() async {

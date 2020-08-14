@@ -9,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
-import 'package:altar_of_prayers/widgets/notification_plugin.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -18,16 +17,7 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   @override
-  void initState() {
-    super.initState();
-    notificationPlugin
-        .setListenerForLowerFunctions(onNotificationInLowerVersions);
-    notificationPlugin.setOnNotificationClick(onNotificationClick);
-  }
-
-  onNotificationInLowerVersions(ReceivedNotification receivedNotification) {}
-  onNotificationClick() {}
-  
+ 
   @override
   Widget build(BuildContext context) {
     User user =
@@ -98,11 +88,9 @@ class _ProfilePageState extends State<ProfilePage> {
                     color: Colors.red,
                   ),
                   onPressed: () {
-                    // BlocProvider.of<AuthenticationBloc>(context)
-                    //     .add(LoggedOut());
-                    notificationPlugin.showNotification();
+                    BlocProvider.of<AuthenticationBloc>(context)
+                        .add(LoggedOut());
 
-                    // notificationPlugin.showNotification();
                   },
                   height: 50,
                 ),
