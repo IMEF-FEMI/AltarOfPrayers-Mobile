@@ -1,4 +1,3 @@
-import 'package:altar_of_prayers/blocs/app_config/index.dart';
 import 'package:altar_of_prayers/utils/tools.dart';
 import 'package:altar_of_prayers/widgets/app_scaffold.dart';
 import 'package:flutter/material.dart';
