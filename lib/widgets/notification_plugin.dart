@@ -58,7 +58,6 @@ class NotificationPlugin {
         onSelectNotification: (String payload) async {
       onNotificationClick(payload);
     });
-    
   }
 
   Future<void> showNotification(
@@ -78,40 +77,19 @@ class NotificationPlugin {
 
     await flutterLocalNotificationsPlugin.show(
       0,
-      "Altar of Prayers",
+      receivedNotification.title,
       receivedNotification.body,
       platFormSpecifics,
       payload: receivedNotification.payload,
     );
   }
 
-  Future<void> scheduleNotification() async {
-    var scheduleNotificationDateTime = DateTime.now().add(Duration(seconds: 5));
-    var androidChannelSpecifics = AndroidNotificationDetails(
-      "AltarofPrayers.schedule.id",
-      "AltarofPrayers.schedule.channel",
-      "AltarofPrayers.schedule.description",
-      importance: Importance.Max,
-      priority: Priority.High,
-      playSound: true,
-      // timeoutAfter: 5000
-    );
-    var iosChannelSpecifics = IOSNotificationDetails();
-    var platFormSpecifics =
-        NotificationDetails(androidChannelSpecifics, iosChannelSpecifics);
-
-    await flutterLocalNotificationsPlugin.schedule(
-      0,
-      "Test",
-      "Test Body",
-      scheduleNotificationDateTime,
-      platFormSpecifics,
-      payload: "Test PAyload",
-    );
+  Future<void> cancelReminderNotification() async {
+    flutterLocalNotificationsPlugin.cancel(1);
   }
 
-  Future<void> showDailyAtTimeNotification() async {
-    var time = Time(8, 9, 0);
+  Future<void> showDailyAtTimeNotification({int hour, int minute}) async {
+    var time = Time(hour, minute, 0);
     var androidChannelSpecifics = AndroidNotificationDetails(
       "AltarofPrayers.daily.id",
       "AltarofPrayers.daily.channel",
@@ -126,12 +104,11 @@ class NotificationPlugin {
         NotificationDetails(androidChannelSpecifics, iosChannelSpecifics);
 
     await flutterLocalNotificationsPlugin.showDailyAtTime(
-      0,
-      "Test",
-      null,
+      1,
+      "Prayer Reminder",
+      "It's Time To Pray",
       time,
       platFormSpecifics,
-      // payload: "Test PAyload",
     );
   }
 }

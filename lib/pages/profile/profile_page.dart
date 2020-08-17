@@ -90,7 +90,6 @@ class _ProfilePageState extends State<ProfilePage> {
                   onPressed: () {
                     BlocProvider.of<AuthenticationBloc>(context)
                         .add(LoggedOut());
-
                   },
                   height: 50,
                 ),

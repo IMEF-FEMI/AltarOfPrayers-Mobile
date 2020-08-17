@@ -85,12 +85,10 @@ class _PrayerState extends State<PrayerScreen> {
                         TextStyle(fontSize: 22.0, fontWeight: FontWeight.w500),
                   ),
                   onOkButtonPressed: () {
-
                     Navigator.of(
                       context,
                       rootNavigator: true,
                     ).pop(true);
-                    
                   },
                   onlyOkButton: true,
                 ),
@@ -147,8 +145,7 @@ class _PrayerState extends State<PrayerScreen> {
             ),
             Container(
               decoration: BoxDecoration(
-                  color:
-                      ConfigBloc().darkModeOn ? Colors.grey : Colors.grey[300]),
+                  color: ConfigBloc().darkModeOn ? Colors.grey : Colors.grey),
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: Column(
@@ -230,17 +227,19 @@ class _PrayerState extends State<PrayerScreen> {
             ),
             Container(
               child: Padding(
-                padding: const EdgeInsets.all(15.0),
+                padding: const EdgeInsets.symmetric(vertical:15.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Padding(
                           padding:
                               const EdgeInsets.only(left: 20.0, right: 20.0),
                           child: Text(
                             "Prayer Points",
+                            textAlign: TextAlign.center,
                             style:
                                 Theme.of(context).textTheme.headline6.copyWith(
                                       fontWeight: FontWeight.w800,
@@ -250,37 +249,40 @@ class _PrayerState extends State<PrayerScreen> {
                       ],
                     ),
                     SizedBox(height: 15),
-                    Padding(
-                        padding: const EdgeInsets.all(20.0),
-                        child: ListView.builder(
-                          physics: NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          itemCount: state.prayer.prayerPoints.length,
-                          itemBuilder: (context, index) {
-                            return Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Text(
-                                  "${index + 1}. " +
-                                      state.prayer.prayerPoints[index],
-                                  softWrap: true,
-                                  textAlign: TextAlign.justify,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .headline6
-                                      .copyWith(
-                                        // letterSpacing: 1.5,
-                                        // wordSpacing: 1.5,
-                                        fontSize: 18,
-                                      ),
-                                ),
-                                SizedBox(
-                                  height: 20,
-                                ),
-                              ],
-                            );
-                          },
-                        )),
+                    Container(
+                      decoration: BoxDecoration(color: Colors.grey),
+                      child: Padding(
+                          padding: const EdgeInsets.all(20.0),
+                          child: ListView.builder(
+                            physics: NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: state.prayer.prayerPoints.length,
+                            itemBuilder: (context, index) {
+                              return Column(
+                                // crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Text(
+                                    "${index + 1}. " +
+                                        state.prayer.prayerPoints[index],
+                                    softWrap: true,
+                                    textAlign: TextAlign.center,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headline6
+                                        .copyWith(
+                                          // letterSpacing: 1.5,
+                                          // wordSpacing: 1.5,
+                                          fontSize: 18,
+                                        ),
+                                  ),
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+                                ],
+                              );
+                            },
+                          )),
+                    ),
                   ],
                 ),
               ),

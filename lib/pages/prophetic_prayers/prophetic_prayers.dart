@@ -1,3 +1,4 @@
+import 'package:altar_of_prayers/blocs/app_config/index.dart';
 import 'package:altar_of_prayers/utils/tools.dart';
 import 'package:altar_of_prayers/widgets/app_scaffold.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +11,8 @@ class PropheticPrayers extends StatelessWidget {
       title: "Prophetic Prayers",
       body: SingleChildScrollView(
         child: Container(
+           decoration: BoxDecoration(
+                  color: Colors.grey),
           child: Padding(
             padding: const EdgeInsets.all(15.0),
             child: Column(
@@ -28,7 +31,7 @@ class PropheticPrayers extends StatelessWidget {
                             Text(
                               "${index + 1}. " + prayers[index],
                               softWrap: true,
-                              textAlign: TextAlign.justify,
+                              textAlign: TextAlign.center,
                               style: Theme.of(context)
                                   .textTheme
                                   .headline6

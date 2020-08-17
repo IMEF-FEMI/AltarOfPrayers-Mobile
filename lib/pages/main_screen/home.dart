@@ -3,6 +3,7 @@ import 'package:altar_of_prayers/pages/NewEditions/new_editions_page.dart';
 import 'package:altar_of_prayers/pages/myEditions/my_edition_page.dart';
 import 'package:altar_of_prayers/pages/profile/profile_page.dart';
 import 'package:altar_of_prayers/pages/prophetic_prayers/prophetic_prayers.dart';
+import 'package:altar_of_prayers/pages/reminder/reminder_page.dart';
 import 'package:altar_of_prayers/pages/savedPrayers/savedPrayers.dart';
 import 'package:altar_of_prayers/widgets/app_scaffold.dart';
 import 'package:altar_of_prayers/widgets/category_card.dart';
@@ -66,6 +67,13 @@ class Home extends StatelessWidget {
                   icon: FontAwesomeIcons.userAlt,
                   onTap: () => Navigator.of(context).push(
                       MaterialPageRoute(builder: (context) => ProfilePage()))),
+                           CategoryCard(
+                  title: 'Reminder',
+                  desctiption: 'Set Daily Prayer Reminder',
+                  color: Colors.purple,
+                  icon: FontAwesomeIcons.solidBell,
+                  onTap: () => Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => ReminderPage()))),
             ],
           ))
         ],

@@ -9,6 +9,7 @@ final userTABLE = 'user';
 final referenceTABLE = 'reference';
 final editionsTable = 'editions';
 final darkModeTable = 'dark_mode';
+final reminderTable = 'reminder';
 final seenEditionsTable = 'seen_editions';
 final prayersTable = 'prayers';
 final notificationsTable = 'notifications';
@@ -99,6 +100,16 @@ class DatabaseProvider {
     await database.transaction((action) async {
       await action
           .rawInsert('INSERT INTO $darkModeTable (dark_mode_on) VALUES(0)');
+    });
+
+    // reminder
+    await database.execute("CREATE TABLE $reminderTable ("
+        "id INTEGER PRIMARY KEY, "
+        "reminder_on INTEGER DEFAULT 0, "
+        "reminder_time TEXT )");
+    await database.transaction((action) async {
+      await action.rawInsert(
+          'INSERT INTO $reminderTable ( reminder_on, reminder_time) VALUES(0, "")');
     });
   }
 }
