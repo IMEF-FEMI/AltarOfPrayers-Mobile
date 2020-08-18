@@ -2,6 +2,7 @@ import 'package:altar_of_prayers/database/database.dart';
 import 'package:altar_of_prayers/database/editions_dao.dart';
 import 'package:altar_of_prayers/database/notifications_dao.dart';
 import 'package:altar_of_prayers/database/prayer_dao.dart';
+import 'package:altar_of_prayers/database/reminder_dao.dart';
 import 'package:altar_of_prayers/graphql/graphql.dart';
 import 'package:altar_of_prayers/models/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -19,6 +20,7 @@ class UserRepository {
   final editionsDao = EditionsDao();
   final notificationsDao = NotificationsDao();
   final prayerDao = PrayerDao();
+  final reminderDao = ReminderDao();
 
   UserRepository({FirebaseAuth firebaseAuth, GoogleSignIn googleSignin})
       : _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance,
@@ -364,6 +366,7 @@ class UserRepository {
       await editionsDao.clearSavedPrayersTable();
       await notificationsDao.deleteAllNotifications();
       await userDao.deleteUser();
+      await reminderDao.setReminderOn(reminderOn: false);
     } catch (e) {
       print(e);
     }
