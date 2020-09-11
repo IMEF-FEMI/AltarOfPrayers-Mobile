@@ -1,7 +1,7 @@
-
 import 'package:altar_of_prayers/pages/NewEditions/new_edition_page.dart';
 import 'package:altar_of_prayers/utils/tools.dart';
 import 'package:altar_of_prayers/widgets/badge_decoration.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -75,9 +75,18 @@ class EditionCard extends StatelessWidget {
                   ),
                   child: Hero(
                     tag: edition['name'],
-                    child: SvgPicture.asset(
-                      'assets/icons/study.svg',
-                      fit: BoxFit.contain,
+                    child: CachedNetworkImage(
+                      imageUrl: edition['photoUrl'],
+                      placeholder: (context, url) => Container(
+                        height: 250,
+                        child: Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                      ),
+                      errorWidget: (context, url, error) => Icon(Icons.error),
+                      height: 250,
+                      fit: BoxFit.cover,
+                      width: double.infinity,
                     ),
                   ),
                 ),

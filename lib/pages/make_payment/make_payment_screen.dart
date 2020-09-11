@@ -6,6 +6,7 @@ import 'package:altar_of_prayers/utils/config.dart';
 import 'package:altar_of_prayers/widgets/edition_detail_card.dart';
 import 'package:altar_of_prayers/widgets/error_screen.dart';
 import 'package:altar_of_prayers/widgets/loading_widget.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -211,12 +212,19 @@ class _MakePaymentScreenState extends State<MakePaymentScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Center(
-                      child: SvgPicture.asset(
-                        'assets/icons/study.svg',
-                        fit: BoxFit.contain,
-                        height: MediaQuery.of(context).size.height * .3,
+                        child: CachedNetworkImage(
+                      imageUrl: widget.edition['photoUrl'],
+                      placeholder: (context, url) => Container(
+                        height: 250,
+                        child: Center(
+                          child: CircularProgressIndicator(),
+                        ),
                       ),
-                    ),
+                      errorWidget: (context, url, error) => Icon(Icons.error),
+                      height: 250,
+                      fit: BoxFit.cover,
+                      width: MediaQuery.of(context).size.width* .5,
+                    )),
                     SizedBox(
                       height: 20,
                     ),
