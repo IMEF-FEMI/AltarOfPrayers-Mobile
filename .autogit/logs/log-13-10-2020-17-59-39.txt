@@ -1,0 +1,16 @@
+-------------------- Auto-Git Log --------------------
+		Fri Nov 13 2020 17:59:39 GMT+0100 (West Africa Standard Time)
+------------------------------------------------------
+
+Modified files:
+* pubspec.yaml
+
+
+Created files:
+* .autogit/autogit.json
+
+
+Deleted files:
+
+
+Renamed files:
