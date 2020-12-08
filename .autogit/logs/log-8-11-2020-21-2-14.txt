@@ -1,0 +1,15 @@
+-------------------- Auto-Git Log --------------------
+		Tue Dec 08 2020 21:02:14 GMT+0100 (West Africa Standard Time)
+------------------------------------------------------
+
+Modified files:
+
+
+Created files:
+* .autogit/logs/log-8-11-2020-21-2-6.txt
+
+
+Deleted files:
+
+
+Renamed files:
