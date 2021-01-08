@@ -1,0 +1,15 @@
+-------------------- Auto-Git Log --------------------
+		Fri Jan 08 2021 22:04:29 GMT+0100 (West Africa Standard Time)
+------------------------------------------------------
+
+Modified files:
+
+
+Created files:
+* .autogit/logs/log-8-0-2021-22-4-21.txt
+
+
+Deleted files:
+
+
+Renamed files:
