@@ -99,7 +99,7 @@ Future<void> main() async {
   BackgroundFetch.registerHeadlessTask(backgroundFetchHeadlessTask);
 }
 
-class RestartWidget extends StatefulWidget {
+class RestartWidget extends StatefulWidget {  
   RestartWidget({this.child});
 
   final Widget child;

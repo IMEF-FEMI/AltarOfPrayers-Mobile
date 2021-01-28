@@ -2,6 +2,10 @@ import 'package:altar_of_prayers/blocs/app_config/index.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+ /**
+  *  Scaffold widget to be reused within the app
+
+ */
 class AppScaffold extends StatefulWidget {
   final String title;
   final Widget body;
